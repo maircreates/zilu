@@ -1,6 +1,6 @@
 # ZiLu
 
-ZiLu is a beginner-first Mandarin learning experience. The first interactive foundation lesson is now in development under `apps/web`.
+ZiLu is a beginner-first Mandarin learning experience for people starting with zero Chinese knowledge. The interactive foundation lesson lives under `apps/web`.
 
 ## Project principles
 
@@ -19,4 +19,9 @@ pnpm install
 pnpm dev
 ```
 
-The current prototype teaches the greeting `你好` through four short steps, with optional pinyin, meaning, and browser-provided speech.
+The current lesson teaches the greeting `你好` through six stages: Meet, Listen, Notice, Practice, Recall, and Review. Pinyin and meaning support can be hidden, and listening practice currently uses the learner's browser-provided Traditional Chinese voice.
+
+## Learning design
+
+- [`docs/start-here-curriculum.md`](docs/start-here-curriculum.md) defines the complete ten-lesson Start Here pathway and its bridge into Volume 2.
+- [`docs/lesson-system.md`](docs/lesson-system.md) defines the reusable lesson model, interaction rules, and content standards.

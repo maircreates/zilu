@@ -1,0 +1,83 @@
+import type { Lesson } from '@/lib/lesson-types';
+
+export const helloLesson: Lesson = {
+  id: 'start-here-01-hello',
+  pathway: 'Start Here',
+  number: 1,
+  title: 'Your first greeting',
+  objective: 'Recognize, understand, and say 你好 with support.',
+  estimatedMinutes: 4,
+  stages: [
+    {
+      id: 'meet',
+      kind: 'meet',
+      label: 'Meet',
+      title: 'This means “hello.”',
+      instruction: 'Look first. There is nothing to memorize yet.',
+      phrase: { hanzi: '你好', pinyin: 'nǐ hǎo', meaning: 'hello · hi' },
+      context: 'Use it when you greet one person in an everyday situation.',
+    },
+    {
+      id: 'listen',
+      kind: 'listen',
+      label: 'Listen',
+      title: 'Hear two clear syllables.',
+      instruction: 'Listen to the whole greeting, then each part. Repeat only if you feel ready.',
+      utterances: [
+        { hanzi: '你好', pinyin: 'nǐ hǎo', meaning: 'whole greeting', speech: '你好' },
+        { hanzi: '你', pinyin: 'nǐ', meaning: 'first syllable', speech: '你' },
+        { hanzi: '好', pinyin: 'hǎo', meaning: 'second syllable', speech: '好' },
+      ],
+    },
+    {
+      id: 'notice',
+      kind: 'notice',
+      label: 'Notice',
+      title: 'Two meanings become one greeting.',
+      instruction: 'Characters carry meaning. Pinyin underneath shows how to pronounce them.',
+      items: [
+        { hanzi: '你', pinyin: 'nǐ', meaning: 'you' },
+        { hanzi: '好', pinyin: 'hǎo', meaning: 'good · well' },
+      ],
+      note: 'The written marks show two third tones. In natural speech, the first syllable usually rises, so you will often hear something closer to ní hǎo.',
+    },
+    {
+      id: 'practice',
+      kind: 'choice',
+      label: 'Practice',
+      title: 'Find the greeting.',
+      instruction: 'Choose the Chinese phrase that means “hello.” Help remains visible.',
+      prompt: 'Which phrase means “hello”?',
+      choices: [
+        { id: 'hello', hanzi: '你好', pinyin: 'nǐ hǎo', meaning: 'hello', correct: true, feedback: 'Correct. 你好 is the greeting you just learned.' },
+        { id: 'thanks', hanzi: '謝謝', pinyin: 'xiè xie', meaning: 'thank you', correct: false, feedback: 'Not this one. 謝謝 means “thank you.” Look for 你好.' },
+        { id: 'goodbye', hanzi: '再見', pinyin: 'zài jiàn', meaning: 'goodbye', correct: false, feedback: 'Not this one. 再見 means “goodbye.” Look for 你好.' },
+      ],
+    },
+    {
+      id: 'recall',
+      kind: 'recall',
+      label: 'Recall',
+      title: 'Bring the meaning back.',
+      instruction: 'The pronunciation help is hidden. Type the English meaning from memory.',
+      prompt: 'What does 你好 mean?',
+      answer: 'hello',
+      acceptedAnswers: ['hello', 'hi', 'hello!', 'hi!'],
+      hint: 'It is the greeting from the beginning of this lesson.',
+    },
+    {
+      id: 'review',
+      kind: 'review',
+      label: 'Review',
+      title: 'You learned your first greeting.',
+      instruction: 'A short review helps the new connection settle.',
+      learned: [
+        'Recognize 你好 as a greeting.',
+        'Read its pinyin as nǐ hǎo.',
+        'Understand that 你 means “you” and 好 means “good” or “well.”',
+        'Expect the first syllable to rise in natural speech.',
+      ],
+      next: 'Next: introduce yourself with 我 and 我叫…',
+    },
+  ],
+};
