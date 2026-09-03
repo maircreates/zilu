@@ -1,0 +1,13 @@
+# Copyrighted reference materials must remain local.
+references/
+*.pdf
+
+# Environment and dependency files.
+.env
+.env.*
+node_modules/
+
+# Generated application output.
+.next/
+dist/
+build/
