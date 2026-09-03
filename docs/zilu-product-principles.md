@@ -31,10 +31,11 @@ ZiLu is for learners who may begin with no knowledge of Chinese.
 
 1. Volume 2
 2. Volume 3
-3. Volume 4
-4. Volume 1
+3. Volume 1
 
 This is an implementation-priority order, not a claim that a beginner already possesses Volume 1 skills. The Start Here bridge resolves that product requirement without beginning deep Volume 1 analysis.
+
+Volume 4 is deferred until its textbook source is available; the workbook alone is not sufficient to define that phase.
 
 ## 4. References guide pedagogy; ZiLu authors the experience
 
@@ -137,4 +138,3 @@ A product decision is aligned when it:
 6. is accessible and responsive;
 7. protects performance and maintainability;
 8. can be evaluated through learner behavior or mastery evidence.
-
