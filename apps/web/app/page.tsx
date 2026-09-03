@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, Eye, RotateCcw, Sparkles, Volume2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
+import { LessonVisual } from '@/components/lesson-visual';
 
 const steps = [
   {
@@ -81,7 +82,10 @@ export default function Home() {
         </div>
       </header>
 
-      <section id="top" className="relative overflow-hidden bg-[#0b1f25] text-white">
+      <section id="top" className="kinetic-hero relative overflow-hidden bg-[#0b1f25] text-white">
+        <div className="aurora aurora-one" aria-hidden="true" />
+        <div className="aurora aurora-two" aria-hidden="true" />
+        <div className="signal-lines" aria-hidden="true"><i /><i /><i /></div>
         <div className="absolute -right-40 top-20 size-[34rem] rounded-full border border-[#b9f6c9]/10" />
         <div className="absolute -right-20 top-40 size-[22rem] rounded-full border border-[#b9f6c9]/10" />
         <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-12 pt-12 sm:px-8 lg:grid-cols-[minmax(0,0.75fr)_minmax(560px,1.25fr)] lg:px-12 lg:pb-20 lg:pt-16">
@@ -117,8 +121,10 @@ export default function Home() {
             <div className="px-5 pb-6 pt-7 sm:px-8 sm:pb-8">
               <div className="grid gap-7 sm:grid-cols-[1fr_180px] sm:items-start">
                 <div>
-                  <h2 id="lesson-heading" className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">{steps[step].title}</h2>
-                  <p className="mt-3 max-w-xl text-sm leading-6 text-[#52686d] sm:text-base">{steps[step].body}</p>
+                  <div key={step} className="step-copy-enter">
+                    <h2 id="lesson-heading" className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">{steps[step].title}</h2>
+                    <p className="mt-3 max-w-xl text-sm leading-6 text-[#52686d] sm:text-base">{steps[step].body}</p>
+                  </div>
                 </div>
                 <div className="rounded-2xl bg-[#10292f]/[0.055] px-4 py-3 text-xs leading-5 text-[#52686d]">
                   <strong className="block font-semibold text-[#10292f]">Good to know</strong>
@@ -126,17 +132,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="relative mt-7 grid min-h-[260px] place-items-center overflow-hidden rounded-[1.5rem] border border-[#10292f]/10 bg-[#fffdf7] px-5 py-8 text-center">
-                <div aria-hidden="true" className="absolute left-1/2 top-0 h-full w-px bg-[#10292f]/5" />
-                <div aria-hidden="true" className="absolute left-0 top-1/2 h-px w-full bg-[#10292f]/5" />
-                <div className="relative z-10">
-                  <p lang="zh-Hant" className="font-serif text-[clamp(5rem,17vw,8.75rem)] font-semibold leading-none tracking-[-0.12em] text-[#0b1f25]">你好</p>
-                  <div className="mt-5 min-h-[3.75rem]">
-                    {showPinyin && <p className="text-xl font-medium tracking-[0.12em] text-[#d85b3f]">nǐ hǎo</p>}
-                    {showMeaning && <p className="mt-1 text-sm font-medium text-[#52686d]">hello · hi</p>}
-                  </div>
-                </div>
-              </div>
+              <LessonVisual step={step} showPinyin={showPinyin} showMeaning={showMeaning} />
 
               <div className="mt-4 flex flex-wrap items-center gap-2">
                 <Button type="button" onClick={speak} className="h-11 rounded-full bg-[#10292f] px-5 text-[#f7f3e8] hover:bg-[#1d3b42]">

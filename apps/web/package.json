@@ -9,7 +9,7 @@
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
-    "lint": "oxlint app components/ui/button.tsx lib/utils.ts",
+    "lint": "oxlint app components/lesson-visual.tsx components/ui/button.tsx lib/utils.ts",
     "format": "oxfmt"
   },
   "dependencies": {
