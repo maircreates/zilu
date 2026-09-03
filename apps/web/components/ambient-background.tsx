@@ -2,14 +2,21 @@
 
 import { useEffect, useRef } from 'react';
 
-const ribbons = [
+const darkRibbons = [
   { color: [35, 211, 130], width: 0.22, y: 0.18, speed: 0.11, phase: 0.2 },
   { color: [17, 139, 153], width: 0.29, y: 0.47, speed: -0.075, phase: 2.4 },
   { color: [240, 116, 87], width: 0.16, y: 0.72, speed: 0.065, phase: 4.1 },
   { color: [155, 108, 255], width: 0.12, y: 0.35, speed: -0.045, phase: 5.6 },
 ];
 
-export function AmbientBackground() {
+const lightRibbons = [
+  { color: [20, 169, 116], width: 0.23, y: 0.2, speed: 0.1, phase: 0.3 },
+  { color: [66, 126, 222], width: 0.27, y: 0.5, speed: -0.07, phase: 2.6 },
+  { color: [236, 108, 78], width: 0.15, y: 0.73, speed: 0.06, phase: 4.2 },
+  { color: [246, 181, 78], width: 0.11, y: 0.34, speed: -0.04, phase: 5.7 },
+];
+
+export function AmbientBackground({ mode }: { mode: 'light' | 'dark' }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -59,19 +66,21 @@ export function AmbientBackground() {
 
       context.clearRect(0, 0, width, height);
       context.save();
-      context.globalCompositeOperation = 'screen';
+      const dark = mode === 'dark';
+      const ribbons = dark ? darkRibbons : lightRibbons;
+      context.globalCompositeOperation = dark ? 'screen' : 'source-over';
 
       drawBloom(
         width * currentX,
         height * currentY,
         Math.max(width, height) * 0.42,
-        'rgba(34,210,130,0.28)',
+        dark ? 'rgba(34,210,130,0.28)' : 'rgba(37,184,128,0.18)',
       );
       drawBloom(
         width * (0.82 - currentX * 0.08),
         height * (0.18 + currentY * 0.1),
         Math.max(width, height) * 0.38,
-        'rgba(91,72,255,0.28)',
+        dark ? 'rgba(91,72,255,0.28)' : 'rgba(72,122,235,0.16)',
       );
 
       context.lineCap = 'round';
@@ -83,8 +92,8 @@ export function AmbientBackground() {
         const [red, green, blue] = ribbon.color;
         const gradient = context.createLinearGradient(0, 0, width, height);
         gradient.addColorStop(0, `rgba(${red},${green},${blue},0)`);
-        gradient.addColorStop(0.32, `rgba(${red},${green},${blue},0.18)`);
-        gradient.addColorStop(0.68, `rgba(${red},${green},${blue},0.3)`);
+        gradient.addColorStop(0.32, `rgba(${red},${green},${blue},${dark ? 0.18 : 0.1})`);
+        gradient.addColorStop(0.68, `rgba(${red},${green},${blue},${dark ? 0.3 : 0.2})`);
         gradient.addColorStop(1, `rgba(${red},${green},${blue},0)`);
 
         context.beginPath();
@@ -118,7 +127,7 @@ export function AmbientBackground() {
       window.removeEventListener('resize', resize);
       window.removeEventListener('pointermove', trackPointer);
     };
-  }, []);
+  }, [mode]);
 
   return (
     <div className="ambient-field" aria-hidden="true">

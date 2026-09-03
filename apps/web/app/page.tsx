@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowLeft, ArrowRight, Check, Eye, RotateCcw, Sparkles, Volume2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Eye, Moon, RotateCcw, Sparkles, Sun, Volume2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { AmbientBackground } from '@/components/ambient-background';
+import { Switch } from '@/components/ui/switch';
 
 const steps = [
   {
@@ -34,6 +35,7 @@ export default function Home() {
   const [showPinyin, setShowPinyin] = useState(true);
   const [showMeaning, setShowMeaning] = useState(true);
   const [speechStatus, setSpeechStatus] = useState('');
+  const [darkMode, setDarkMode] = useState(true);
 
   const speak = () => {
     if (!('speechSynthesis' in window)) {
@@ -64,45 +66,45 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-white/10 bg-[#0b1f25] text-white">
+    <main className="zilu-shell min-h-screen bg-background text-foreground" data-theme={darkMode ? 'dark' : 'light'}>
+      <header className="zilu-header border-b">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
           <a className="flex items-center gap-3" href="#top" aria-label="ZiLu home">
             <span className="grid size-10 place-items-center rounded-full bg-[#b9f6c9] font-serif text-xl font-semibold text-[#0b1f25]">字</span>
             <span>
               <span className="block text-lg font-semibold tracking-tight">ZiLu</span>
-              <span className="block text-[10px] uppercase tracking-[0.23em] text-white/55">Your path into Chinese</span>
+              <span className="brand-subtitle block text-[10px] uppercase tracking-[0.23em]">Your path into Chinese</span>
             </span>
           </a>
-          <div className="flex items-center gap-2 text-xs text-white/65">
+          <div className="header-meta flex items-center gap-2 text-xs">
             <span className="hidden sm:inline">Foundation path</span>
             <span aria-hidden="true" className="hidden text-white/25 sm:inline">/</span>
-            <span className="rounded-full bg-white/10 px-3 py-1.5 text-white">Lesson 01</span>
+            <span className="theme-pill rounded-full px-3 py-1.5">Lesson 01</span>
           </div>
         </div>
       </header>
 
-      <section id="top" className="kinetic-hero relative overflow-hidden bg-[#0b1f25] text-white">
-        <AmbientBackground />
+      <section id="top" className="kinetic-hero relative overflow-hidden">
+        <AmbientBackground mode={darkMode ? 'dark' : 'light'} />
         <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-12 pt-12 sm:px-8 lg:grid-cols-[minmax(0,0.75fr)_minmax(560px,1.25fr)] lg:px-12 lg:pb-20 lg:pt-16">
           <div className="relative z-10 flex flex-col justify-between py-2">
             <div>
-              <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#b9f6c9]/25 bg-[#b9f6c9]/10 px-3 py-1.5 text-xs font-medium text-[#b9f6c9]">
+              <div className="hero-badge mb-7 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium">
                 <Sparkles className="size-3.5" /> Start with zero Chinese
               </div>
               <h1 className="max-w-xl text-4xl font-semibold leading-[1.05] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
                 Your first Chinese phrase, one calm step at a time.
               </h1>
-              <p className="mt-6 max-w-lg text-base leading-7 text-white/65 sm:text-lg">
+              <p className="hero-muted mt-6 max-w-lg text-base leading-7 sm:text-lg">
                 No characters to memorize. No grammar terms. Just one useful greeting—and the help you need exactly when you need it.
               </p>
             </div>
-            <div className="mt-10 grid max-w-md grid-cols-3 gap-3 border-t border-white/10 pt-6 text-xs text-white/45 lg:mt-16">
+            <div className="hero-step-labels mt-10 grid max-w-md grid-cols-3 gap-3 border-t pt-6 text-xs lg:mt-16">
               <span>See it</span><span>Hear it</span><span>Remember it</span>
             </div>
           </div>
 
-          <section aria-labelledby="lesson-heading" className="relative z-10 overflow-hidden rounded-[2rem] bg-[#f7f3e8] text-[#10292f] shadow-[0_32px_80px_rgba(0,0,0,0.24)]">
+          <section aria-labelledby="lesson-heading" className="lesson-panel relative z-10 overflow-hidden rounded-[2rem] bg-[#f7f3e8] text-[#10292f] shadow-[0_32px_80px_rgba(0,0,0,0.24)]">
             <div className="flex items-center justify-between border-b border-[#10292f]/10 px-5 py-4 sm:px-8">
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#52686d]">Your progress</p>
@@ -172,7 +174,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#f7f3e8] px-5 py-12 text-[#10292f] sm:px-8 lg:px-12 lg:py-16">
+      <section className="zilu-summary px-5 py-12 sm:px-8 lg:px-12 lg:py-16">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.75fr_1.25fr]">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#d85b3f]">What you just learned</p>
@@ -184,7 +186,7 @@ export default function Home() {
               ['02', 'Sound', 'Pinyin nǐ hǎo gives you a readable pronunciation guide.'],
               ['03', 'Writing', 'You recognized your first two Traditional Chinese characters.'],
             ].map(([number, title, text]) => (
-              <article key={number} className="rounded-2xl border border-[#10292f]/10 bg-[#fffdf7] p-5">
+              <article key={number} className="summary-card rounded-2xl border p-5">
                 <span className="font-mono text-xs text-[#2d9160]">{number}</span>
                 <h3 className="mt-8 font-semibold">{title}</h3>
                 <p className="mt-2 text-sm leading-6 text-[#52686d]">{text}</p>
@@ -194,10 +196,25 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="bg-[#f7f3e8] px-5 pb-10 text-[#10292f] sm:px-8 lg:px-12">
-        <div className="mx-auto flex max-w-7xl items-center gap-3 border-t border-[#10292f]/10 pt-6 text-xs text-[#52686d]">
-          <span className="grid size-6 place-items-center rounded-full bg-[#2dcb78]/15 text-[#1b7f50]"><Check className="size-3.5" /></span>
-          ZiLu keeps every learner-facing Chinese example in Traditional Chinese.
+      <footer className="zilu-footer px-5 pb-10 sm:px-8 lg:px-12">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5 border-t pt-6">
+          <div className="footer-note flex items-center gap-3 text-xs">
+            <span className="grid size-6 place-items-center rounded-full bg-[#2dcb78]/15 text-[#1b7f50]"><Check className="size-3.5" /></span>
+            ZiLu keeps every learner-facing Chinese example in Traditional Chinese.
+          </div>
+          <fieldset className="mode-control">
+            <legend className="sr-only">Appearance</legend>
+            <Sun className="size-4" aria-hidden="true" />
+            <span className="mode-label">Light</span>
+            <Switch
+              checked={darkMode}
+              onCheckedChange={setDarkMode}
+              aria-label="Use dark mode"
+              className="theme-switch"
+            />
+            <Moon className="size-4" aria-hidden="true" />
+            <span className="mode-label">Dark</span>
+          </fieldset>
         </div>
       </footer>
     </main>

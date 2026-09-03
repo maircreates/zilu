@@ -81,6 +81,161 @@
   color: #082219;
 }
 
+.zilu-shell {
+  --mode-page: #07171d;
+  --mode-ink: #f2f7f3;
+  --mode-muted: rgb(226 239 234 / 64%);
+  --mode-faint: rgb(226 239 234 / 42%);
+  --mode-line: rgb(255 255 255 / 11%);
+  --mode-pill: rgb(255 255 255 / 10%);
+  --mode-accent: #b9f6c9;
+  --mode-accent-soft: rgb(185 246 201 / 10%);
+  --mode-accent-line: rgb(185 246 201 / 26%);
+  --mode-summary: #0a1b20;
+  --mode-summary-card: #10272d;
+  --mode-summary-ink: #edf6f1;
+  --mode-summary-muted: #9db1ad;
+  --mode-card-line: rgb(185 246 201 / 12%);
+  --background: var(--mode-page);
+  --foreground: var(--mode-ink);
+  transition: background-color 550ms ease, color 550ms ease;
+}
+
+.zilu-shell[data-theme='light'] {
+  --mode-page: #f2f7f4;
+  --mode-ink: #123039;
+  --mode-muted: rgb(18 48 57 / 67%);
+  --mode-faint: rgb(18 48 57 / 46%);
+  --mode-line: rgb(18 48 57 / 12%);
+  --mode-pill: rgb(255 255 255 / 62%);
+  --mode-accent: #147a59;
+  --mode-accent-soft: rgb(20 122 89 / 8%);
+  --mode-accent-line: rgb(20 122 89 / 20%);
+  --mode-summary: #edf5f1;
+  --mode-summary-card: rgb(255 255 255 / 72%);
+  --mode-summary-ink: #123039;
+  --mode-summary-muted: #56706f;
+  --mode-card-line: rgb(18 48 57 / 10%);
+}
+
+.zilu-header {
+  position: relative;
+  z-index: 10;
+  border-color: var(--mode-line);
+  background: color-mix(in srgb, var(--mode-page) 88%, transparent);
+  color: var(--mode-ink);
+  backdrop-filter: blur(24px) saturate(140%);
+  transition: background-color 550ms ease, border-color 550ms ease, color 550ms ease;
+}
+
+.brand-subtitle,
+.header-meta {
+  color: var(--mode-muted);
+}
+
+.theme-pill {
+  background: var(--mode-pill);
+  color: var(--mode-ink);
+  box-shadow: inset 0 0 0 1px var(--mode-line);
+}
+
+.kinetic-hero {
+  color: var(--mode-ink);
+}
+
+.hero-badge {
+  border-color: var(--mode-accent-line);
+  background: var(--mode-accent-soft);
+  color: var(--mode-accent);
+  backdrop-filter: blur(14px);
+}
+
+.hero-muted {
+  color: var(--mode-muted);
+}
+
+.hero-step-labels {
+  border-color: var(--mode-line);
+  color: var(--mode-faint);
+}
+
+.zilu-summary,
+.zilu-footer {
+  background: var(--mode-summary);
+  color: var(--mode-summary-ink);
+  transition: background-color 550ms ease, color 550ms ease;
+}
+
+.summary-card {
+  border-color: var(--mode-card-line);
+  background: var(--mode-summary-card);
+  box-shadow: 0 16px 40px rgb(5 24 27 / 6%);
+  backdrop-filter: blur(14px);
+  transition: background-color 550ms ease, border-color 550ms ease, transform 250ms ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-3px);
+}
+
+.zilu-shell[data-theme='dark'] .summary-card p,
+.zilu-shell[data-theme='dark'] .footer-note {
+  color: var(--mode-summary-muted);
+}
+
+.zilu-footer > div {
+  border-color: var(--mode-card-line);
+}
+
+.footer-note {
+  color: var(--mode-summary-muted);
+}
+
+.mode-control {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--mode-card-line);
+  border-radius: 999px;
+  background: var(--mode-summary-card);
+  color: var(--mode-summary-muted);
+  box-shadow: 0 12px 30px rgb(5 24 27 / 6%);
+}
+
+.mode-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.theme-switch {
+  width: 2.6rem;
+  height: 1.45rem;
+  margin-inline: 0.15rem;
+  background: rgb(86 112 111 / 25%);
+  box-shadow: inset 0 0 0 1px var(--mode-card-line);
+}
+
+.theme-switch[data-checked] {
+  background: #2dcb78;
+}
+
+.theme-switch [data-slot='switch-thumb'] {
+  width: 1.15rem;
+  height: 1.15rem;
+  background: #fffdf7;
+  box-shadow: 0 2px 8px rgb(5 24 27 / 28%);
+}
+
+.theme-switch[data-checked] [data-slot='switch-thumb'] {
+  transform: translateX(1.1rem);
+}
+
+.theme-switch[data-unchecked] [data-slot='switch-thumb'] {
+  transform: translateX(0.08rem);
+}
+
 .kinetic-hero {
   isolation: isolate;
 }
@@ -94,6 +249,13 @@
     radial-gradient(circle at 18% 16%, rgb(30 94 89 / 55%), transparent 34%),
     linear-gradient(145deg, #07171d 0%, #0b2026 48%, #10182b 100%);
   pointer-events: none;
+}
+
+.zilu-shell[data-theme='light'] .ambient-field {
+  background:
+    radial-gradient(circle at 14% 12%, rgb(167 231 204 / 85%), transparent 33%),
+    radial-gradient(circle at 84% 24%, rgb(190 211 255 / 72%), transparent 38%),
+    linear-gradient(145deg, #f8fbf9 0%, #eaf4f1 48%, #f5f1e8 100%);
 }
 
 .ambient-field canvas {
@@ -127,6 +289,10 @@
   white-space: nowrap;
   transform: translateY(-48%);
   animation: calligraphy-breathe 14s ease-in-out infinite alternate;
+}
+
+.zilu-shell[data-theme='light'] .ambient-calligraphy {
+  color: rgb(18 48 57 / 4.5%);
 }
 
 .lesson-focus {
