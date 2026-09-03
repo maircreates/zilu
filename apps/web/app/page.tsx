@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, Eye, RotateCcw, Sparkles, Volume2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { LessonVisual } from '@/components/lesson-visual';
+import { AmbientBackground } from '@/components/ambient-background';
 
 const steps = [
   {
@@ -83,11 +83,7 @@ export default function Home() {
       </header>
 
       <section id="top" className="kinetic-hero relative overflow-hidden bg-[#0b1f25] text-white">
-        <div className="aurora aurora-one" aria-hidden="true" />
-        <div className="aurora aurora-two" aria-hidden="true" />
-        <div className="signal-lines" aria-hidden="true"><i /><i /><i /></div>
-        <div className="absolute -right-40 top-20 size-[34rem] rounded-full border border-[#b9f6c9]/10" />
-        <div className="absolute -right-20 top-40 size-[22rem] rounded-full border border-[#b9f6c9]/10" />
+        <AmbientBackground />
         <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-12 pt-12 sm:px-8 lg:grid-cols-[minmax(0,0.75fr)_minmax(560px,1.25fr)] lg:px-12 lg:pb-20 lg:pt-16">
           <div className="relative z-10 flex flex-col justify-between py-2">
             <div>
@@ -121,10 +117,8 @@ export default function Home() {
             <div className="px-5 pb-6 pt-7 sm:px-8 sm:pb-8">
               <div className="grid gap-7 sm:grid-cols-[1fr_180px] sm:items-start">
                 <div>
-                  <div key={step} className="step-copy-enter">
-                    <h2 id="lesson-heading" className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">{steps[step].title}</h2>
-                    <p className="mt-3 max-w-xl text-sm leading-6 text-[#52686d] sm:text-base">{steps[step].body}</p>
-                  </div>
+                  <h2 id="lesson-heading" className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">{steps[step].title}</h2>
+                  <p className="mt-3 max-w-xl text-sm leading-6 text-[#52686d] sm:text-base">{steps[step].body}</p>
                 </div>
                 <div className="rounded-2xl bg-[#10292f]/[0.055] px-4 py-3 text-xs leading-5 text-[#52686d]">
                   <strong className="block font-semibold text-[#10292f]">Good to know</strong>
@@ -132,7 +126,19 @@ export default function Home() {
                 </div>
               </div>
 
-              <LessonVisual step={step} showPinyin={showPinyin} showMeaning={showMeaning} />
+              <div className="lesson-focus" aria-label="Traditional Chinese greeting 你好, pronounced nǐ hǎo, meaning hello">
+                <p lang="zh-Hant" className="lesson-characters">你好</p>
+                <div className="lesson-aids">
+                  {showPinyin && <p className="lesson-pinyin">nǐ hǎo</p>}
+                  {showMeaning && <p className="lesson-meaning">hello · hi</p>}
+                </div>
+                {step >= 2 && (
+                  <p className="natural-speech-note">
+                    <span>Natural speech</span>
+                    The first syllable rises: <strong>ní hǎo</strong>
+                  </p>
+                )}
+              </div>
 
               <div className="mt-4 flex flex-wrap items-center gap-2">
                 <Button type="button" onClick={speak} className="h-11 rounded-full bg-[#10292f] px-5 text-[#f7f3e8] hover:bg-[#1d3b42]">
