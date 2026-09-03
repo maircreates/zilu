@@ -82,17 +82,17 @@
 }
 
 .zilu-shell {
-  --mode-page: #07171d;
-  --mode-ink: #f2f7f3;
-  --mode-muted: rgb(226 239 234 / 64%);
-  --mode-faint: rgb(226 239 234 / 42%);
-  --mode-line: rgb(255 255 255 / 11%);
-  --mode-pill: rgb(255 255 255 / 10%);
-  --mode-accent: #b9f6c9;
-  --mode-accent-soft: rgb(185 246 201 / 10%);
-  --mode-accent-line: rgb(185 246 201 / 26%);
-  --mode-summary: #0a1b20;
-  --mode-summary-card: #10272d;
+  --mode-page: #040812;
+  --mode-ink: #ecfffb;
+  --mode-muted: rgb(213 245 242 / 66%);
+  --mode-faint: rgb(203 242 238 / 43%);
+  --mode-line: rgb(79 255 215 / 15%);
+  --mode-pill: rgb(50 212 225 / 9%);
+  --mode-accent: #4fffd7;
+  --mode-accent-soft: rgb(79 255 215 / 9%);
+  --mode-accent-line: rgb(79 255 215 / 34%);
+  --mode-summary: #050b14;
+  --mode-summary-card: #0a1722;
   --mode-summary-ink: #edf6f1;
   --mode-summary-muted: #9db1ad;
   --mode-card-line: rgb(185 246 201 / 12%);
@@ -102,16 +102,16 @@
 }
 
 .zilu-shell[data-theme='light'] {
-  --mode-page: #f2f7f4;
-  --mode-ink: #123039;
-  --mode-muted: rgb(18 48 57 / 67%);
-  --mode-faint: rgb(18 48 57 / 46%);
-  --mode-line: rgb(18 48 57 / 12%);
+  --mode-page: #f3faf2;
+  --mode-ink: #15382d;
+  --mode-muted: rgb(21 56 45 / 68%);
+  --mode-faint: rgb(21 56 45 / 47%);
+  --mode-line: rgb(20 104 75 / 13%);
   --mode-pill: rgb(255 255 255 / 62%);
-  --mode-accent: #147a59;
-  --mode-accent-soft: rgb(20 122 89 / 8%);
-  --mode-accent-line: rgb(20 122 89 / 20%);
-  --mode-summary: #edf5f1;
+  --mode-accent: #087c50;
+  --mode-accent-soft: rgb(8 124 80 / 8%);
+  --mode-accent-line: rgb(8 124 80 / 22%);
+  --mode-summary: #eaf5ec;
   --mode-summary-card: rgb(255 255 255 / 72%);
   --mode-summary-ink: #123039;
   --mode-summary-muted: #56706f;
@@ -126,6 +126,10 @@
   color: var(--mode-ink);
   backdrop-filter: blur(24px) saturate(140%);
   transition: background-color 550ms ease, border-color 550ms ease, color 550ms ease;
+}
+
+.zilu-shell[data-theme='dark'] .zilu-header {
+  box-shadow: 0 1px 0 rgb(79 255 215 / 7%), 0 12px 48px rgb(0 0 0 / 22%);
 }
 
 .brand-subtitle,
@@ -176,6 +180,11 @@
 
 .summary-card:hover {
   transform: translateY(-3px);
+}
+
+.zilu-shell[data-theme='dark'] .summary-card:hover {
+  border-color: rgb(79 255 215 / 25%);
+  box-shadow: 0 18px 45px rgb(0 0 0 / 22%), 0 0 24px rgb(79 255 215 / 5%);
 }
 
 .zilu-shell[data-theme='dark'] .summary-card p,
@@ -246,16 +255,37 @@
   z-index: -1;
   overflow: hidden;
   background:
-    radial-gradient(circle at 18% 16%, rgb(30 94 89 / 55%), transparent 34%),
-    linear-gradient(145deg, #07171d 0%, #0b2026 48%, #10182b 100%);
+    radial-gradient(circle at 14% 18%, rgb(0 239 194 / 18%), transparent 30%),
+    radial-gradient(circle at 82% 12%, rgb(174 44 255 / 20%), transparent 34%),
+    radial-gradient(circle at 72% 82%, rgb(0 145 255 / 16%), transparent 36%),
+    linear-gradient(145deg, #030711 0%, #07131d 48%, #0d071b 100%);
   pointer-events: none;
+}
+
+.ambient-field::after {
+  position: absolute;
+  inset: -45%;
+  content: '';
+  background: conic-gradient(from 20deg at 50% 50%, transparent 0 28%, rgb(79 255 215 / 12%) 37%, transparent 45% 66%, rgb(187 75 255 / 12%) 75%, transparent 84%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: atmosphere-turn 28s linear infinite;
 }
 
 .zilu-shell[data-theme='light'] .ambient-field {
   background:
-    radial-gradient(circle at 14% 12%, rgb(167 231 204 / 85%), transparent 33%),
-    radial-gradient(circle at 84% 24%, rgb(190 211 255 / 72%), transparent 38%),
-    linear-gradient(145deg, #f8fbf9 0%, #eaf4f1 48%, #f5f1e8 100%);
+    radial-gradient(circle at 12% 8%, rgb(135 226 180 / 84%), transparent 31%),
+    radial-gradient(circle at 84% 19%, rgb(157 206 255 / 68%), transparent 36%),
+    radial-gradient(circle at 66% 90%, rgb(255 205 105 / 46%), transparent 37%),
+    linear-gradient(145deg, #fbfdf7 0%, #e7f5ea 46%, #f7f0dc 100%);
+}
+
+.zilu-shell[data-theme='light'] .ambient-field::after {
+  background: conic-gradient(from 45deg at 55% 48%, transparent 0 22%, rgb(255 206 96 / 16%) 32%, transparent 43% 63%, rgb(42 179 116 / 12%) 73%, transparent 84%);
+  mix-blend-mode: multiply;
+  opacity: 0.78;
+  animation-direction: reverse;
+  animation-duration: 36s;
 }
 
 .ambient-field canvas {
@@ -276,6 +306,14 @@
   mask-image: linear-gradient(to bottom, black, transparent 92%);
 }
 
+.zilu-shell[data-theme='dark'] .ambient-grain {
+  background-image:
+    linear-gradient(90deg, transparent 49.8%, rgb(85 244 255 / 4%) 50%, transparent 50.2%),
+    repeating-radial-gradient(circle at 17% 31%, rgb(255 255 255 / 18%) 0 0.6px, transparent 0.8px 4px);
+  background-size: 11rem 100%, 7px 7px;
+  animation: scan-drift 9s ease-in-out infinite alternate;
+}
+
 .ambient-calligraphy {
   position: absolute;
   top: 50%;
@@ -292,7 +330,26 @@
 }
 
 .zilu-shell[data-theme='light'] .ambient-calligraphy {
-  color: rgb(18 48 57 / 4.5%);
+  color: rgb(12 112 72 / 6.5%);
+  text-shadow: 0 28px 70px rgb(31 143 91 / 10%);
+}
+
+.zilu-shell[data-theme='dark'] .ambient-calligraphy {
+  color: rgb(130 255 231 / 3%);
+  -webkit-text-stroke: 1px rgb(81 255 218 / 11%);
+  text-shadow:
+    0 0 34px rgb(79 255 215 / 10%),
+    0 0 90px rgb(139 54 255 / 11%),
+    9px 0 0 rgb(195 55 255 / 2.5%);
+}
+
+.zilu-shell[data-theme='dark'] .lesson-panel {
+  border: 1px solid rgb(79 255 215 / 14%);
+  box-shadow: 0 34px 100px rgb(0 0 0 / 45%), 0 0 48px rgb(79 255 215 / 7%);
+}
+
+.zilu-shell[data-theme='light'] .lesson-panel {
+  box-shadow: 0 34px 90px rgb(27 100 71 / 16%), 0 1px 0 rgb(255 255 255 / 80%);
 }
 
 .lesson-focus {
@@ -394,6 +451,15 @@
     opacity: 1;
     transform: translate3d(-2.5%, -51%, 0) scale(1.04);
   }
+}
+
+@keyframes atmosphere-turn {
+  to { transform: rotate(360deg) scale(1.06); }
+}
+
+@keyframes scan-drift {
+  from { transform: translateX(-2.5%); }
+  to { transform: translateX(2.5%); }
 }
 
 @media (max-width: 639px) {

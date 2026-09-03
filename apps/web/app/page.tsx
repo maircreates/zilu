@@ -205,7 +205,7 @@ export default function Home() {
           <fieldset className="mode-control">
             <legend className="sr-only">Appearance</legend>
             <Sun className="size-4" aria-hidden="true" />
-            <span className="mode-label">Light</span>
+            <span className="mode-label">Solar</span>
             <Switch
               checked={darkMode}
               onCheckedChange={setDarkMode}
@@ -213,7 +213,7 @@ export default function Home() {
               className="theme-switch"
             />
             <Moon className="size-4" aria-hidden="true" />
-            <span className="mode-label">Dark</span>
+            <span className="mode-label">Neon</span>
           </fieldset>
         </div>
       </footer>

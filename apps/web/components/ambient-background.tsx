@@ -59,6 +59,66 @@ export function AmbientBackground({ mode }: { mode: 'light' | 'dark' }) {
       context.fillRect(x - radius, y - radius, radius * 2, radius * 2);
     };
 
+    const drawCyberVeil = (seconds: number) => {
+      context.save();
+      context.globalCompositeOperation = 'screen';
+      context.lineCap = 'round';
+
+      Array.from({ length: 14 }, (_, index) => {
+        const lane = ((index * 0.137 + 0.04) % 1) * width;
+        const travel = (seconds * (18 + (index % 5) * 7) + index * 71) % (height * 1.45);
+        const y = travel - height * 0.22;
+        const length = 32 + (index % 4) * 29;
+        const hue = index % 3 === 0 ? '118,255,214' : index % 3 === 1 ? '72,205,255' : '195,92,255';
+        const beam = context.createLinearGradient(lane, y - length, lane, y + length);
+        beam.addColorStop(0, `rgba(${hue},0)`);
+        beam.addColorStop(0.65, `rgba(${hue},0.22)`);
+        beam.addColorStop(1, `rgba(${hue},0)`);
+        context.strokeStyle = beam;
+        context.lineWidth = index % 4 === 0 ? 2 : 1;
+        context.shadowColor = `rgba(${hue},0.7)`;
+        context.shadowBlur = index % 4 === 0 ? 18 : 9;
+        context.beginPath();
+        context.moveTo(lane, y - length);
+        context.quadraticCurveTo(lane + Math.sin(seconds * 0.5 + index) * 12, y, lane, y + length);
+        context.stroke();
+      });
+
+      context.restore();
+    };
+
+    const drawSolarVeil = (seconds: number) => {
+      context.save();
+      context.globalCompositeOperation = 'multiply';
+      context.filter = 'blur(18px)';
+      context.lineCap = 'round';
+
+      Array.from({ length: 7 }, (_, index) => {
+        const x = width * (0.06 + index * 0.165) + Math.sin(seconds * 0.08 + index) * 42;
+        const y = height * (0.8 - ((seconds * 0.012 + index * 0.17) % 0.9));
+        const radius = 28 + (index % 3) * 17;
+        const glow = context.createRadialGradient(x, y, 0, x, y, radius);
+        glow.addColorStop(0, index % 2 ? 'rgba(255,190,76,0.22)' : 'rgba(35,170,112,0.18)');
+        glow.addColorStop(1, 'rgba(255,255,255,0)');
+        context.fillStyle = glow;
+        context.beginPath();
+        context.ellipse(x, y, radius * 0.55, radius, Math.sin(index) * 0.5, 0, Math.PI * 2);
+        context.fill();
+      });
+
+      const sunlight = context.createLinearGradient(0, 0, width, height);
+      sunlight.addColorStop(0, 'rgba(255,255,255,0)');
+      sunlight.addColorStop(0.5, 'rgba(255,207,104,0.13)');
+      sunlight.addColorStop(1, 'rgba(255,255,255,0)');
+      context.strokeStyle = sunlight;
+      context.lineWidth = Math.max(80, width * 0.09);
+      context.beginPath();
+      context.moveTo(width * 0.15, -height * 0.2);
+      context.bezierCurveTo(width * 0.32, height * 0.3, width * 0.66, height * 0.44, width * 0.92, height * 1.2);
+      context.stroke();
+      context.restore();
+    };
+
     const render = (time = 0) => {
       const seconds = time * 0.001;
       currentX += (pointerX - currentX) * 0.025;
@@ -113,6 +173,8 @@ export function AmbientBackground({ mode }: { mode: 'light' | 'dark' }) {
       });
 
       context.restore();
+      if (dark) drawCyberVeil(seconds);
+      else drawSolarVeil(seconds);
 
       if (!reducedMotion) frame = window.requestAnimationFrame(render);
     };
