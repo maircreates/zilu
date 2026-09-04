@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'ZiLu — Chinese, from your first word',
+  title: 'ZiLu — Build your Chinese vocabulary',
   description:
-    'A calm, step-by-step path into Mandarin Chinese for complete beginners.',
+    'Traditional Chinese flashcards with pinyin and pronunciation for complete beginners.',
 };
 
 export default function RootLayout({

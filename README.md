@@ -1,6 +1,6 @@
 # ZiLu
 
-ZiLu is a beginner-first Mandarin learning experience for people starting with zero Chinese knowledge. The interactive foundation lesson lives under `apps/web`.
+ZiLu is a beginner-first Mandarin learning experience for people starting with zero Chinese knowledge. The current web app focuses on the vocabulary from the Volume 2 reference textbook.
 
 ## Project principles
 
@@ -19,9 +19,8 @@ pnpm install
 pnpm dev
 ```
 
-The current lesson teaches the greeting `你好` through six stages: Meet, Listen, Notice, Practice, Recall, and Review. Pinyin and meaning support can be hidden, and listening practice currently uses the learner's browser-provided Traditional Chinese voice.
+The current study flow is organized as Pathway → Waypoint → Deck → Flashcard. It includes ten topic-based Waypoints and two vocabulary Decks per Waypoint. Learners can flip cards, move backward and forward, shuffle a Deck, hear browser-provided Traditional Chinese pronunciation, and use the Pinyinciation switch to move pinyin between the front and back of each card.
 
-## Learning design
+## Current scope
 
-- [`docs/start-here-curriculum.md`](docs/start-here-curriculum.md) defines the complete ten-lesson Start Here pathway and its bridge into Volume 2.
-- [`docs/lesson-system.md`](docs/lesson-system.md) defines the reusable lesson model, interaction rules, and content standards.
+Only the flashcard experience is in scope right now. Additional learning activities, accounts, scoring, and progress systems are intentionally deferred.

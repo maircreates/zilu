@@ -1,0 +1,189 @@
+'use client';
+
+import { useEffect, useMemo, useState } from 'react';
+import { ArrowLeft, ArrowRight, Check, Moon, Shuffle, Sun, Volume2 } from 'lucide-react';
+
+import { pathway } from '@/lib/pathways';
+
+function shuffledIndices(length: number) {
+  const result = Array.from({ length }, (_, index) => index);
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const swap = Math.floor(Math.random() * (index + 1));
+    [result[index], result[swap]] = [result[swap], result[index]];
+  }
+  return result;
+}
+
+export function FlashcardExplorer() {
+  const [waypointIndex, setWaypointIndex] = useState(0);
+  const [deckIndex, setDeckIndex] = useState(0);
+  const [cardIndex, setCardIndex] = useState(0);
+  const [order, setOrder] = useState<number[]>([]);
+  const [flipped, setFlipped] = useState(false);
+  const [showPinyinFront, setShowPinyinFront] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
+  const [soundStatus, setSoundStatus] = useState('');
+
+  const waypoint = pathway.waypoints[waypointIndex];
+  const deck = waypoint.decks[deckIndex];
+  const activeOrder = order.length === deck.cards.length ? order : deck.cards.map((_, index) => index);
+  const card = deck.cards[activeOrder[cardIndex] ?? 0];
+
+  const totalCards = useMemo(
+    () => pathway.waypoints.reduce((total, stop) => total + stop.decks.reduce((sum, item) => sum + item.cards.length, 0), 0),
+    [],
+  );
+
+  function resetDeck(nextWaypoint: number, nextDeck: number) {
+    setWaypointIndex(nextWaypoint);
+    setDeckIndex(nextDeck);
+    setCardIndex(0);
+    setOrder([]);
+    setFlipped(false);
+    setSoundStatus('');
+  }
+
+  function move(direction: -1 | 1) {
+    setCardIndex((current) => (current + direction + deck.cards.length) % deck.cards.length);
+    setFlipped(false);
+    setSoundStatus('');
+  }
+
+  function shuffle() {
+    setOrder(shuffledIndices(deck.cards.length));
+    setCardIndex(0);
+    setFlipped(false);
+    setSoundStatus('Deck shuffled');
+  }
+
+  function speak(event: React.MouseEvent<HTMLButtonElement>) {
+    event.stopPropagation();
+    if (!('speechSynthesis' in window)) {
+      setSoundStatus('Audio is not available in this browser.');
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(card.hanzi);
+    utterance.lang = 'zh-TW';
+    utterance.rate = 0.78;
+    utterance.onstart = () => setSoundStatus('Playing pronunciation');
+    utterance.onend = () => setSoundStatus('');
+    window.speechSynthesis.speak(utterance);
+  }
+
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      const target = event.target as HTMLElement;
+      if (target.closest('input, button, select, textarea')) return;
+      if (event.key === 'ArrowLeft') move(-1);
+      if (event.key === 'ArrowRight') move(1);
+    }
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  });
+
+  return (
+    <main className="app-shell" data-theme={darkMode ? 'dark' : 'light'}>
+      <div className="ambient" aria-hidden="true"><span /><span /><span /></div>
+      <header className="topbar">
+        <a className="brand" href="#study" aria-label="ZiLu study home">
+          <span className="brand-mark">字</span>
+          <span><strong>ZiLu</strong><small>Your path into Chinese</small></span>
+        </a>
+        <div className="path-label"><span>Pathway</span><strong>{pathway.name}</strong><small>{pathway.chinese}</small></div>
+      </header>
+
+      <div className="workspace" id="study">
+        <aside className="waypoint-panel" aria-label="Waypoints">
+          <div className="panel-heading">
+            <span className="eyebrow">Pathway 01</span>
+            <h1>{pathway.name}</h1>
+            <p>{pathway.description}</p>
+          </div>
+          <nav className="waypoint-list">
+            {pathway.waypoints.map((item, index) => (
+              <button
+                type="button"
+                key={item.id}
+                className={index === waypointIndex ? 'waypoint active' : 'waypoint'}
+                onClick={() => resetDeck(index, 0)}
+                aria-current={index === waypointIndex ? 'step' : undefined}
+              >
+                <span>{String(item.number).padStart(2, '0')}</span>
+                <span><strong>{item.name}</strong><small>{item.chinese}</small></span>
+                <ArrowRight aria-hidden="true" />
+              </button>
+            ))}
+          </nav>
+        </aside>
+
+        <section className="study-panel" aria-labelledby="waypoint-title">
+          <div className="study-heading">
+            <div>
+              <span className="eyebrow">Waypoint {String(waypoint.number).padStart(2, '0')}</span>
+              <h2 id="waypoint-title">{waypoint.name} <span>{waypoint.chinese}</span></h2>
+            </div>
+            <fieldset className="deck-tabs">
+              <legend className="sr-only">Choose a deck</legend>
+              {waypoint.decks.map((item, index) => (
+                <button key={item.id} type="button" className={deckIndex === index ? 'active' : ''} onClick={() => resetDeck(waypointIndex, index)}>
+                  {item.name}<small>{item.cards.length} cards</small>
+                </button>
+              ))}
+            </fieldset>
+          </div>
+
+          <div className="study-toolbar">
+            <label className="pinyin-toggle" aria-label="Show Pinyinciation on the front of each card">
+              <span><strong>Pinyinciation</strong><small>Show pinyin on the front</small></span>
+              <input type="checkbox" checked={showPinyinFront} onChange={(event) => setShowPinyinFront(event.target.checked)} />
+              <span className="toggle-track" aria-hidden="true"><span /></span>
+            </label>
+            <button type="button" className="shuffle-button" onClick={shuffle}><Shuffle aria-hidden="true" /> Shuffle</button>
+          </div>
+
+          <div className="card-stage">
+            <button
+              type="button"
+              className={flipped ? 'flashcard flipped' : 'flashcard'}
+              onClick={() => setFlipped((value) => !value)}
+              aria-label={flipped ? `Showing meaning: ${card.meaning}. Flip to Chinese.` : `Showing ${card.hanzi}. Flip to English meaning.`}
+            >
+              <span className="card-face card-front">
+                <small>Traditional Chinese</small>
+                <strong lang="zh-Hant">{card.hanzi}</strong>
+                {showPinyinFront && <span>{card.pinyin}</span>}
+                <em>Tap to reveal meaning</em>
+              </span>
+              <span className="card-face card-back">
+                <small>English meaning</small>
+                <strong>{card.meaning}</strong>
+                {!showPinyinFront && <span>{card.pinyin}</span>}
+                <em>Tap to see the Chinese</em>
+              </span>
+            </button>
+            <button type="button" className="sound-button" onClick={speak} aria-label={`Hear ${card.hanzi} pronounced`}>
+              <Volume2 aria-hidden="true" /><span>Hear it</span>
+            </button>
+          </div>
+
+          <div className="card-controls">
+            <button type="button" onClick={() => move(-1)} aria-label="Previous card"><ArrowLeft aria-hidden="true" /><span>Previous</span></button>
+            <div><strong>{cardIndex + 1}</strong><span>/</span><span>{deck.cards.length}</span><small>{soundStatus || `${deck.name} · ${waypoint.name}`}</small></div>
+            <button type="button" onClick={() => move(1)} aria-label="Next card"><span>Next</span><ArrowRight aria-hidden="true" /></button>
+          </div>
+        </section>
+      </div>
+
+      <footer className="footer">
+        <p><Check aria-hidden="true" /> {totalCards} cards · Learner-facing Chinese is always Traditional Chinese.</p>
+        <label className="theme-control" aria-label="Choose light or dark appearance">
+          <Sun aria-hidden="true" /><span>Solarpunk</span>
+          <input type="checkbox" checked={darkMode} onChange={(event) => setDarkMode(event.target.checked)} aria-label="Use Chinese Cyberpunk dark mode" />
+          <span className="toggle-track" aria-hidden="true"><span /></span>
+          <Moon aria-hidden="true" /><span>Chinese Cyberpunk</span>
+        </label>
+      </footer>
+    </main>
+  );
+}
