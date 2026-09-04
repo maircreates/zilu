@@ -1,4 +1,5 @@
-import vocabulary from './vocabulary.json';
+import volume2Vocabulary from './vocabulary.json';
+import volume3Vocabulary from './volume3-vocabulary.json';
 
 export type Flashcard = {
   hanzi: string;
@@ -20,7 +21,16 @@ export type Waypoint = {
   decks: Deck[];
 };
 
-const topics = [
+export type Pathway = {
+  id: string;
+  number: number;
+  name: string;
+  chinese: string;
+  description: string;
+  waypoints: Waypoint[];
+};
+
+const volume2Topics = [
   ['weather', 'Weather', '天氣'],
   ['dining', 'Dining', '用餐'],
   ['directions', 'Asking Directions', '問路'],
@@ -33,15 +43,26 @@ const topics = [
   ['airport', 'At the Airport', '在機場'],
 ] as const;
 
-const source = vocabulary as Record<string, Flashcard[]>;
+const volume3Topics = [
+  ['semester', 'Starting a New Semester', '開學'],
+  ['dorm-life', 'Dorm Life', '宿舍生活'],
+  ['restaurant', 'At a Restaurant', '在飯館兒'],
+  ['shopping', 'Shopping', '買東西'],
+  ['classes', 'Choosing Classes', '選課'],
+  ['dating', 'Dating', '男朋友女朋友'],
+  ['computers', 'Computers and the Internet', '電腦和網絡'],
+  ['part-time-work', 'Working Part-Time', '打工'],
+  ['education', 'Education', '教育'],
+  ['geography', 'Geography of China', '中國地理'],
+] as const;
 
-export const pathway = {
-  id: 'everyday-connections',
-  name: 'Everyday Connections',
-  chinese: '日常連結',
-  description: 'Useful Mandarin for the places, plans, and people in everyday life.',
-  waypoints: topics.map(([id, name, chinese], index): Waypoint => {
-    const lesson = index + 11;
+function makeWaypoints(
+  topics: ReadonlyArray<readonly [string, string, string]>,
+  source: Record<string, Flashcard[]>,
+  lessonOffset: number,
+): Waypoint[] {
+  return topics.map(([id, name, chinese], index) => {
+    const lesson = index + lessonOffset;
     return {
       id,
       number: index + 1,
@@ -52,5 +73,24 @@ export const pathway = {
         { id: 'b', name: 'Deck B', cards: source[`${lesson}-b`] },
       ],
     };
-  }),
-};
+  });
+}
+
+export const pathways: Pathway[] = [
+  {
+    id: 'everyday-connections',
+    number: 2,
+    name: 'Everyday Connections',
+    chinese: '日常連結',
+    description: 'Useful Mandarin for the places, plans, and people in everyday life.',
+    waypoints: makeWaypoints(volume2Topics, volume2Vocabulary as Record<string, Flashcard[]>, 11),
+  },
+  {
+    id: 'wider-horizons',
+    number: 3,
+    name: 'Wider Horizons',
+    chinese: '拓展視野',
+    description: 'Build independence through school, work, relationships, technology, and travel.',
+    waypoints: makeWaypoints(volume3Topics, volume3Vocabulary as Record<string, Flashcard[]>, 1),
+  },
+];

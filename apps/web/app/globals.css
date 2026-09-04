@@ -65,6 +65,11 @@ button { color: inherit; }
 
 .workspace { display: grid; grid-template-columns: 330px minmax(0, 1fr); min-height: calc(100vh - 146px); max-width: 1440px; margin: auto; }
 .waypoint-panel { border-right: 1px solid var(--line); padding: 38px 26px 34px 24px; }
+.pathway-switcher { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 0 10px 24px; padding: 4px; border: 1px solid var(--line); border-radius: 14px; background: color-mix(in srgb, var(--panel-solid) 48%, transparent); }
+.pathway-switcher button { border: 0; border-radius: 10px; padding: 9px 10px; color: var(--muted); background: transparent; cursor: pointer; font-size: 14px; font-weight: 800; letter-spacing: .03em; }
+.pathway-switcher button small { display: inline; margin-right: 5px; font-size: 12px; font-weight: 600; }
+.pathway-switcher button.active { color: #fff; background: var(--ink); box-shadow: 0 5px 15px rgba(0,0,0,.12); }
+[data-theme='dark'] .pathway-switcher button.active { color: #092019; background: var(--green); }
 .panel-heading { padding: 0 10px 24px; }
 .eyebrow { color: var(--accent-deep); font-size: 10px; font-weight: 800; letter-spacing: .19em; text-transform: uppercase; }
 .panel-heading h1 { margin: 10px 0 8px; font-family: Georgia, 'Noto Serif TC', serif; font-size: 30px; font-weight: 500; line-height: 1.05; letter-spacing: -.035em; }

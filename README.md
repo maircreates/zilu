@@ -4,7 +4,7 @@ ZiLu is a beginner-first Mandarin learning experience for people starting with z
 
 ## Project principles
 
-- Volume 2 is the first development priority.
+- Volume 2 remains Pathway 02, and Volume 3 is Pathway 03.
 - Volume 4 is deferred until its textbook source is available.
 - All learner-facing Chinese must use Traditional Chinese.
 - The foundation path assumes zero prior knowledge of Chinese.
@@ -19,7 +19,7 @@ pnpm install
 pnpm dev
 ```
 
-The current study flow is organized as Pathway → Waypoint → Deck → Flashcard. It includes ten topic-based Waypoints and two vocabulary Decks per Waypoint. Learners can flip cards, move backward and forward, shuffle a Deck, hear browser-provided Traditional Chinese pronunciation, and use the Pinyinciation switch to move pinyin between the front and back of each card.
+The current study flow is organized as Pathway → Waypoint → Deck → Flashcard. Pathway 02 and Pathway 03 each include ten topic-based Waypoints and two vocabulary Decks per Waypoint. Learners can flip cards, move backward and forward, shuffle a Deck, hear browser-provided Traditional Chinese pronunciation, and use the Pinyinciation switch to move pinyin between the front and back of each card.
 
 ## Current scope
 

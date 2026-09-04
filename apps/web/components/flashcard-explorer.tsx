@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, Moon, Shuffle, Sun, Volume2 } from 'lucide-react';
 
-import { pathway } from '@/lib/pathways';
+import { pathways } from '@/lib/pathways';
 
 function shuffledIndices(length: number) {
   const result = Array.from({ length }, (_, index) => index);
@@ -15,6 +15,7 @@ function shuffledIndices(length: number) {
 }
 
 export function FlashcardExplorer() {
+  const [pathwayIndex, setPathwayIndex] = useState(0);
   const [waypointIndex, setWaypointIndex] = useState(0);
   const [deckIndex, setDeckIndex] = useState(0);
   const [cardIndex, setCardIndex] = useState(0);
@@ -24,15 +25,26 @@ export function FlashcardExplorer() {
   const [darkMode, setDarkMode] = useState(false);
   const [soundStatus, setSoundStatus] = useState('');
 
+  const pathway = pathways[pathwayIndex];
   const waypoint = pathway.waypoints[waypointIndex];
   const deck = waypoint.decks[deckIndex];
   const activeOrder = order.length === deck.cards.length ? order : deck.cards.map((_, index) => index);
   const card = deck.cards[activeOrder[cardIndex] ?? 0];
 
   const totalCards = useMemo(
-    () => pathway.waypoints.reduce((total, stop) => total + stop.decks.reduce((sum, item) => sum + item.cards.length, 0), 0),
+    () => pathways.reduce((grandTotal, path) => grandTotal + path.waypoints.reduce((total, stop) => total + stop.decks.reduce((sum, item) => sum + item.cards.length, 0), 0), 0),
     [],
   );
+
+  function resetPathway(nextPathway: number) {
+    setPathwayIndex(nextPathway);
+    setWaypointIndex(0);
+    setDeckIndex(0);
+    setCardIndex(0);
+    setOrder([]);
+    setFlipped(false);
+    setSoundStatus('');
+  }
 
   function resetDeck(nextWaypoint: number, nextDeck: number) {
     setWaypointIndex(nextWaypoint);
@@ -95,8 +107,16 @@ export function FlashcardExplorer() {
 
       <div className="workspace" id="study">
         <aside className="waypoint-panel" aria-label="Waypoints">
+          <fieldset className="pathway-switcher">
+            <legend className="sr-only">Choose a Pathway</legend>
+            {pathways.map((item, index) => (
+              <button key={item.id} type="button" className={pathwayIndex === index ? 'active' : ''} onClick={() => resetPathway(index)}>
+                <small>Pathway</small>{String(item.number).padStart(2, '0')}
+              </button>
+            ))}
+          </fieldset>
           <div className="panel-heading">
-            <span className="eyebrow">Pathway 01</span>
+            <span className="eyebrow">Pathway {String(pathway.number).padStart(2, '0')}</span>
             <h1>{pathway.name}</h1>
             <p>{pathway.description}</p>
           </div>
