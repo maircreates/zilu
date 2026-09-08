@@ -9,6 +9,7 @@
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
+    "deploy": "vinext build && wrangler deploy --config dist/server/wrangler.json",
     "lint": "oxlint app components/flashcard-explorer.tsx components/study-session.tsx components/home-page.tsx components/fundamentals-guide.tsx lib/pathways.ts lib/study-session.ts lib/use-pinyinciation.ts lib/fundamentals.ts",
     "format": "oxfmt"
   },
