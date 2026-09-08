@@ -76,7 +76,7 @@
   "3-b": [
     { "hanzi": "現在", "pinyin": "xiàn zài", "meaning": "now" },
     { "hanzi": "刻", "pinyin": "kè", "meaning": "quarter (of an hour)" },
-    { "hanzi": "事", "pinyin": "shì", "meaning": "matter; affair; event" },
+    { "hanzi": "事（兒）", "pinyin": "shì(r)", "meaning": "matter; affair; thing" },
     { "hanzi": "今天", "pinyin": "jīn tiān", "meaning": "today" },
     { "hanzi": "很", "pinyin": "hěn", "meaning": "very" },
     { "hanzi": "忙", "pinyin": "máng", "meaning": "busy" },
@@ -97,7 +97,7 @@
     { "hanzi": "球", "pinyin": "qiú", "meaning": "ball" },
     { "hanzi": "看", "pinyin": "kàn", "meaning": "to watch; to look; to read" },
     { "hanzi": "電視", "pinyin": "diàn shì", "meaning": "television" },
-    { "hanzi": "唱歌", "pinyin": "chàng gē", "meaning": "to sing (a song)" },
+    { "hanzi": "唱歌（兒）", "pinyin": "chàng gē(r)", "meaning": "to sing (a song)" },
     { "hanzi": "唱", "pinyin": "chàng", "meaning": "to sing" },
     { "hanzi": "歌", "pinyin": "gē", "meaning": "song" },
     { "hanzi": "跳舞", "pinyin": "tiào wǔ", "meaning": "to dance" },
@@ -141,7 +141,7 @@
     { "hanzi": "哪兒", "pinyin": "nǎr", "meaning": "where" },
     { "hanzi": "學校", "pinyin": "xué xiào", "meaning": "school" },
     { "hanzi": "喝", "pinyin": "hē", "meaning": "to drink" },
-    { "hanzi": "點", "pinyin": "diǎn", "meaning": "a little; a bit; some" },
+    { "hanzi": "點（兒）", "pinyin": "diǎn(r)", "meaning": "a little; a bit; some" },
     { "hanzi": "茶", "pinyin": "chá", "meaning": "tea" },
     { "hanzi": "咖啡", "pinyin": "kā fēi", "meaning": "coffee" },
     { "hanzi": "吧", "pinyin": "ba", "meaning": "(sentence-final suggestion particle)" },
@@ -155,11 +155,11 @@
     { "hanzi": "水", "pinyin": "shuǐ", "meaning": "water" }
   ],
   "5-b": [
-    { "hanzi": "玩", "pinyin": "wán", "meaning": "to have fun; to play" },
+    { "hanzi": "玩（兒）", "pinyin": "wán(r)", "meaning": "to have fun; to play" },
     { "hanzi": "了", "pinyin": "le", "meaning": "(completed-action particle)" },
     { "hanzi": "圖書館", "pinyin": "tú shū guǎn", "meaning": "library" },
     { "hanzi": "一起", "pinyin": "yì qǐ", "meaning": "together" },
-    { "hanzi": "聊天", "pinyin": "liáo tiān", "meaning": "to chat" },
+    { "hanzi": "聊天（兒）", "pinyin": "liáo tiān(r)", "meaning": "to chat" },
     { "hanzi": "聊", "pinyin": "liáo", "meaning": "to chat" },
     { "hanzi": "才", "pinyin": "cái", "meaning": "not until; only then" },
     { "hanzi": "回家", "pinyin": "huí jiā", "meaning": "to go home" },
@@ -188,7 +188,7 @@
     { "hanzi": "年級", "pinyin": "nián jí", "meaning": "grade in school" },
     { "hanzi": "考試", "pinyin": "kǎo shì", "meaning": "to take a test; test" },
     { "hanzi": "以後", "pinyin": "yǐ hòu", "meaning": "after; later on" },
-    { "hanzi": "空", "pinyin": "kòng", "meaning": "free time" },
+    { "hanzi": "空（兒）", "pinyin": "kòng(r)", "meaning": "free time" },
     { "hanzi": "要是", "pinyin": "yào shi", "meaning": "if" },
     { "hanzi": "方便", "pinyin": "fāng biàn", "meaning": "convenient" },
     { "hanzi": "到", "pinyin": "dào", "meaning": "to go to; to arrive" },
@@ -333,7 +333,7 @@
     { "hanzi": "毛", "pinyin": "máo", "meaning": "(measure word for a tenth of a kuai)" },
     { "hanzi": "分", "pinyin": "fēn", "meaning": "(measure word for a hundredth of a kuai)" },
     { "hanzi": "百", "pinyin": "bǎi", "meaning": "hundred" },
-    { "hanzi": "找", "pinyin": "zhǎo", "meaning": "to give change" }
+    { "hanzi": "找錢", "pinyin": "zhǎo qián", "meaning": "to give change" }
   ],
   "9-b": [
     { "hanzi": "雙", "pinyin": "shuāng", "meaning": "(measure word for a pair)" },
