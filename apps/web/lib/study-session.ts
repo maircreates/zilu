@@ -1,8 +1,8 @@
 import { pathways, type Flashcard } from './pathways';
 
 /**
- * Guided study started as a single-deck pilot (Pathway 02 -> Waypoint 01 ->
- * Deck A) and is now rolled out to every deck in `pathways`. The intro is
+ * Guided study started as a single-deck pilot and is now available on every
+ * deck in `pathways`. The intro is
  * generated from each deck's own topic and size rather than hand-authored per
  * deck, so adding a new Pathway, Waypoint, or Deck to `pathways.ts` picks up
  * guided study automatically -- no changes needed here.

@@ -27,9 +27,9 @@ export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: b
   const [showPinyinFront, setShowPinyinFront] = usePinyinciationPreference();
   const [darkMode, setDarkMode] = useState(false);
   const [soundStatus, setSoundStatus] = useState('');
-  // A "?guided=1" link (used by the home page pilot callout) opens the guided
-  // study session immediately, on top of the default Pathway 02 / Waypoint 01 /
-  // Deck A selection this explorer already starts on.
+  // A "?guided=1" link (used by the home page callout) opens the guided study
+  // session immediately, on top of the default Pathway 01 / Waypoint 01 / Deck A
+  // selection this explorer already starts on.
   const [guidedActive, setGuidedActive] = useState(initialGuided);
 
   const pathway = pathways[pathwayIndex];

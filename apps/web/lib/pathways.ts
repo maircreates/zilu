@@ -1,3 +1,4 @@
+import volume1Vocabulary from './pathway01-vocabulary.json';
 import volume2Vocabulary from './vocabulary.json';
 import volume3Vocabulary from './volume3-vocabulary.json';
 
@@ -29,6 +30,19 @@ export type Pathway = {
   description: string;
   waypoints: Waypoint[];
 };
+
+const volume1Topics = [
+  ['greetings', 'Greetings', '問候'],
+  ['family', 'Family', '家庭'],
+  ['time-date', 'Time and Date', '時間和日期'],
+  ['hobbies', 'Hobbies', '愛好'],
+  ['visiting-friends', 'Visiting Friends', '看朋友'],
+  ['appointments', 'Making Appointments', '約時間'],
+  ['studying-chinese', 'Studying Chinese', '學中文'],
+  ['school-life', 'School Life', '學校生活'],
+  ['shopping', 'Shopping', '購物'],
+  ['transportation', 'Transportation', '交通'],
+] as const;
 
 const volume2Topics = [
   ['weather', 'Weather', '天氣'],
@@ -77,6 +91,14 @@ function makeWaypoints(
 }
 
 export const pathways: Pathway[] = [
+  {
+    id: 'first-steps',
+    number: 1,
+    name: 'First Steps',
+    chinese: '入門',
+    description: 'Start from zero: greetings, family, dates, hobbies, and the everyday basics.',
+    waypoints: makeWaypoints(volume1Topics, volume1Vocabulary as Record<string, Flashcard[]>, 1),
+  },
   {
     id: 'everyday-connections',
     number: 2,

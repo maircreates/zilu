@@ -86,7 +86,7 @@ export function HomePage() {
           <p>
             Work through any Deck one card at a time: flip, mark Still learning
             or Got it, and cards you miss come right back around until every one
-            sticks. Opens on Pathway 02, Waypoint 01, Deck A first -- switch
+            sticks. Opens on Pathway 01, Waypoint 01, Deck A first -- switch
             decks anytime from there.
           </p>
           <span className="home-card-link">
