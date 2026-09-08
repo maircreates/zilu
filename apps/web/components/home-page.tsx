@@ -1,0 +1,125 @@
+'use client';
+
+import { useState } from 'react';
+import {
+  ArrowRight,
+  BookOpenText,
+  Layers,
+  Moon,
+  Sparkles,
+  Sun,
+} from 'lucide-react';
+import Link from 'next/link';
+
+export function HomePage() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  return (
+    <main className="app-shell" data-theme={darkMode ? 'dark' : 'light'}>
+      <div className="ambient" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
+
+      <header className="topbar">
+        <Link className="brand" href="/" aria-label="ZiLu home">
+          <span className="brand-mark">字</span>
+          <span>
+            <strong>ZiLu</strong>
+            <small>Your path into Chinese</small>
+          </span>
+        </Link>
+        <nav className="topbar-nav" aria-label="Primary">
+          <Link href="/fundamentals">Fundamentals</Link>
+          <Link href="/study">Study</Link>
+        </nav>
+      </header>
+
+      <section className="home-hero">
+        <span className="eyebrow">Beginner-first Mandarin</span>
+        <h1>Your path into Chinese, one Waypoint at a time.</h1>
+        <p>
+          ZiLu is built for people who are starting with zero Chinese knowledge.
+          Every learner-facing word is Traditional Chinese, paired with pinyin
+          and audio support you control.
+        </p>
+        <div className="home-hero-actions">
+          <Link href="/fundamentals" className="study-primary">
+            Start with the fundamentals <ArrowRight aria-hidden="true" />
+          </Link>
+          <Link href="/study" className="study-secondary">
+            Browse the flashcard pathways
+          </Link>
+        </div>
+      </section>
+
+      <section className="home-cards" aria-label="Where to go next">
+        <Link href="/fundamentals" className="home-card">
+          <BookOpenText aria-hidden="true" />
+          <h2>Start Here: Fundamentals</h2>
+          <p>
+            New to Chinese? Learn how Traditional characters, pinyin, and tones
+            fit together, plus the core sentence patterns you will meet
+            constantly.
+          </p>
+          <span className="home-card-link">
+            Learn the basics <ArrowRight aria-hidden="true" />
+          </span>
+        </Link>
+
+        <Link href="/study" className="home-card">
+          <Layers aria-hidden="true" />
+          <h2>Study Pathways</h2>
+          <p>
+            Flip through Traditional Chinese vocabulary across Pathway 02 and
+            Pathway 03, organized into Waypoints with Deck A and Deck B for each
+            topic.
+          </p>
+          <span className="home-card-link">
+            Open the deck browser <ArrowRight aria-hidden="true" />
+          </span>
+        </Link>
+
+        <Link href="/study?guided=1" className="home-card home-card-pilot">
+          <Sparkles aria-hidden="true" />
+          <h2>Guided study loop</h2>
+          <p>
+            Work through any Deck one card at a time: flip, mark Still learning
+            or Got it, and cards you miss come right back around until every one
+            sticks. Opens on Pathway 02, Waypoint 01, Deck A first -- switch
+            decks anytime from there.
+          </p>
+          <span className="home-card-link">
+            Try the guided loop <ArrowRight aria-hidden="true" />
+          </span>
+        </Link>
+      </section>
+
+      <footer className="footer">
+        <p>
+          Only the flashcard experience and this fundamentals bridge are in
+          scope right now. Traditional Chinese stays canonical throughout.
+        </p>
+        <label
+          className="theme-control"
+          aria-label="Choose light or dark appearance"
+        >
+          <Sun aria-hidden="true" />
+          <span>Solarpunk</span>
+          <input
+            type="checkbox"
+            checked={darkMode}
+            onChange={(event) => setDarkMode(event.target.checked)}
+            aria-label="Use Chinese Cyberpunk dark mode"
+          />
+          <span className="toggle-track" aria-hidden="true">
+            <span />
+          </span>
+          <Moon aria-hidden="true" />
+          <span>Chinese Cyberpunk</span>
+        </label>
+      </footer>
+    </main>
+  );
+}

@@ -1,9 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, ArrowRight, Check, Moon, Shuffle, Sun, Volume2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Moon, Shuffle, Sparkles, Sun, Volume2 } from 'lucide-react';
+import Link from 'next/link';
 
 import { pathways } from '@/lib/pathways';
+import { findGuidedStudyDeck } from '@/lib/study-session';
+import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
+import { StudySession } from '@/components/study-session';
 
 function shuffledIndices(length: number) {
   const result = Array.from({ length }, (_, index) => index);
@@ -14,20 +18,25 @@ function shuffledIndices(length: number) {
   return result;
 }
 
-export function FlashcardExplorer() {
+export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: boolean }) {
   const [pathwayIndex, setPathwayIndex] = useState(0);
   const [waypointIndex, setWaypointIndex] = useState(0);
   const [deckIndex, setDeckIndex] = useState(0);
   const [cardIndex, setCardIndex] = useState(0);
   const [order, setOrder] = useState<number[]>([]);
   const [flipped, setFlipped] = useState(false);
-  const [showPinyinFront, setShowPinyinFront] = useState(true);
+  const [showPinyinFront, setShowPinyinFront] = usePinyinciationPreference();
   const [darkMode, setDarkMode] = useState(false);
   const [soundStatus, setSoundStatus] = useState('');
+  // A "?guided=1" link (used by the home page pilot callout) opens the guided
+  // study session immediately, on top of the default Pathway 02 / Waypoint 01 /
+  // Deck A selection this explorer already starts on.
+  const [guidedActive, setGuidedActive] = useState(initialGuided);
 
   const pathway = pathways[pathwayIndex];
   const waypoint = pathway.waypoints[waypointIndex];
   const deck = waypoint.decks[deckIndex];
+  const guidedDeck = findGuidedStudyDeck(pathway.number, waypoint.number, deck.id);
   const activeOrder = order.length === deck.cards.length ? order : deck.cards.map((_, index) => index);
   const card = deck.cards[activeOrder[cardIndex] ?? 0];
 
@@ -44,6 +53,7 @@ export function FlashcardExplorer() {
     setOrder([]);
     setFlipped(false);
     setSoundStatus('');
+    setGuidedActive(false);
   }
 
   function resetDeck(nextWaypoint: number, nextDeck: number) {
@@ -53,6 +63,7 @@ export function FlashcardExplorer() {
     setOrder([]);
     setFlipped(false);
     setSoundStatus('');
+    setGuidedActive(false);
   }
 
   function move(direction: -1 | 1) {
@@ -85,6 +96,7 @@ export function FlashcardExplorer() {
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
+      if (guidedActive) return;
       const target = event.target as HTMLElement;
       if (target.closest('input, button, select, textarea')) return;
       if (event.key === 'ArrowLeft') move(-1);
@@ -98,10 +110,14 @@ export function FlashcardExplorer() {
     <main className="app-shell" data-theme={darkMode ? 'dark' : 'light'}>
       <div className="ambient" aria-hidden="true"><span /><span /><span /></div>
       <header className="topbar">
-        <a className="brand" href="#study" aria-label="ZiLu study home">
+        <Link className="brand" href="/" aria-label="ZiLu home">
           <span className="brand-mark">字</span>
           <span><strong>ZiLu</strong><small>Your path into Chinese</small></span>
-        </a>
+        </Link>
+        <nav className="topbar-nav" aria-label="Primary">
+          <Link href="/fundamentals">Fundamentals</Link>
+          <Link href="/study" aria-current="page">Study</Link>
+        </nav>
         <div className="path-label"><span>Pathway</span><strong>{pathway.name}</strong><small>{pathway.chinese}</small></div>
       </header>
 
@@ -153,45 +169,68 @@ export function FlashcardExplorer() {
             </fieldset>
           </div>
 
-          <div className="study-toolbar">
-            <label className="pinyin-toggle" aria-label="Show Pinyinciation on the front of each card">
-              <span><strong>Pinyinciation</strong><small>Show pinyin on the front</small></span>
-              <input type="checkbox" checked={showPinyinFront} onChange={(event) => setShowPinyinFront(event.target.checked)} />
-              <span className="toggle-track" aria-hidden="true"><span /></span>
-            </label>
-            <button type="button" className="shuffle-button" onClick={shuffle}><Shuffle aria-hidden="true" /> Shuffle</button>
-          </div>
+          {guidedActive && guidedDeck ? (
+            <StudySession
+              deck={guidedDeck}
+              showPinyinFront={showPinyinFront}
+              onShowPinyinFrontChange={setShowPinyinFront}
+              onExit={() => setGuidedActive(false)}
+            />
+          ) : (
+            <>
+              <div className="study-toolbar">
+                <label className="pinyin-toggle" aria-label="Show Pinyinciation on the front of each card">
+                  <span><strong>Pinyinciation</strong><small>Show pinyin on the front</small></span>
+                  <input type="checkbox" checked={showPinyinFront} onChange={(event) => setShowPinyinFront(event.target.checked)} />
+                  <span className="toggle-track" aria-hidden="true"><span /></span>
+                </label>
+                <button type="button" className="shuffle-button" onClick={shuffle}><Shuffle aria-hidden="true" /> Shuffle</button>
+              </div>
 
-          <div className="card-stage">
-            <button
-              type="button"
-              className={flipped ? 'flashcard flipped' : 'flashcard'}
-              onClick={() => setFlipped((value) => !value)}
-              aria-label={flipped ? `Showing meaning: ${card.meaning}. Flip to Chinese.` : `Showing ${card.hanzi}. Flip to English meaning.`}
-            >
-              <span className="card-face card-front">
-                <small>Traditional Chinese</small>
-                <strong lang="zh-Hant">{card.hanzi}</strong>
-                {showPinyinFront && <span>{card.pinyin}</span>}
-                <em>Tap to reveal meaning</em>
-              </span>
-              <span className="card-face card-back">
-                <small>English meaning</small>
-                <strong>{card.meaning}</strong>
-                {!showPinyinFront && <span>{card.pinyin}</span>}
-                <em>Tap to see the Chinese</em>
-              </span>
-            </button>
-            <button type="button" className="sound-button" onClick={speak} aria-label={`Hear ${card.hanzi} pronounced`}>
-              <Volume2 aria-hidden="true" /><span>Hear it</span>
-            </button>
-          </div>
+              {guidedDeck && (
+                <div className="guided-invite">
+                  <div>
+                    <strong>Guided study session</strong>
+                    <span>Work through {guidedDeck.deckLabel} one card at a time, with a beginner-friendly loop that repeats what you miss.</span>
+                  </div>
+                  <button type="button" onClick={() => setGuidedActive(true)}>
+                    <Sparkles aria-hidden="true" /> Start
+                  </button>
+                </div>
+              )}
 
-          <div className="card-controls">
-            <button type="button" onClick={() => move(-1)} aria-label="Previous card"><ArrowLeft aria-hidden="true" /><span>Previous</span></button>
-            <div><strong>{cardIndex + 1}</strong><span>/</span><span>{deck.cards.length}</span><small>{soundStatus || `${deck.name} · ${waypoint.name}`}</small></div>
-            <button type="button" onClick={() => move(1)} aria-label="Next card"><span>Next</span><ArrowRight aria-hidden="true" /></button>
-          </div>
+              <div className="card-stage">
+                <button
+                  type="button"
+                  className={flipped ? 'flashcard flipped' : 'flashcard'}
+                  onClick={() => setFlipped((value) => !value)}
+                  aria-label={flipped ? `Showing meaning: ${card.meaning}. Flip to Chinese.` : `Showing ${card.hanzi}. Flip to English meaning.`}
+                >
+                  <span className="card-face card-front">
+                    <small>Traditional Chinese</small>
+                    <strong lang="zh-Hant">{card.hanzi}</strong>
+                    {showPinyinFront && <span>{card.pinyin}</span>}
+                    <em>Tap to reveal meaning</em>
+                  </span>
+                  <span className="card-face card-back">
+                    <small>English meaning</small>
+                    <strong>{card.meaning}</strong>
+                    {!showPinyinFront && <span>{card.pinyin}</span>}
+                    <em>Tap to see the Chinese</em>
+                  </span>
+                </button>
+                <button type="button" className="sound-button" onClick={speak} aria-label={`Hear ${card.hanzi} pronounced`}>
+                  <Volume2 aria-hidden="true" /><span>Hear it</span>
+                </button>
+              </div>
+
+              <div className="card-controls">
+                <button type="button" onClick={() => move(-1)} aria-label="Previous card"><ArrowLeft aria-hidden="true" /><span>Previous</span></button>
+                <div><strong>{cardIndex + 1}</strong><span>/</span><span>{deck.cards.length}</span><small>{soundStatus || `${deck.name} · ${waypoint.name}`}</small></div>
+                <button type="button" onClick={() => move(1)} aria-label="Next card"><span>Next</span><ArrowRight aria-hidden="true" /></button>
+              </div>
+            </>
+          )}
         </section>
       </div>
 
