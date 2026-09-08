@@ -3,6 +3,7 @@
 import { useCallback, useState } from 'react';
 import { ArrowRight, Moon, Sun, Volume2 } from 'lucide-react';
 
+import { useTheme } from '@/lib/use-theme';
 import {
   MEASURE_WORDS,
   NUMBER_BUILD,
@@ -58,7 +59,7 @@ function SectionHeading({
 
 export function FundamentalsGuide() {
   const [status, setStatus] = useState('');
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useTheme();
 
   const speak = useCallback((hanzi: string) => {
     if (!('speechSynthesis' in window)) {
@@ -75,7 +76,7 @@ export function FundamentalsGuide() {
   }, []);
 
   return (
-    <main className="app-shell" data-theme={darkMode ? 'dark' : 'light'}>
+    <main className="app-shell">
       <div className="ambient" aria-hidden="true">
         <span />
         <span />
@@ -552,13 +553,13 @@ export function FundamentalsGuide() {
             type="checkbox"
             checked={darkMode}
             onChange={(event) => setDarkMode(event.target.checked)}
-            aria-label="Use Chinese Cyberpunk dark mode"
+            aria-label="Use Cyberpunk dark mode"
           />
           <span className="toggle-track" aria-hidden="true">
             <span />
           </span>
           <Moon aria-hidden="true" />
-          <span>Chinese Cyberpunk</span>
+          <span>Cyberpunk</span>
         </label>
       </footer>
     </main>

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   ArrowRight,
   BookOpenText,
@@ -10,11 +9,13 @@ import {
   Sun,
 } from 'lucide-react';
 
+import { useTheme } from '@/lib/use-theme';
+
 export function HomePage() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useTheme();
 
   return (
-    <main className="app-shell" data-theme={darkMode ? 'dark' : 'light'}>
+    <main className="app-shell">
       <div className="ambient" aria-hidden="true">
         <span />
         <span />
@@ -110,13 +111,13 @@ export function HomePage() {
             type="checkbox"
             checked={darkMode}
             onChange={(event) => setDarkMode(event.target.checked)}
-            aria-label="Use Chinese Cyberpunk dark mode"
+            aria-label="Use Cyberpunk dark mode"
           />
           <span className="toggle-track" aria-hidden="true">
             <span />
           </span>
           <Moon aria-hidden="true" />
-          <span>Chinese Cyberpunk</span>
+          <span>Cyberpunk</span>
         </label>
       </footer>
     </main>

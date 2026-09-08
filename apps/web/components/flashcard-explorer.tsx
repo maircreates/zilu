@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, Check, Moon, Shuffle, Sparkles, Sun, Volume2 } f
 import { pathways } from '@/lib/pathways';
 import { findGuidedStudyDeck } from '@/lib/study-session';
 import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
+import { useTheme } from '@/lib/use-theme';
 import { StudySession } from '@/components/study-session';
 
 function shuffledIndices(length: number) {
@@ -25,7 +26,7 @@ export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: b
   const [order, setOrder] = useState<number[]>([]);
   const [flipped, setFlipped] = useState(false);
   const [showPinyinFront, setShowPinyinFront] = usePinyinciationPreference();
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useTheme();
   const [soundStatus, setSoundStatus] = useState('');
   // A "?guided=1" link (used by the home page callout) opens the guided study
   // session immediately, on top of the default Pathway 01 / Waypoint 01 / Deck A
@@ -106,7 +107,7 @@ export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: b
   });
 
   return (
-    <main className="app-shell" data-theme={darkMode ? 'dark' : 'light'}>
+    <main className="app-shell">
       <div className="ambient" aria-hidden="true"><span /><span /><span /></div>
       <header className="topbar">
         <a className="brand" href="/" aria-label="ZiLu home">
@@ -237,9 +238,9 @@ export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: b
         <p><Check aria-hidden="true" /> {totalCards} cards · Learner-facing Chinese is always Traditional Chinese.</p>
         <label className="theme-control" aria-label="Choose light or dark appearance">
           <Sun aria-hidden="true" /><span>Solarpunk</span>
-          <input type="checkbox" checked={darkMode} onChange={(event) => setDarkMode(event.target.checked)} aria-label="Use Chinese Cyberpunk dark mode" />
+          <input type="checkbox" checked={darkMode} onChange={(event) => setDarkMode(event.target.checked)} aria-label="Use Cyberpunk dark mode" />
           <span className="toggle-track" aria-hidden="true"><span /></span>
-          <Moon aria-hidden="true" /><span>Chinese Cyberpunk</span>
+          <Moon aria-hidden="true" /><span>Cyberpunk</span>
         </label>
       </footer>
     </main>
