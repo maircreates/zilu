@@ -189,10 +189,11 @@ export function GrammarGuide() {
 
       <section className="fundamentals-cta">
         <div>
-          <h2>More coming</h2>
+          <h2>That is the core of it</h2>
           <p>
-            Location, comparison, and joining ideas are next. For now, take
-            these patterns into the decks and watch for them.
+            These nine themes cover the grammar a beginner meets first. The way
+            to lock them in is to keep meeting them -- open a deck, and watch
+            for these patterns in every phrase.
           </p>
         </div>
         <a href="/study" className="study-primary">

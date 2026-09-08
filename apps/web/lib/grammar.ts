@@ -121,9 +121,9 @@ export const GRAMMAR_THEMES: GrammarTheme[] = [
             english: 'This book, I have read it.',
           },
           {
-            hanzi: '中文很有意思。',
-            pinyin: 'zhōngwén hěn yǒuyìsi.',
-            english: 'Chinese is very interesting.',
+            hanzi: '茶我喝，咖啡我不喝。',
+            pinyin: 'chá wǒ hē, kāfēi wǒ bù hē.',
+            english: "Tea I drink; coffee I don't.",
           },
         ],
       },
@@ -577,7 +577,522 @@ export const GRAMMAR_THEMES: GrammarTheme[] = [
           },
         ],
         watchOut:
-          'This 在 (before a verb) is not the same as 在 meaning "located at" -- that one comes later.',
+          'This 在 (before a verb) is not the same as 在 meaning "located at" -- that one is the next theme.',
+      },
+    ],
+  },
+  {
+    id: 'location',
+    num: '06',
+    title: 'Where things are',
+    intro:
+      'Saying where someone is, where something happens, and what exists in a place. It all runs on 在 and 有.',
+    points: [
+      {
+        id: 'zai-location',
+        title: '在 for "to be somewhere"',
+        waypoint: 'Waypoint 06',
+        template: 'Subject + 在 (zài) + Place',
+        why: '在 is a full verb here meaning "is located at". No 是 and no other verb is needed.',
+        examples: [
+          {
+            hanzi: '我在家。',
+            pinyin: 'wǒ zài jiā.',
+            english: 'I am at home.',
+          },
+          {
+            hanzi: '老師在學校。',
+            pinyin: 'lǎoshī zài xuéxiào.',
+            english: 'The teacher is at school.',
+          },
+          {
+            hanzi: '你的書在這裡。',
+            pinyin: 'nǐ de shū zài zhèlǐ.',
+            english: 'Your book is here.',
+          },
+        ],
+        contrast: {
+          wrong: '我是在家。',
+          right: '我在家。',
+          why: '在 already means "am at". Adding 是 doubles the verb.',
+        },
+      },
+      {
+        id: 'zai-place-verb',
+        title: 'Doing something at a place',
+        waypoint: 'Waypoint 06',
+        template: 'Subject + 在 + Place + Verb ...',
+        why: 'The place phrase comes before the verb, not after it like English "at home".',
+        examples: [
+          {
+            hanzi: '我在家看書。',
+            pinyin: 'wǒ zài jiā kàn shū.',
+            english: 'I read at home.',
+          },
+          {
+            hanzi: '他在學校學中文。',
+            pinyin: 'tā zài xuéxiào xué zhōngwén.',
+            english: 'He studies Chinese at school.',
+          },
+          {
+            hanzi: '我們在這裡等你。',
+            pinyin: 'wǒmen zài zhèlǐ děng nǐ.',
+            english: 'We will wait for you here.',
+          },
+        ],
+        contrast: {
+          wrong: '我看書在家。',
+          right: '我在家看書。',
+          why: 'The place goes in front of the verb in Chinese.',
+        },
+      },
+      {
+        id: 'you-existence',
+        title: '有 for "there is / there are"',
+        waypoint: 'Waypoint 06',
+        template: 'Place + 有 (yǒu) + Thing',
+        why: 'Name the place first, then 有, then the thing. The thing is usually new, so it feels like "a" or "some".',
+        examples: [
+          {
+            hanzi: '我家有四個人。',
+            pinyin: 'wǒ jiā yǒu sì ge rén.',
+            english: 'There are four people in my family.',
+          },
+          {
+            hanzi: '這裡有很多書。',
+            pinyin: 'zhèlǐ yǒu hěn duō shū.',
+            english: 'There are lots of books here.',
+          },
+          {
+            hanzi: '今天有中文課。',
+            pinyin: 'jīntiān yǒu zhōngwén kè.',
+            english: 'There is Chinese class today.',
+          },
+        ],
+        watchOut:
+          'Negate it with 沒有, never 不有 -- 這裡沒有人 (there is nobody here).',
+      },
+      {
+        id: 'here-there',
+        title: '這裡 / 那裡 / 哪裡',
+        waypoint: 'Waypoint 06',
+        template: '這裡 here  ·  那裡 there  ·  哪裡 where',
+        why: 'These are places, so they behave like any other place word -- usually after 在.',
+        examples: [
+          {
+            hanzi: '我在這裡。',
+            pinyin: 'wǒ zài zhèlǐ.',
+            english: 'I am here.',
+          },
+          {
+            hanzi: '你的老師在那裡。',
+            pinyin: 'nǐ de lǎoshī zài nàlǐ.',
+            english: 'Your teacher is over there.',
+          },
+          {
+            hanzi: '你家在哪裡？',
+            pinyin: 'nǐ jiā zài nǎlǐ?',
+            english: 'Where is your home?',
+          },
+        ],
+        watchOut:
+          'In Taiwan you will also hear 這邊 / 那邊 / 哪邊 (zhèbiān...) for the same thing.',
+      },
+    ],
+  },
+  {
+    id: 'comparing',
+    num: '07',
+    title: 'Comparing things',
+    intro:
+      'Chinese does not change the adjective ("taller", "more expensive"). It puts a comparing word in front instead.',
+    points: [
+      {
+        id: 'bi-comparison',
+        title: 'A 比 B + adjective',
+        waypoint: 'Waypoint 09',
+        template: 'A + 比 (bǐ) + B + Adjective',
+        why: '比 does the comparing. The adjective stays in its plain form.',
+        examples: [
+          {
+            hanzi: '我比他高。',
+            pinyin: 'wǒ bǐ tā gāo.',
+            english: 'I am taller than him.',
+          },
+          {
+            hanzi: '今天比昨天冷。',
+            pinyin: 'jīntiān bǐ zuótiān lěng.',
+            english: 'Today is colder than yesterday.',
+          },
+          {
+            hanzi: '這本書比那本貴。',
+            pinyin: 'zhè běn shū bǐ nà běn guì.',
+            english: 'This book is more expensive than that one.',
+          },
+        ],
+        contrast: {
+          wrong: '我比他很高。',
+          right: '我比他高。',
+          why: 'Never put 很 in a 比 sentence -- 比 is already the comparison.',
+        },
+      },
+      {
+        id: 'bi-degree',
+        title: 'Saying by how much',
+        waypoint: 'Waypoint 09',
+        template: 'A + 比 + B + Adjective + amount',
+        why: 'The size of the gap goes after the adjective, never before it.',
+        examples: [
+          {
+            hanzi: '我比他大三歲。',
+            pinyin: 'wǒ bǐ tā dà sān suì.',
+            english: 'I am three years older than him.',
+          },
+          {
+            hanzi: '這個比那個貴一點。',
+            pinyin: 'zhège bǐ nàge guì yìdiǎn.',
+            english: 'This one is a little more expensive than that one.',
+          },
+          {
+            hanzi: '他比我高很多。',
+            pinyin: 'tā bǐ wǒ gāo hěn duō.',
+            english: 'He is much taller than me.',
+          },
+        ],
+      },
+      {
+        id: 'yiyang-same',
+        title: 'A 跟 B 一樣 -- the same',
+        waypoint: 'Waypoint 09',
+        template: 'A + 跟 (gēn) + B + 一樣 (yíyàng) (+ Adjective)',
+        why: '一樣 on its own means "the same"; add an adjective for "just as ... as".',
+        examples: [
+          {
+            hanzi: '我的書跟你的一樣。',
+            pinyin: 'wǒ de shū gēn nǐ de yíyàng.',
+            english: 'My book is the same as yours.',
+          },
+          {
+            hanzi: '他跟我一樣高。',
+            pinyin: 'tā gēn wǒ yíyàng gāo.',
+            english: 'He is the same height as me.',
+          },
+          {
+            hanzi: '這個跟那個一樣貴。',
+            pinyin: 'zhège gēn nàge yíyàng guì.',
+            english: 'This is just as expensive as that one.',
+          },
+        ],
+        watchOut: 'The negative is 不一樣 -- 我的書跟你的不一樣.',
+      },
+      {
+        id: 'meiyou-comparison',
+        title: 'A 沒有 B -- not as ... as',
+        waypoint: 'Waypoint 09',
+        template: 'A + 沒有 (méiyǒu) + B (+ 那麼) + Adjective',
+        why: 'To say something is less, you do not use a negative 比 sentence -- you switch to 沒有.',
+        examples: [
+          {
+            hanzi: '我沒有他高。',
+            pinyin: 'wǒ méiyǒu tā gāo.',
+            english: 'I am not as tall as him.',
+          },
+          {
+            hanzi: '今天沒有昨天那麼冷。',
+            pinyin: 'jīntiān méiyǒu zuótiān nàme lěng.',
+            english: 'Today is not as cold as yesterday.',
+          },
+          {
+            hanzi: '這個沒有那個貴。',
+            pinyin: 'zhège méiyǒu nàge guì.',
+            english: 'This one is not as expensive as that one.',
+          },
+        ],
+        contrast: {
+          wrong: '我不比他高。',
+          right: '我沒有他高。',
+          why: '不比 exists but means "not necessarily more than". For plain "less than", use 沒有.',
+        },
+      },
+      {
+        id: 'zui-most',
+        title: '最 for "the most"',
+        waypoint: 'Waypoint 09',
+        template: 'Subject + 最 (zuì) + Adjective / Verb',
+        why: '最 goes right before the adjective or the feeling verb. No group to compare against is needed.',
+        examples: [
+          {
+            hanzi: '我最喜歡中文。',
+            pinyin: 'wǒ zuì xǐhuān zhōngwén.',
+            english: 'I like Chinese the most.',
+          },
+          {
+            hanzi: '今天最冷。',
+            pinyin: 'jīntiān zuì lěng.',
+            english: 'Today is the coldest.',
+          },
+          {
+            hanzi: '這個最便宜。',
+            pinyin: 'zhège zuì piányi.',
+            english: 'This one is the cheapest.',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'joining',
+    num: '08',
+    title: 'Joining ideas together',
+    intro:
+      'Chinese often marks both halves of a link -- "because ... so ...", "although ... but ...". Keeping both is correct, not redundant.',
+    points: [
+      {
+        id: 'yinwei-suoyi',
+        title: '因為 ... 所以 ... -- because / so',
+        waypoint: 'Waypoint 07',
+        template: '因為 (yīnwèi) + reason, 所以 (suǒyǐ) + result',
+        why: 'Both words stay in. English keeps only one ("Because it rained, I stayed") -- Chinese keeps both.',
+        examples: [
+          {
+            hanzi: '因為今天很冷，所以我不去。',
+            pinyin: 'yīnwèi jīntiān hěn lěng, suǒyǐ wǒ bú qù.',
+            english: 'Because it is cold today, I am not going.',
+          },
+          {
+            hanzi: '因為他很忙，所以沒來。',
+            pinyin: 'yīnwèi tā hěn máng, suǒyǐ méi lái.',
+            english: 'Because he was busy, he did not come.',
+          },
+        ],
+        watchOut:
+          'You can drop one side if the meaning is clear -- 今天很冷，所以我不去 is fine too.',
+      },
+      {
+        id: 'suiran-keshi',
+        title: '雖然 ... 可是 ... -- although / but',
+        waypoint: 'Waypoint 07',
+        template: '雖然 (suīrán) + fact, 可是 (kěshì) + surprise',
+        why: 'Same pattern: both halves are marked. 可是 and 但是 (dànshì) are interchangeable.',
+        examples: [
+          {
+            hanzi: '雖然中文很難，可是很有意思。',
+            pinyin: 'suīrán zhōngwén hěn nán, kěshì hěn yǒu yìsi.',
+            english: 'Although Chinese is hard, it is very interesting.',
+          },
+          {
+            hanzi: '雖然他很忙，可是他很高興。',
+            pinyin: 'suīrán tā hěn máng, kěshì tā hěn gāoxìng.',
+            english: 'Although he is busy, he is happy.',
+          },
+        ],
+      },
+      {
+        id: 'xian-ranhou',
+        title: '先 ... 再 / 然後 ... -- first, then',
+        waypoint: 'Waypoint 08',
+        template: '先 (xiān) + action 1, 再 (zài) / 然後 (ránhòu) + action 2',
+        why: 'Put the steps in the order they happen. 再 here means "and then", not "again".',
+        examples: [
+          {
+            hanzi: '我先吃飯，再看書。',
+            pinyin: 'wǒ xiān chī fàn, zài kàn shū.',
+            english: 'I will eat first, then study.',
+          },
+          {
+            hanzi: '你先說，然後我說。',
+            pinyin: 'nǐ xiān shuō, ránhòu wǒ shuō.',
+            english: 'You speak first, then I will speak.',
+          },
+        ],
+        watchOut:
+          'This 再 is unstressed and points forward. The "again" 再 (再見, 再來一個) is about repeating.',
+      },
+      {
+        id: 'yibian',
+        title: '一邊 ... 一邊 ... -- doing two things at once',
+        waypoint: 'Waypoint 08',
+        template: '一邊 (yìbiān) + Verb 1 + 一邊 + Verb 2',
+        why: 'One subject, two actions happening at the same moment.',
+        examples: [
+          {
+            hanzi: '我一邊吃飯一邊看書。',
+            pinyin: 'wǒ yìbiān chī fàn yìbiān kàn shū.',
+            english: 'I eat and read at the same time.',
+          },
+          {
+            hanzi: '他喜歡一邊喝茶一邊聽音樂。',
+            pinyin: 'tā xǐhuān yìbiān hē chá yìbiān tīng yīnyuè.',
+            english: 'He likes to listen to music while drinking tea.',
+          },
+        ],
+      },
+      {
+        id: 'de-shihou',
+        title: '... 的時候 -- when / while',
+        waypoint: 'Waypoint 08',
+        template: 'Event + 的時候 (de shíhou), main clause',
+        why: '的時候 sits at the END of the "when" part. English puts "when" at the start; Chinese closes the clause with it.',
+        examples: [
+          {
+            hanzi: '我小的時候不喜歡中文。',
+            pinyin: 'wǒ xiǎo de shíhou bù xǐhuān zhōngwén.',
+            english: 'When I was little I did not like Chinese.',
+          },
+          {
+            hanzi: '你來的時候我不在家。',
+            pinyin: 'nǐ lái de shíhou wǒ bú zài jiā.',
+            english: 'When you came I was not home.',
+          },
+        ],
+        contrast: {
+          wrong: '的時候你來，我不在家。',
+          right: '你來的時候，我不在家。',
+          why: '的時候 cannot start the clause -- it has to follow the event.',
+        },
+      },
+    ],
+  },
+  {
+    id: 'mix-ups',
+    num: '09',
+    title: 'Easy things to get wrong',
+    intro:
+      'Pairs of words that map to one English word, plus two habits English speakers carry over by mistake.',
+    points: [
+      {
+        id: 'er-liang',
+        title: '二 vs 兩 -- both are "two"',
+        waypoint: 'Waypoint 03',
+        template: '二 (èr) for counting  ·  兩 (liǎng) before a measure word',
+        why: 'Say 二 when reading numbers (十二, 第二). Say 兩 when "two" is followed by a measure word and a noun.',
+        examples: [
+          {
+            hanzi: '我要兩杯咖啡。',
+            pinyin: 'wǒ yào liǎng bēi kāfēi.',
+            english: 'I want two cups of coffee.',
+          },
+          {
+            hanzi: '現在兩點。',
+            pinyin: 'xiànzài liǎng diǎn.',
+            english: "It is two o'clock now.",
+          },
+          {
+            hanzi: '我有兩個哥哥。',
+            pinyin: 'wǒ yǒu liǎng ge gēge.',
+            english: 'I have two older brothers.',
+          },
+        ],
+        contrast: {
+          wrong: '我有二個朋友。',
+          right: '我有兩個朋友。',
+          why: '個 is a measure word, so "two" in front of it is 兩.',
+        },
+      },
+      {
+        id: 'hui-neng-keyi',
+        title: '會 vs 能 vs 可以 -- three kinds of "can"',
+        waypoint: 'Waypoint 07',
+        template:
+          '會 learned skill  ·  能 circumstances allow  ·  可以 permission',
+        why: 'They are not interchangeable. Pick the one that matches why you can (or cannot).',
+        examples: [
+          {
+            hanzi: '我會說一點中文。',
+            pinyin: 'wǒ huì shuō yìdiǎn zhōngwén.',
+            english: 'I can speak a little Chinese. (skill)',
+          },
+          {
+            hanzi: '我今天很忙，不能去。',
+            pinyin: 'wǒ jīntiān hěn máng, bù néng qù.',
+            english: 'I am busy today, I cannot go. (circumstances)',
+          },
+          {
+            hanzi: '我可以坐這裡嗎？',
+            pinyin: 'wǒ kěyǐ zuò zhèlǐ ma?',
+            english: 'May I sit here? (permission)',
+          },
+        ],
+        contrast: {
+          wrong: '我能說中文。',
+          right: '我會說中文。',
+          why: 'A language is a learned skill, so it takes 會. 能 would mean something is letting you speak right now.',
+        },
+      },
+      {
+        id: 'xiang-yao',
+        title: '想 vs 要 -- two kinds of "want"',
+        waypoint: 'Waypoint 06',
+        template: '想 (xiǎng) would like to  ·  要 (yào) want / will',
+        why: '想 is softer ("feel like"). 要 is firmer and is what you use to order things.',
+        examples: [
+          {
+            hanzi: '我想喝茶。',
+            pinyin: 'wǒ xiǎng hē chá.',
+            english: 'I would like some tea.',
+          },
+          {
+            hanzi: '我要一杯咖啡。',
+            pinyin: 'wǒ yào yì bēi kāfēi.',
+            english: 'I want a cup of coffee.',
+          },
+          {
+            hanzi: '我想去，可是沒有時間。',
+            pinyin: 'wǒ xiǎng qù, kěshì méiyǒu shíjiān.',
+            english: 'I would like to go, but I do not have time.',
+          },
+        ],
+        watchOut:
+          '不想 means "do not feel like". 不要 means "do not want" and can sound like an order (a blunt "no").',
+      },
+      {
+        id: 'dou-placement',
+        title: '都 comes after the group',
+        waypoint: 'Waypoint 02',
+        template: '... the group ... + 都 (dōu) + Verb',
+        why: '都 points backward to something already named, so that thing must come before 都.',
+        examples: [
+          {
+            hanzi: '我們都是學生。',
+            pinyin: 'wǒmen dōu shì xuésheng.',
+            english: 'We are all students.',
+          },
+          {
+            hanzi: '這些書我都看了。',
+            pinyin: 'zhèxiē shū wǒ dōu kàn le.',
+            english: 'I have read all these books.',
+          },
+        ],
+        contrast: {
+          wrong: '都我的朋友喜歡中文。',
+          right: '我的朋友都喜歡中文。',
+          why: '都 cannot start the sentence -- the group it sums up has to come first.',
+        },
+      },
+      {
+        id: 'le-overuse',
+        title: 'Do not put 了 on everything',
+        waypoint: 'Waypoint 05',
+        template:
+          '了 = completed or changed. Not for habits or general truths.',
+        why: 'English past tense is automatic; Chinese 了 is not. Habits, likes, and descriptions take no 了.',
+        examples: [
+          {
+            hanzi: '我每天喝咖啡。',
+            pinyin: 'wǒ měitiān hē kāfēi.',
+            english: 'I drink coffee every day. (habit -- no 了)',
+          },
+          {
+            hanzi: '我很喜歡中文。',
+            pinyin: 'wǒ hěn xǐhuān zhōngwén.',
+            english: 'I like Chinese a lot. (a state -- no 了)',
+          },
+        ],
+        contrast: {
+          wrong: '我昨天很忙了。',
+          right: '我昨天很忙。',
+          why: 'A past state with 很 takes no 了. Use 了 only when the point is that something changed.',
+        },
       },
     ],
   },
