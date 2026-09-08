@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Check, Moon, Shuffle, Sparkles, Sun, Volume2 } f
 
 import { pathways } from '@/lib/pathways';
 import { findGuidedStudyDeck } from '@/lib/study-session';
+import { useMirrorPreference } from '@/lib/use-mirror';
 import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
 import { useTheme } from '@/lib/use-theme';
 import { StudySession } from '@/components/study-session';
@@ -26,6 +27,7 @@ export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: b
   const [order, setOrder] = useState<number[]>([]);
   const [flipped, setFlipped] = useState(false);
   const [showPinyinFront, setShowPinyinFront] = usePinyinciationPreference();
+  const [mirror, setMirror] = useMirrorPreference();
   const [darkMode, setDarkMode] = useTheme();
   const [soundStatus, setSoundStatus] = useState('');
   // A "?guided=1" link (used by the home page callout) opens the guided study
@@ -180,11 +182,18 @@ export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: b
           ) : (
             <>
               <div className="study-toolbar">
-                <label className="pinyin-toggle" aria-label="Show Pinyinciation on the front of each card">
-                  <span><strong>Pinyinciation</strong><small>Show pinyin on the front</small></span>
-                  <input type="checkbox" checked={showPinyinFront} onChange={(event) => setShowPinyinFront(event.target.checked)} />
-                  <span className="toggle-track" aria-hidden="true"><span /></span>
-                </label>
+                <div className="study-toggles">
+                  <label className="pinyin-toggle" aria-label="Show Pinyinciation on the front of each card">
+                    <span><strong>Pinyinciation</strong><small>Show pinyin on the front</small></span>
+                    <input type="checkbox" checked={showPinyinFront} onChange={(event) => setShowPinyinFront(event.target.checked)} />
+                    <span className="toggle-track" aria-hidden="true"><span /></span>
+                  </label>
+                  <label className="pinyin-toggle" aria-label="Mirror: show the English meaning first and recall the Chinese">
+                    <span><strong>Mirror</strong><small>Meaning first, recall the Chinese</small></span>
+                    <input type="checkbox" checked={mirror} onChange={(event) => { setMirror(event.target.checked); setFlipped(false); setSoundStatus(''); }} />
+                    <span className="toggle-track" aria-hidden="true"><span /></span>
+                  </label>
+                </div>
                 <button type="button" className="shuffle-button" onClick={shuffle}><Shuffle aria-hidden="true" /> Shuffle</button>
               </div>
 
@@ -203,21 +212,29 @@ export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: b
               <div className="card-stage">
                 <button
                   type="button"
-                  className={flipped ? 'flashcard flipped' : 'flashcard'}
+                  className={`flashcard${flipped ? ' flipped' : ''}${mirror ? ' mirrored' : ''}`}
                   onClick={() => setFlipped((value) => !value)}
-                  aria-label={flipped ? `Showing meaning: ${card.meaning}. Flip to Chinese.` : `Showing ${card.hanzi}. Flip to English meaning.`}
+                  aria-label={
+                    flipped
+                      ? mirror
+                        ? `Showing ${card.hanzi}. Flip back to the English meaning.`
+                        : `Showing meaning: ${card.meaning}. Flip back to the Chinese.`
+                      : mirror
+                        ? `Showing meaning: ${card.meaning}. Flip to the Chinese.`
+                        : `Showing ${card.hanzi}. Flip to the English meaning.`
+                  }
                 >
                   <span className="card-face card-front">
-                    <small>Traditional Chinese</small>
-                    <strong lang="zh-Hant">{card.hanzi}</strong>
+                    <small>{mirror ? 'English meaning' : 'Traditional Chinese'}</small>
+                    {mirror ? <strong>{card.meaning}</strong> : <strong lang="zh-Hant">{card.hanzi}</strong>}
                     {showPinyinFront && <span>{card.pinyin}</span>}
-                    <em>Tap to reveal meaning</em>
+                    <em>{mirror ? 'Tap to reveal the Chinese' : 'Tap to reveal meaning'}</em>
                   </span>
                   <span className="card-face card-back">
-                    <small>English meaning</small>
-                    <strong>{card.meaning}</strong>
+                    <small>{mirror ? 'Traditional Chinese' : 'English meaning'}</small>
+                    {mirror ? <strong lang="zh-Hant">{card.hanzi}</strong> : <strong>{card.meaning}</strong>}
                     {!showPinyinFront && <span>{card.pinyin}</span>}
-                    <em>Tap to see the Chinese</em>
+                    <em>{mirror ? 'Tap to see the meaning' : 'Tap to see the Chinese'}</em>
                   </span>
                 </button>
                 <button type="button" className="sound-button" onClick={speak} aria-label={`Hear ${card.hanzi} pronounced`}>
