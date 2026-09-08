@@ -1,0 +1,32 @@
+{
+  "1-a": [
+    { "hanzi": "你", "pinyin": "nǐ", "meaning": "you" },
+    { "hanzi": "好", "pinyin": "hǎo", "meaning": "good; fine; well" },
+    { "hanzi": "請", "pinyin": "qǐng", "meaning": "please; to invite" },
+    { "hanzi": "問", "pinyin": "wèn", "meaning": "to ask" },
+    { "hanzi": "貴", "pinyin": "guì", "meaning": "honorable; expensive" },
+    { "hanzi": "姓", "pinyin": "xìng", "meaning": "to be surnamed; surname" },
+    { "hanzi": "我", "pinyin": "wǒ", "meaning": "I; me" },
+    { "hanzi": "呢", "pinyin": "ne", "meaning": "(question particle)" },
+    { "hanzi": "小姐", "pinyin": "xiǎo jiě", "meaning": "Miss; young lady" },
+    { "hanzi": "叫", "pinyin": "jiào", "meaning": "to be called; to call" },
+    { "hanzi": "什麼", "pinyin": "shén me", "meaning": "what" },
+    { "hanzi": "名字", "pinyin": "míng zi", "meaning": "name" },
+    { "hanzi": "先生", "pinyin": "xiān sheng", "meaning": "Mr.; sir; husband; teacher" },
+    { "hanzi": "李", "pinyin": "lǐ", "meaning": "(surname); plum" },
+    { "hanzi": "王", "pinyin": "wáng", "meaning": "(surname); king" }
+  ],
+  "1-b": [
+    { "hanzi": "是", "pinyin": "shì", "meaning": "to be" },
+    { "hanzi": "老師", "pinyin": "lǎo shī", "meaning": "teacher" },
+    { "hanzi": "嗎", "pinyin": "ma", "meaning": "(yes/no question particle)" },
+    { "hanzi": "不", "pinyin": "bù", "meaning": "not; no" },
+    { "hanzi": "學生", "pinyin": "xué sheng", "meaning": "student" },
+    { "hanzi": "也", "pinyin": "yě", "meaning": "also; too" },
+    { "hanzi": "人", "pinyin": "rén", "meaning": "person; people" },
+    { "hanzi": "中國", "pinyin": "zhōng guó", "meaning": "China" },
+    { "hanzi": "北京", "pinyin": "běi jīng", "meaning": "Beijing" },
+    { "hanzi": "美國", "pinyin": "měi guó", "meaning": "America; USA" },
+    { "hanzi": "紐約", "pinyin": "niǔ yuē", "meaning": "New York" }
+  ]
+}
