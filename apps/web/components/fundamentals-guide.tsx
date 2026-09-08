@@ -2,7 +2,6 @@
 
 import { useCallback, useState } from 'react';
 import { ArrowRight, Moon, Sun, Volume2 } from 'lucide-react';
-import Link from 'next/link';
 
 import {
   NUMBERS,
@@ -61,18 +60,18 @@ export function FundamentalsGuide() {
       </div>
 
       <header className="topbar">
-        <Link className="brand" href="/" aria-label="ZiLu home">
+        <a className="brand" href="/" aria-label="ZiLu home">
           <span className="brand-mark">字</span>
           <span>
             <strong>ZiLu</strong>
             <small>Your path into Chinese</small>
           </span>
-        </Link>
+        </a>
         <nav className="topbar-nav" aria-label="Primary">
-          <Link href="/fundamentals" aria-current="page">
+          <a href="/fundamentals" aria-current="page">
             Fundamentals
-          </Link>
-          <Link href="/study">Study</Link>
+          </a>
+          <a href="/study">Study</a>
         </nav>
       </header>
 
@@ -233,9 +232,9 @@ export function FundamentalsGuide() {
             plans. These fundamentals are the bridge that gets you there.
           </p>
         </div>
-        <Link href="/study" className="study-primary">
+        <a href="/study" className="study-primary">
           Go to Study <ArrowRight aria-hidden="true" />
-        </Link>
+        </a>
       </section>
 
       <p className="fundamentals-status" aria-live="polite">

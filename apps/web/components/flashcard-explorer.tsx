@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, Moon, Shuffle, Sparkles, Sun, Volume2 } from 'lucide-react';
-import Link from 'next/link';
 
 import { pathways } from '@/lib/pathways';
 import { findGuidedStudyDeck } from '@/lib/study-session';
@@ -110,13 +109,13 @@ export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: b
     <main className="app-shell" data-theme={darkMode ? 'dark' : 'light'}>
       <div className="ambient" aria-hidden="true"><span /><span /><span /></div>
       <header className="topbar">
-        <Link className="brand" href="/" aria-label="ZiLu home">
+        <a className="brand" href="/" aria-label="ZiLu home">
           <span className="brand-mark">字</span>
           <span><strong>ZiLu</strong><small>Your path into Chinese</small></span>
-        </Link>
+        </a>
         <nav className="topbar-nav" aria-label="Primary">
-          <Link href="/fundamentals">Fundamentals</Link>
-          <Link href="/study" aria-current="page">Study</Link>
+          <a href="/fundamentals">Fundamentals</a>
+          <a href="/study" aria-current="page">Study</a>
         </nav>
         <div className="path-label"><span>Pathway</span><strong>{pathway.name}</strong><small>{pathway.chinese}</small></div>
       </header>

@@ -9,7 +9,6 @@ import {
   Sparkles,
   Sun,
 } from 'lucide-react';
-import Link from 'next/link';
 
 export function HomePage() {
   const [darkMode, setDarkMode] = useState(false);
@@ -23,16 +22,16 @@ export function HomePage() {
       </div>
 
       <header className="topbar">
-        <Link className="brand" href="/" aria-label="ZiLu home">
+        <a className="brand" href="/" aria-label="ZiLu home">
           <span className="brand-mark">字</span>
           <span>
             <strong>ZiLu</strong>
             <small>Your path into Chinese</small>
           </span>
-        </Link>
+        </a>
         <nav className="topbar-nav" aria-label="Primary">
-          <Link href="/fundamentals">Fundamentals</Link>
-          <Link href="/study">Study</Link>
+          <a href="/fundamentals">Fundamentals</a>
+          <a href="/study">Study</a>
         </nav>
       </header>
 
@@ -45,17 +44,17 @@ export function HomePage() {
           and audio support you control.
         </p>
         <div className="home-hero-actions">
-          <Link href="/fundamentals" className="study-primary">
+          <a href="/fundamentals" className="study-primary">
             Start with the fundamentals <ArrowRight aria-hidden="true" />
-          </Link>
-          <Link href="/study" className="study-secondary">
+          </a>
+          <a href="/study" className="study-secondary">
             Browse the flashcard pathways
-          </Link>
+          </a>
         </div>
       </section>
 
       <section className="home-cards" aria-label="Where to go next">
-        <Link href="/fundamentals" className="home-card">
+        <a href="/fundamentals" className="home-card">
           <BookOpenText aria-hidden="true" />
           <h2>Start Here: Fundamentals</h2>
           <p>
@@ -66,9 +65,9 @@ export function HomePage() {
           <span className="home-card-link">
             Learn the basics <ArrowRight aria-hidden="true" />
           </span>
-        </Link>
+        </a>
 
-        <Link href="/study" className="home-card">
+        <a href="/study" className="home-card">
           <Layers aria-hidden="true" />
           <h2>Study Pathways</h2>
           <p>
@@ -79,9 +78,9 @@ export function HomePage() {
           <span className="home-card-link">
             Open the deck browser <ArrowRight aria-hidden="true" />
           </span>
-        </Link>
+        </a>
 
-        <Link href="/study?guided=1" className="home-card home-card-pilot">
+        <a href="/study?guided=1" className="home-card home-card-pilot">
           <Sparkles aria-hidden="true" />
           <h2>Guided study loop</h2>
           <p>
@@ -93,7 +92,7 @@ export function HomePage() {
           <span className="home-card-link">
             Try the guided loop <ArrowRight aria-hidden="true" />
           </span>
-        </Link>
+        </a>
       </section>
 
       <footer className="footer">
