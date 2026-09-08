@@ -330,7 +330,7 @@ button:focus-visible, input:focus-visible + .toggle-track { outline: 3px solid c
 /* Grammar page */
 .grammar-toggles { position: relative; z-index: 1; max-width: 1000px; margin: 20px auto 0; padding: 14px max(24px, calc((100vw - 1440px) / 2)); display: flex; flex-wrap: wrap; gap: 22px 32px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--panel-solid) 55%, transparent); }
 .grammar-points { display: grid; gap: 16px; }
-.grammar-point { border: 1px solid var(--line); border-radius: 18px; padding: 20px; background: var(--panel-solid); }
+.grammar-point { border: 1px solid var(--line); border-radius: 18px; padding: 20px; background: var(--panel-solid); content-visibility: auto; contain-intrinsic-size: auto 360px; }
 .grammar-point-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .grammar-point-head h3 { margin: 0; font-size: 16px; font-weight: 700; }
 .grammar-tag { flex-shrink: 0; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
