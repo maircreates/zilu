@@ -327,6 +327,34 @@ button:focus-visible, input:focus-visible + .toggle-track { outline: 3px solid c
 .number-chip.wide { min-width: 88px; }
 .number-chip.wide small { text-align: center; }
 
+/* Grammar page */
+.grammar-toggles { position: relative; z-index: 1; max-width: 1000px; margin: 20px auto 0; padding: 14px max(24px, calc((100vw - 1440px) / 2)); display: flex; flex-wrap: wrap; gap: 22px 32px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--panel-solid) 55%, transparent); }
+.grammar-points { display: grid; gap: 16px; }
+.grammar-point { border: 1px solid var(--line); border-radius: 18px; padding: 20px; background: var(--panel-solid); }
+.grammar-point-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.grammar-point-head h3 { margin: 0; font-size: 16px; font-weight: 700; }
+.grammar-tag { flex-shrink: 0; color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.grammar-template { margin: 10px 0 0; color: var(--accent-deep); font-family: monospace; font-size: 12px; line-height: 1.5; }
+.grammar-why { margin: 8px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.grammar-examples { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; }
+.grammar-example { display: flex; align-items: flex-start; gap: 12px; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; background: color-mix(in srgb, var(--panel-solid) 60%, transparent); }
+.grammar-speak { flex-shrink: 0; display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel); cursor: pointer; }
+.grammar-speak:hover { border-color: var(--accent); }
+.grammar-speak svg { width: 14px; color: var(--accent-deep); }
+.grammar-example-body { display: grid; gap: 2px; }
+.grammar-cn { font-family: Georgia, 'Noto Serif TC', serif; font-size: 19px; }
+.grammar-py { color: var(--accent-deep); font-size: 12px; }
+.grammar-en { color: var(--muted); font-size: 12px; }
+.grammar-contrast { margin: 14px 0 0; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; background: color-mix(in srgb, var(--accent) 7%, var(--panel-solid)); }
+.grammar-wrong, .grammar-right { display: flex; align-items: baseline; gap: 8px; margin: 0; font-family: Georgia, 'Noto Serif TC', serif; font-size: 15px; }
+.grammar-wrong span:first-child { color: var(--accent-deep); font-weight: 800; }
+.grammar-wrong span:last-child { text-decoration: line-through; opacity: .7; }
+.grammar-right { margin-top: 4px; }
+.grammar-right span:first-child { color: var(--green); font-weight: 800; }
+.grammar-contrast-why { margin: 8px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.grammar-watch { margin: 12px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.grammar-watch strong { color: var(--accent-deep); }
+
 .fundamentals-audio { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 16px; padding: 10px 16px; background: var(--panel); color: inherit; cursor: pointer; }
 .fundamentals-audio:hover { border-color: var(--accent); }
 .fundamentals-audio svg { width: 15px; color: var(--accent-deep); }
@@ -382,9 +410,11 @@ button:focus-visible, input:focus-visible + .toggle-track { outline: 3px solid c
 }
 
 @media (max-width: 640px) {
-  .home-hero, .fundamentals-hero, .fundamentals-section, .fundamentals-cta, .fundamentals-status, .fundamentals-toc { padding-left: 16px; padding-right: 16px; }
+  .home-hero, .fundamentals-hero, .fundamentals-section, .fundamentals-cta, .fundamentals-status, .fundamentals-toc, .grammar-toggles { padding-left: 16px; padding-right: 16px; }
   .fundamentals-cta { flex-direction: column; align-items: stretch; text-align: center; }
   .fundamentals-toc { grid-template-columns: 1fr; }
   .tone-grid { grid-template-columns: 1fr 1fr; }
   .fundamentals-card { flex-direction: column; align-items: flex-start; }
+  .grammar-toggles { gap: 16px; }
+  .grammar-point-head { flex-direction: column; align-items: flex-start; gap: 4px; }
 }

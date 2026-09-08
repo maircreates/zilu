@@ -95,6 +95,7 @@ export function FundamentalsGuide() {
           <a href="/fundamentals" aria-current="page">
             Fundamentals
           </a>
+          <a href="/grammar">Grammar</a>
           <a href="/study">Study</a>
         </nav>
       </header>
@@ -340,11 +341,13 @@ export function FundamentalsGuide() {
           Building a sentence
         </SectionHeading>
         <p>
-          Chinese grammar is not English with the words swapped. These patterns
-          cover most of what a beginner needs to start making sentences.
+          Chinese grammar is not English with the words swapped. Here are the
+          four ideas that matter most on day one. The full reference, with more
+          examples and hide-able pinyin and English, lives on the{' '}
+          <a href="/grammar">Grammar page</a>.
         </p>
         <div className="pattern-grid">
-          {SENTENCE_PATTERNS.map((pattern) => (
+          {SENTENCE_PATTERNS.slice(0, 4).map((pattern) => (
             <article key={pattern.id} className="pattern-card">
               <h3>{pattern.title}</h3>
               <p className="pattern-template">{pattern.template}</p>

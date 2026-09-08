@@ -32,6 +32,7 @@ export function HomePage() {
         </a>
         <nav className="topbar-nav" aria-label="Primary">
           <a href="/fundamentals">Fundamentals</a>
+          <a href="/grammar">Grammar</a>
           <a href="/study">Study</a>
         </nav>
       </header>

@@ -116,6 +116,7 @@ export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: b
         </a>
         <nav className="topbar-nav" aria-label="Primary">
           <a href="/fundamentals">Fundamentals</a>
+          <a href="/grammar">Grammar</a>
           <a href="/study" aria-current="page">Study</a>
         </nav>
         <div className="path-label"><span>Pathway</span><strong>{pathway.name}</strong><small>{pathway.chinese}</small></div>
