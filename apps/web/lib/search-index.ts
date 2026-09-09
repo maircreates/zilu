@@ -120,6 +120,15 @@ export function searchEntries(rawQuery: string, limit = 40): SearchHit[] {
       const at = hit.han.indexOf(needleHan);
       if (at === 0) score = 100;
       else if (at > 0) score = 60;
+      else if (needleHan.length > 1) {
+        // No full match. A phrase like 你好 is often taught as separate words,
+        // so credit each character that turns up somewhere.
+        let parts = 0;
+        for (const ch of needleHan) {
+          if (ch.trim() && hit.han.includes(ch)) parts += 1;
+        }
+        if (parts > 0) score = 18 + parts * 3;
+      }
     } else {
       if (needlePinyin) {
         const at = hit.pinyin.indexOf(needlePinyin);

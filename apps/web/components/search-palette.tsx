@@ -152,8 +152,8 @@ export function SearchPalette() {
           )}
           {trimmed.length > 0 && results.length === 0 && (
             <p className="search-empty">
-              No matches. Try pinyin without tones, a single character, or an
-              English word.
+              No matches. Search one word at a time, try pinyin without tones,
+              or type the character itself.
             </p>
           )}
           {results.map((hit, index) => (
