@@ -238,6 +238,9 @@ export function searchEntries(rawQuery: string, limit = 40): SearchResult[] {
     if (score === 0) continue;
     if (hit.kind === 'vocab') score += 4;
     score -= Math.min(hit.primary.length, 12) * 0.1;
+    // Tie-breaker: a crisp gloss ("not; no") is likelier the word you meant
+    // than one that merely mentions the query ("(yes/no question particle)").
+    score -= Math.min(hit.tertiary.length, 60) * 0.03;
     ranked.push({ result: { ...hit, match }, score });
   }
 
