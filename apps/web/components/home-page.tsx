@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 
 import { useTheme } from '@/lib/use-theme';
+import { SearchTrigger } from '@/components/search-trigger';
 
 export function HomePage() {
   const [darkMode, setDarkMode] = useTheme();
@@ -34,6 +35,7 @@ export function HomePage() {
           <a href="/fundamentals">Fundamentals</a>
           <a href="/grammar">Grammar</a>
           <a href="/study">Study</a>
+          <SearchTrigger />
         </nav>
       </header>
 

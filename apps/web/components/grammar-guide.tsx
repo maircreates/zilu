@@ -7,6 +7,7 @@ import { GRAMMAR_THEMES, type GrammarExample } from '@/lib/grammar';
 import { useEnglishPreference } from '@/lib/use-english';
 import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
 import { useTheme } from '@/lib/use-theme';
+import { SearchTrigger } from '@/components/search-trigger';
 
 function Toggle({
   label,
@@ -99,6 +100,7 @@ export function GrammarGuide() {
             Grammar
           </a>
           <a href="/study">Study</a>
+          <SearchTrigger />
         </nav>
       </header>
 
@@ -150,7 +152,11 @@ export function GrammarGuide() {
 
           <div className="grammar-points">
             {theme.points.map((point) => (
-              <article key={point.id} className="grammar-point">
+              <article
+                key={point.id}
+                id={`point-${point.id}`}
+                className="grammar-point"
+              >
                 <div className="grammar-point-head">
                   <h3>{point.title}</h3>
                   <span className="grammar-tag">{point.waypoint}</span>

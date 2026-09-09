@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import { ArrowRight, Moon, Sun, Volume2 } from 'lucide-react';
 
 import { useTheme } from '@/lib/use-theme';
+import { SearchTrigger } from '@/components/search-trigger';
 import {
   MEASURE_WORDS,
   NUMBER_BUILD,
@@ -97,6 +98,7 @@ export function FundamentalsGuide() {
           </a>
           <a href="/grammar">Grammar</a>
           <a href="/study">Study</a>
+          <SearchTrigger />
         </nav>
       </header>
 

@@ -8,7 +8,15 @@ import { findGuidedStudyDeck } from '@/lib/study-session';
 import { useMirrorPreference } from '@/lib/use-mirror';
 import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
 import { useTheme } from '@/lib/use-theme';
+import { SearchTrigger } from '@/components/search-trigger';
 import { StudySession } from '@/components/study-session';
+
+type ExplorerPosition = {
+  pathwayIndex: number;
+  waypointIndex: number;
+  deckIndex: number;
+  cardIndex: number;
+};
 
 function shuffledIndices(length: number) {
   const result = Array.from({ length }, (_, index) => index);
@@ -19,11 +27,17 @@ function shuffledIndices(length: number) {
   return result;
 }
 
-export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: boolean }) {
-  const [pathwayIndex, setPathwayIndex] = useState(0);
-  const [waypointIndex, setWaypointIndex] = useState(0);
-  const [deckIndex, setDeckIndex] = useState(0);
-  const [cardIndex, setCardIndex] = useState(0);
+export function FlashcardExplorer({
+  initialGuided = false,
+  initialPosition,
+}: {
+  initialGuided?: boolean;
+  initialPosition?: ExplorerPosition;
+}) {
+  const [pathwayIndex, setPathwayIndex] = useState(initialPosition?.pathwayIndex ?? 0);
+  const [waypointIndex, setWaypointIndex] = useState(initialPosition?.waypointIndex ?? 0);
+  const [deckIndex, setDeckIndex] = useState(initialPosition?.deckIndex ?? 0);
+  const [cardIndex, setCardIndex] = useState(initialPosition?.cardIndex ?? 0);
   const [order, setOrder] = useState<number[]>([]);
   const [flipped, setFlipped] = useState(false);
   const [showPinyinFront, setShowPinyinFront] = usePinyinciationPreference();
@@ -35,9 +49,11 @@ export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: b
   // selection this explorer already starts on.
   const [guidedActive, setGuidedActive] = useState(initialGuided);
 
-  const pathway = pathways[pathwayIndex];
-  const waypoint = pathway.waypoints[waypointIndex];
-  const deck = waypoint.decks[deckIndex];
+  // A stale deep link (?pi=…) could point past the end of the data; fall back
+  // to the first entry at each level rather than crashing.
+  const pathway = pathways[pathwayIndex] ?? pathways[0];
+  const waypoint = pathway.waypoints[waypointIndex] ?? pathway.waypoints[0];
+  const deck = waypoint.decks[deckIndex] ?? waypoint.decks[0];
   const guidedDeck = findGuidedStudyDeck(pathway.number, waypoint.number, deck.id);
   const activeOrder = order.length === deck.cards.length ? order : deck.cards.map((_, index) => index);
   const card = deck.cards[activeOrder[cardIndex] ?? 0];
@@ -120,6 +136,7 @@ export function FlashcardExplorer({ initialGuided = false }: { initialGuided?: b
           <a href="/fundamentals">Fundamentals</a>
           <a href="/grammar">Grammar</a>
           <a href="/study" aria-current="page">Study</a>
+          <SearchTrigger />
         </nav>
         <div className="path-label"><span>Pathway</span><strong>{pathway.name}</strong><small>{pathway.chinese}</small></div>
       </header>
