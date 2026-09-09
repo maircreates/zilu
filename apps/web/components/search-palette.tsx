@@ -5,6 +5,19 @@ import { CornerDownLeft, Search, X } from 'lucide-react';
 
 import { searchEntries } from '@/lib/search-index';
 
+function emphasise(text: string, needle: string | undefined) {
+  if (!needle) return text;
+  const at = text.toLowerCase().indexOf(needle.toLowerCase());
+  if (at < 0) return text;
+  return (
+    <>
+      {text.slice(0, at)}
+      <mark className="search-mark">{text.slice(at, at + needle.length)}</mark>
+      {text.slice(at + needle.length)}
+    </>
+  );
+}
+
 function isTypingTarget(target: EventTarget | null): boolean {
   const el = target as HTMLElement | null;
   if (!el) return false;
@@ -172,14 +185,16 @@ export function SearchPalette() {
                   }
                   lang={hit.kind === 'vocab' ? 'zh-Hant' : undefined}
                 >
-                  {hit.primary}
+                  {emphasise(hit.primary, hit.match.primary)}
                 </span>
                 {hit.secondary && (
-                  <span className="search-py">{hit.secondary}</span>
+                  <span className="search-py">
+                    {emphasise(hit.secondary, hit.match.secondary)}
+                  </span>
                 )}
               </span>
               <span className="search-result-sub">
-                {hit.tertiary} · {hit.location}
+                {emphasise(hit.tertiary, hit.match.tertiary)} · {hit.location}
               </span>
             </a>
           ))}
