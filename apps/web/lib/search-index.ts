@@ -188,10 +188,18 @@ function buildIndex(): SearchHit[] {
       const exampleHan = point.examples
         .map((example) => example.hanzi)
         .join(' ');
-      const exampleText = point.examples
-        .map((example) => `${example.pinyin} ${example.english}`)
+      // Keep pure pinyin separate from the template/why prose: a template
+      // like "幾 + measure word + noun" has English scaffolding words that
+      // would otherwise leak into pinyin matching (e.g. "noun" looking like
+      // a syllable string) and outrank real vocabulary.
+      const examplePinyin = point.examples
+        .map((example) => example.pinyin)
+        .join(' ');
+      const exampleEnglish = point.examples
+        .map((example) => example.english)
         .join(' ');
       const first = point.examples[0];
+      const spaced = tonelessSpaced(examplePinyin);
       hits.push({
         kind: 'grammar',
         primary: point.title,
@@ -201,9 +209,9 @@ function buildIndex(): SearchHit[] {
         href: `/grammar#point-${point.id}`,
         primaryIsHanzi: false,
         han: `${point.title} ${point.template} ${exampleHan}`.toLowerCase(),
-        pinyin: collapsePinyin(`${point.template} ${exampleText}`),
-        pinyinSpaced: '',
-        text: `${point.title} ${point.template} ${point.why} ${exampleText}`.toLowerCase(),
+        pinyin: spaced.replace(/ /g, ''),
+        pinyinSpaced: spaced,
+        text: `${point.title} ${point.template} ${point.why} ${examplePinyin} ${exampleEnglish}`.toLowerCase(),
         template: point.template,
         why: point.why,
         example: first
