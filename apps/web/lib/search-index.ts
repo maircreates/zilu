@@ -137,25 +137,6 @@ const SECTION_KEYWORDS: Record<string, string> = {
   study: 'how to study tips habits guided loop audio practice pinyinciation',
 };
 
-const SECTION_NOTES: Record<string, string> = {
-  orientation: 'What "Chinese" means, and how ZiLu presents each word.',
-  characters:
-    'How characters carry meaning, and how words are built from them.',
-  radicals: 'The recurring pieces that turn up across many characters.',
-  pinyin: 'How pinyin spells the sound of a syllable.',
-  tones: 'The four tones plus the neutral tone, with audio.',
-  sounds: 'The sound groups that trip up English speakers, with audio.',
-  pronouns: 'I, you, he, she, we, they -- and how to make them plural.',
-  sentences:
-    'The core sentence patterns, with a link to the full Grammar page.',
-  particles: 'The short words that change what a sentence does.',
-  'measure-words': 'The counting word every number-plus-noun phrase needs.',
-  numbers: 'Zero through ten, then dates, weekdays, and telling time.',
-  phrases:
-    'Ten phrases for greeting, thanking, apologizing, and asking for help.',
-  study: 'Habits that make the flashcard decks actually work.',
-};
-
 function buildIndex(): SearchHit[] {
   const hits: SearchHit[] = [];
   const seenVocab = new Set<string>();
@@ -210,7 +191,7 @@ function buildIndex(): SearchHit[] {
         secondary: '',
         tertiary: 'Grammar',
         location: `${theme.num} · ${theme.title}`,
-        href: `/grammar#point-${point.id}`,
+        href: `/grammar/${theme.id}#point-${point.id}`,
         primaryIsHanzi: false,
         han: `${point.title} ${point.template} ${exampleHan}`.toLowerCase(),
         pinyin: spaced.replace(/ /g, ''),
@@ -234,13 +215,13 @@ function buildIndex(): SearchHit[] {
       secondary: '',
       tertiary: 'Fundamentals',
       location: `${section.num} · Fundamentals`,
-      href: `/fundamentals#${section.id}`,
+      href: `/fundamentals/${section.id}`,
       primaryIsHanzi: false,
       han: '',
       pinyin: '',
       pinyinSpaced: '',
       text: `${section.title} ${SECTION_KEYWORDS[section.id] ?? ''}`.toLowerCase(),
-      note: SECTION_NOTES[section.id],
+      note: section.teaser,
     });
   });
 
@@ -251,7 +232,7 @@ function buildIndex(): SearchHit[] {
       wordHit(
         { hanzi: tone.hanzi, pinyin: tone.pinyin, meaning: tone.meaning },
         '05 · The tones',
-        '/fundamentals#tones',
+        '/fundamentals/tones',
       ),
     );
   });
@@ -264,36 +245,36 @@ function buildIndex(): SearchHit[] {
           meaning: radical.meaning,
         },
         '03 · Radicals',
-        '/fundamentals#radicals',
+        '/fundamentals/radicals',
         radical.asComponent ? `also written ${radical.asComponent}` : '',
       ),
     );
   });
   PRONOUNS.forEach((item) => {
-    hits.push(wordHit(item, '07 · People words', '/fundamentals#pronouns'));
+    hits.push(wordHit(item, '07 · People words', '/fundamentals/pronouns'));
   });
   MEASURE_WORDS.forEach((item) => {
     hits.push(
       wordHit(
         { hanzi: item.hanzi, pinyin: item.pinyin, meaning: item.use },
         '10 · Measure words',
-        '/fundamentals#measure-words',
+        '/fundamentals/measure-words',
       ),
     );
   });
   NUMBERS.forEach((item) => {
     hits.push(
-      wordHit(item, '11 · Numbers, dates, and time', '/fundamentals#numbers'),
+      wordHit(item, '11 · Numbers, dates, and time', '/fundamentals/numbers'),
     );
   });
   NUMBER_BUILD.forEach((item) => {
     hits.push(
-      wordHit(item, '11 · Numbers, dates, and time', '/fundamentals#numbers'),
+      wordHit(item, '11 · Numbers, dates, and time', '/fundamentals/numbers'),
     );
   });
   TIME_WORDS.forEach((item) => {
     hits.push(
-      wordHit(item, '11 · Numbers, dates, and time', '/fundamentals#numbers'),
+      wordHit(item, '11 · Numbers, dates, and time', '/fundamentals/numbers'),
     );
   });
   SURVIVAL_PHRASES.forEach((item) => {
@@ -301,7 +282,7 @@ function buildIndex(): SearchHit[] {
       wordHit(
         item,
         '12 · Survival phrases',
-        '/fundamentals#phrases',
+        '/fundamentals/phrases',
         item.situation,
       ),
     );
@@ -311,7 +292,7 @@ function buildIndex(): SearchHit[] {
       wordHit(
         { hanzi: item.hanzi, pinyin: item.pinyin, meaning: item.role },
         '09 · Little words that do a lot',
-        '/fundamentals#particles',
+        '/fundamentals/particles',
       ),
     );
   });

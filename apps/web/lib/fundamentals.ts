@@ -11,21 +11,88 @@ export type Example = {
   meaning: string;
 };
 
-/** Sections, in learning order. Drives the on-page table of contents. */
+/** Sections, in learning order. Each is its own page under /fundamentals/. */
 export const SECTIONS = [
-  { id: 'orientation', num: '01', title: 'What you are learning' },
-  { id: 'characters', num: '02', title: 'How characters work' },
-  { id: 'radicals', num: '03', title: 'Radicals: the recurring pieces' },
-  { id: 'pinyin', num: '04', title: 'Pinyin, the sound system' },
-  { id: 'tones', num: '05', title: 'The tones' },
-  { id: 'sounds', num: '06', title: 'Sounds that trip up English speakers' },
-  { id: 'pronouns', num: '07', title: 'People words' },
-  { id: 'sentences', num: '08', title: 'Building a sentence' },
-  { id: 'particles', num: '09', title: 'Little words that do a lot' },
-  { id: 'measure-words', num: '10', title: 'Measure words' },
-  { id: 'numbers', num: '11', title: 'Numbers, dates, and time' },
-  { id: 'phrases', num: '12', title: 'Survival phrases' },
-  { id: 'study', num: '13', title: 'How to study with ZiLu' },
+  {
+    id: 'orientation',
+    num: '01',
+    title: 'What you are learning',
+    teaser: 'What "Chinese" means, and how ZiLu presents each word.',
+  },
+  {
+    id: 'characters',
+    num: '02',
+    title: 'How characters work',
+    teaser: 'How characters carry meaning, and how words are built from them.',
+  },
+  {
+    id: 'radicals',
+    num: '03',
+    title: 'Radicals: the recurring pieces',
+    teaser: 'The recurring pieces that turn up across many characters.',
+  },
+  {
+    id: 'pinyin',
+    num: '04',
+    title: 'Pinyin, the sound system',
+    teaser: 'How pinyin spells the sound of a syllable.',
+  },
+  {
+    id: 'tones',
+    num: '05',
+    title: 'The tones',
+    teaser:
+      'The four tones plus the neutral tone, with audio and a listening drill.',
+  },
+  {
+    id: 'sounds',
+    num: '06',
+    title: 'Sounds that trip up English speakers',
+    teaser: 'The sound groups that trip up English speakers, with audio.',
+  },
+  {
+    id: 'pronouns',
+    num: '07',
+    title: 'People words',
+    teaser: 'I, you, he, she, we, they -- and how to make them plural.',
+  },
+  {
+    id: 'sentences',
+    num: '08',
+    title: 'Building a sentence',
+    teaser: 'The core sentence patterns, with a link to the full Grammar page.',
+  },
+  {
+    id: 'particles',
+    num: '09',
+    title: 'Little words that do a lot',
+    teaser: 'The short words that change what a sentence does.',
+  },
+  {
+    id: 'measure-words',
+    num: '10',
+    title: 'Measure words',
+    teaser: 'The counting word every number-plus-noun phrase needs.',
+  },
+  {
+    id: 'numbers',
+    num: '11',
+    title: 'Numbers, dates, and time',
+    teaser: 'Zero through ten, then dates, weekdays, and telling time.',
+  },
+  {
+    id: 'phrases',
+    num: '12',
+    title: 'Survival phrases',
+    teaser:
+      'Ten phrases for greeting, thanking, apologizing, and asking for help.',
+  },
+  {
+    id: 'study',
+    num: '13',
+    title: 'How to study with ZiLu',
+    teaser: 'Habits that make the flashcard decks actually work.',
+  },
 ] as const;
 
 export type Radical = {

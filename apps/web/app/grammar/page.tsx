@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { GrammarGuide } from '@/components/grammar-guide';
+import { GrammarHub } from '@/components/grammar-hub';
 
 export const metadata: Metadata = {
   title: 'Grammar — ZiLu',
@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function GrammarPage() {
-  return <GrammarGuide />;
+  return <GrammarHub />;
 }

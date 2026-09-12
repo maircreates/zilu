@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { FundamentalsGuide } from '@/components/fundamentals-guide';
+import { FundamentalsHub } from '@/components/fundamentals-hub';
 
 export const metadata: Metadata = {
   title: 'Fundamentals — ZiLu',
@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function FundamentalsPage() {
-  return <FundamentalsGuide />;
+  return <FundamentalsHub />;
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { Moon, Sun, Volume2 } from 'lucide-react';
+import { ArrowLeft, Moon, Sun, Volume2 } from 'lucide-react';
 
 import { GRAMMAR_THEMES, type GrammarExample } from '@/lib/grammar';
 import { useEnglishPreference } from '@/lib/use-english';
@@ -38,7 +38,7 @@ function Toggle({
   );
 }
 
-export function GrammarGuide() {
+export function GrammarThemePage({ themeId }: { themeId: string }) {
   const [status, setStatus] = useState('');
   const [darkMode, setDarkMode] = useTheme();
   const [showPinyin, setShowPinyin] = usePinyinciationPreference();
@@ -78,6 +78,11 @@ export function GrammarGuide() {
     </li>
   );
 
+  const index = GRAMMAR_THEMES.findIndex((item) => item.id === themeId);
+  const theme = GRAMMAR_THEMES[index] ?? GRAMMAR_THEMES[0];
+  const prev = GRAMMAR_THEMES[index - 1];
+  const next = GRAMMAR_THEMES[index + 1];
+
   return (
     <main className="app-shell">
       <div className="ambient" aria-hidden="true">
@@ -104,14 +109,16 @@ export function GrammarGuide() {
         </nav>
       </header>
 
+      <a href="/grammar" className="subpage-back">
+        <ArrowLeft aria-hidden="true" /> Grammar
+      </a>
+
       <section className="fundamentals-hero">
-        <span className="eyebrow">Reference</span>
-        <h1>Grammar</h1>
-        <p>
-          The patterns a beginner needs, grouped by what you are trying to do.
-          Every example has a speak button. Hide the pinyin or the English with
-          the switches below and the page becomes a self-test.
-        </p>
+        <span className="eyebrow">
+          Grammar · {theme.num} / {GRAMMAR_THEMES.length}
+        </span>
+        <h1 id="theme-heading">{theme.title}</h1>
+        <p>{theme.intro}</p>
       </section>
 
       <div className="grammar-toggles">
@@ -129,83 +136,70 @@ export function GrammarGuide() {
         />
       </div>
 
-      <nav className="fundamentals-toc" aria-label="On this page">
-        {GRAMMAR_THEMES.map((theme) => (
-          <a key={theme.id} href={`#${theme.id}`}>
-            <span>{theme.num}</span>
-            {theme.title}
-          </a>
-        ))}
-      </nav>
+      <section className="fundamentals-section" aria-labelledby="theme-heading">
+        <div className="grammar-points">
+          {theme.points.map((point) => (
+            <article
+              key={point.id}
+              id={`point-${point.id}`}
+              className="grammar-point"
+            >
+              <div className="grammar-point-head">
+                <h3>{point.title}</h3>
+                <span className="grammar-tag">{point.waypoint}</span>
+              </div>
+              <p className="grammar-template">{point.template}</p>
+              <p className="grammar-why">{point.why}</p>
 
-      {GRAMMAR_THEMES.map((theme) => (
-        <section
-          key={theme.id}
-          id={theme.id}
-          className="fundamentals-section"
-          aria-labelledby={`${theme.id}-heading`}
-        >
-          <h2 id={`${theme.id}-heading`}>
-            <span className="section-num">{theme.num}</span> {theme.title}
-          </h2>
-          <p>{theme.intro}</p>
+              <ul className="grammar-examples">
+                {point.examples.map(renderExample)}
+              </ul>
 
-          <div className="grammar-points">
-            {theme.points.map((point) => (
-              <article
-                key={point.id}
-                id={`point-${point.id}`}
-                className="grammar-point"
-              >
-                <div className="grammar-point-head">
-                  <h3>{point.title}</h3>
-                  <span className="grammar-tag">{point.waypoint}</span>
-                </div>
-                <p className="grammar-template">{point.template}</p>
-                <p className="grammar-why">{point.why}</p>
-
-                <ul className="grammar-examples">
-                  {point.examples.map(renderExample)}
-                </ul>
-
-                {point.contrast && (
-                  <div className="grammar-contrast">
-                    <p className="grammar-wrong">
-                      <span aria-hidden="true">✗</span>
-                      <span lang="zh-Hant">{point.contrast.wrong}</span>
-                    </p>
-                    <p className="grammar-right">
-                      <span aria-hidden="true">✓</span>
-                      <span lang="zh-Hant">{point.contrast.right}</span>
-                    </p>
-                    <p className="grammar-contrast-why">{point.contrast.why}</p>
-                  </div>
-                )}
-
-                {point.watchOut && (
-                  <p className="grammar-watch">
-                    <strong>Watch out</strong> {point.watchOut}
+              {point.contrast && (
+                <div className="grammar-contrast">
+                  <p className="grammar-wrong">
+                    <span aria-hidden="true">✗</span>
+                    <span lang="zh-Hant">{point.contrast.wrong}</span>
                   </p>
-                )}
-              </article>
-            ))}
-          </div>
-        </section>
-      ))}
+                  <p className="grammar-right">
+                    <span aria-hidden="true">✓</span>
+                    <span lang="zh-Hant">{point.contrast.right}</span>
+                  </p>
+                  <p className="grammar-contrast-why">{point.contrast.why}</p>
+                </div>
+              )}
 
-      <section className="fundamentals-cta">
-        <div>
-          <h2>That is the core of it</h2>
-          <p>
-            These nine themes cover the grammar a beginner meets first. The way
-            to lock them in is to keep meeting them -- open a deck, and watch
-            for these patterns in every phrase.
-          </p>
+              {point.watchOut && (
+                <p className="grammar-watch">
+                  <strong>Watch out</strong> {point.watchOut}
+                </p>
+              )}
+            </article>
+          ))}
         </div>
-        <a href="/study" className="study-primary">
-          Go to Study
-        </a>
       </section>
+
+      <nav className="subpage-pager" aria-label="Theme navigation">
+        {prev ? (
+          <a href={`/grammar/${prev.id}`} className="pager-prev">
+            <small>&larr; {prev.num}</small>
+            <strong>{prev.title}</strong>
+          </a>
+        ) : (
+          <span />
+        )}
+        {next ? (
+          <a href={`/grammar/${next.id}`} className="pager-next">
+            <small>{next.num} &rarr;</small>
+            <strong>{next.title}</strong>
+          </a>
+        ) : (
+          <a href="/study" className="pager-next">
+            <small>Next &rarr;</small>
+            <strong>Go to Study</strong>
+          </a>
+        )}
+      </nav>
 
       <p className="fundamentals-status" aria-live="polite">
         {status}
