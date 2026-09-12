@@ -10,7 +10,7 @@
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "deploy": "vinext build && wrangler deploy --config dist/server/wrangler.json",
-    "lint": "oxlint app components/flashcard-explorer.tsx components/study-session.tsx components/home-page.tsx components/fundamentals-hub.tsx components/fundamentals-section-page.tsx components/grammar-hub.tsx components/grammar-theme-page.tsx components/search-palette.tsx components/search-trigger.tsx components/tone-drill.tsx components/pwa-register.tsx lib/pathways.ts lib/study-session.ts lib/use-pinyinciation.ts lib/use-theme.ts lib/use-english.ts lib/use-mirror.ts lib/fundamentals.ts lib/grammar.ts lib/search-index.ts",
+    "lint": "oxlint app components/flashcard-explorer.tsx components/study-session.tsx components/home-page.tsx components/fundamentals-hub.tsx components/fundamentals-section-page.tsx components/grammar-hub.tsx components/grammar-theme-page.tsx components/search-palette.tsx components/search-trigger.tsx components/tone-drill.tsx components/pwa-register.tsx components/stroke-practice.tsx lib/pathways.ts lib/study-session.ts lib/use-pinyinciation.ts lib/use-theme.ts lib/use-english.ts lib/use-mirror.ts lib/fundamentals.ts lib/grammar.ts lib/search-index.ts",
     "format": "oxfmt"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "cmdk": "1.1.1",
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.2",
+    "hanzi-writer": "^3.7.3",
     "input-otp": "1.4.2",
     "lucide-react": "1.31.0",
     "react": "19.2.6",

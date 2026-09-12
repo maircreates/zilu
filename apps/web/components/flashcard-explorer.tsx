@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, ArrowRight, Check, Moon, Shuffle, Sparkles, Sun, Volume2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Moon, PenLine, Shuffle, Sparkles, Sun, Volume2 } from 'lucide-react';
 
 import { pathways } from '@/lib/pathways';
 import { findGuidedStudyDeck } from '@/lib/study-session';
@@ -9,6 +9,7 @@ import { useMirrorPreference } from '@/lib/use-mirror';
 import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
 import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
+import { StrokePractice } from '@/components/stroke-practice';
 import { StudySession } from '@/components/study-session';
 
 type ExplorerPosition = {
@@ -44,6 +45,7 @@ export function FlashcardExplorer({
   const [mirror, setMirror] = useMirrorPreference();
   const [darkMode, setDarkMode] = useTheme();
   const [soundStatus, setSoundStatus] = useState('');
+  const [practiceOpen, setPracticeOpen] = useState(false);
   // A "?guided=1" link (used by the home page callout) opens the guided study
   // session immediately, on top of the default Pathway 01 / Waypoint 01 / Deck A
   // selection this explorer already starts on.
@@ -72,6 +74,7 @@ export function FlashcardExplorer({
     setFlipped(false);
     setSoundStatus('');
     setGuidedActive(false);
+    setPracticeOpen(false);
   }
 
   function resetDeck(nextWaypoint: number, nextDeck: number) {
@@ -82,12 +85,14 @@ export function FlashcardExplorer({
     setFlipped(false);
     setSoundStatus('');
     setGuidedActive(false);
+    setPracticeOpen(false);
   }
 
   function move(direction: -1 | 1) {
     setCardIndex((current) => (current + direction + deck.cards.length) % deck.cards.length);
     setFlipped(false);
     setSoundStatus('');
+    setPracticeOpen(false);
   }
 
   function shuffle() {
@@ -95,6 +100,7 @@ export function FlashcardExplorer({
     setCardIndex(0);
     setFlipped(false);
     setSoundStatus('Deck shuffled');
+    setPracticeOpen(false);
   }
 
   function speak(event: React.MouseEvent<HTMLButtonElement>) {
@@ -257,7 +263,18 @@ export function FlashcardExplorer({
                 <button type="button" className="sound-button" onClick={speak} aria-label={`Hear ${card.hanzi} pronounced`}>
                   <Volume2 aria-hidden="true" /><span>Hear it</span>
                 </button>
+                <button type="button" className="practice-button" onClick={() => setPracticeOpen(true)} aria-label={`Practice writing ${card.hanzi}`}>
+                  <PenLine aria-hidden="true" /><span>Practice writing</span>
+                </button>
               </div>
+
+              {practiceOpen && (
+                <StrokePractice
+                  hanzi={card.hanzi}
+                  meaning={card.meaning}
+                  onClose={() => setPracticeOpen(false)}
+                />
+              )}
 
               <div className="card-controls">
                 <button type="button" onClick={() => move(-1)} aria-label="Previous card"><ArrowLeft aria-hidden="true" /><span>Previous</span></button>

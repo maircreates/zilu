@@ -143,6 +143,9 @@ input:checked + .toggle-track span { left: 18px; background: var(--green); }
 .sound-button { position: absolute; right: 20px; top: 20px; z-index: 3; display: flex; align-items: center; gap: 7px; border: 1px solid var(--line); border-radius: 99px; padding: 9px 12px; background: var(--panel-solid); box-shadow: 0 6px 20px rgba(0,0,0,.08); cursor: pointer; font-size: 10px; font-weight: 700; }
 .sound-button:hover { color: var(--accent-deep); border-color: var(--accent); }
 .sound-button svg { width: 15px; }
+.practice-button { position: absolute; left: 20px; top: 20px; z-index: 3; display: flex; align-items: center; gap: 7px; border: 1px solid var(--line); border-radius: 99px; padding: 9px 12px; background: var(--panel-solid); box-shadow: 0 6px 20px rgba(0,0,0,.08); cursor: pointer; font-size: 10px; font-weight: 700; }
+.practice-button:hover { color: var(--accent-deep); border-color: var(--accent); }
+.practice-button svg { width: 15px; }
 
 .card-controls { max-width: 760px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px; margin: 18px auto 0; }
 .card-controls > button { display: flex; align-items: center; gap: 8px; border: 0; padding: 9px 0; background: transparent; cursor: pointer; color: var(--muted); font-size: 11px; font-weight: 700; }
@@ -264,7 +267,7 @@ button:focus-visible, input:focus-visible + .toggle-track { outline: 3px solid c
   .card-front strong { font-size: clamp(50px, 18vw, 78px); }
   .flashcard.mirrored .card-front strong { font-size: clamp(24px, 7vw, 40px); }
   .flashcard.mirrored .card-back strong { font-size: clamp(50px, 18vw, 78px); }
-  .sound-button span { display: none; }
+  .sound-button span, .practice-button span { display: none; }
   .card-controls > button span { display: none; }
   .footer { align-items: flex-start; flex-direction: column; }
   .theme-control { align-self: stretch; justify-content: flex-end; }
@@ -445,6 +448,23 @@ button:focus-visible, input:focus-visible + .toggle-track { outline: 3px solid c
 .search-foot span { display: inline-flex; align-items: center; gap: 5px; }
 .search-foot kbd { display: inline-grid; place-items: center; min-width: 16px; height: 16px; padding: 0 3px; border: 1px solid var(--line); border-radius: 4px; font-family: inherit; font-size: 9px; }
 .search-foot kbd svg { width: 9px; }
+
+/* Stroke-order writing practice */
+.stroke-dialog { width: min(640px, calc(100vw - 32px)); margin: 8vh auto auto; padding: 0; border: 0; background: transparent; color: var(--ink); overflow: visible; }
+.stroke-dialog::backdrop { background: rgba(9, 13, 20, .5); backdrop-filter: blur(3px); }
+.stroke-panel { position: relative; z-index: 1; max-height: 82vh; overflow-y: auto; border: 1px solid var(--line); border-radius: 20px; padding: 20px; background: var(--panel-solid); box-shadow: var(--shadow); }
+.stroke-panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.stroke-panel-head strong { display: block; font-family: Georgia, 'Noto Serif TC', serif; font-size: 22px; }
+.stroke-panel-head span { color: var(--muted); font-size: 12px; }
+.stroke-hint { margin: 10px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.stroke-chars { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; }
+.stroke-char { display: grid; gap: 8px; justify-items: center; }
+.stroke-canvas { width: 150px; height: 150px; border: 1px solid var(--line); border-radius: 14px; background: #fbfaf3; overflow: hidden; }
+.stroke-char-controls { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 150px; }
+.stroke-char-controls button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; border: 1px solid var(--line); border-radius: 9px; padding: 6px 9px; background: var(--panel); color: inherit; font-size: 11px; font-weight: 700; cursor: pointer; width: 100%; }
+.stroke-char-controls button:hover { border-color: var(--accent); }
+.stroke-char-controls button svg { width: 12px; }
+.stroke-char-status { min-height: 14px; color: var(--muted); font-size: 11px; text-align: center; }
 
 .fundamentals-audio { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 16px; padding: 10px 16px; background: var(--panel); color: inherit; cursor: pointer; }
 .fundamentals-audio:hover { border-color: var(--accent); }
