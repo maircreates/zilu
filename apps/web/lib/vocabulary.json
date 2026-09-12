@@ -95,7 +95,7 @@
     {
       "hanzi": "糟糕",
       "pinyin": "zāo gāo",
-      "meaning": "ina terrible mess, how terrible"
+      "meaning": "in a terrible mess, how terrible"
     },
     {
       "hanzi": "下雨",
@@ -150,7 +150,7 @@
     {
       "hanzi": "加州",
       "pinyin": "jiā zhōu",
-      "meaning": "california"
+      "meaning": "California"
     }
   ],
   "12-a": [
@@ -162,7 +162,7 @@
     {
       "hanzi": "好像",
       "pinyin": "hǎo xiàng",
-      "meaning": "toseem, to be like"
+      "meaning": "to seem, to be like"
     },
     {
       "hanzi": "位子",
@@ -197,12 +197,12 @@
     {
       "hanzi": "餃子",
       "pinyin": "jiǎo zi",
-      "meaning": "dumplings"
+      "meaning": "dumplings (with vegetable and/or meat filling)"
     },
     {
       "hanzi": "素",
       "pinyin": "sù",
-      "meaning": "vegetarian(lit.plain)"
+      "meaning": "vegetarian (lit. plain)"
     },
     {
       "hanzi": "家常",
@@ -217,7 +217,7 @@
     {
       "hanzi": "放",
       "pinyin": "fàng",
-      "meaning": "to let go, to set free fang"
+      "meaning": "to put, to place"
     },
     {
       "hanzi": "肉",
@@ -252,7 +252,7 @@
     {
       "hanzi": "味精",
       "pinyin": "wèi jīng",
-      "meaning": "monosodium glutamate(MSG)"
+      "meaning": "monosodium glutamate (MSG)"
     },
     {
       "hanzi": "鹽",
@@ -263,6 +263,61 @@
       "hanzi": "小白菜",
       "pinyin": "xiǎo bái cài",
       "meaning": "baby bok choy"
+    },
+    {
+      "hanzi": "剛",
+      "pinyin": "gāng",
+      "meaning": "just"
+    },
+    {
+      "hanzi": "賣完",
+      "pinyin": "mài wán",
+      "meaning": "to be sold out"
+    },
+    {
+      "hanzi": "完",
+      "pinyin": "wán",
+      "meaning": "finished"
+    },
+    {
+      "hanzi": "青菜",
+      "pinyin": "qīng cài",
+      "meaning": "green, leafy vegetable"
+    },
+    {
+      "hanzi": "冰茶",
+      "pinyin": "bīng chá",
+      "meaning": "iced tea"
+    },
+    {
+      "hanzi": "冰",
+      "pinyin": "bīng",
+      "meaning": "ice"
+    },
+    {
+      "hanzi": "渴",
+      "pinyin": "kě",
+      "meaning": "thirsty"
+    },
+    {
+      "hanzi": "些",
+      "pinyin": "xiē",
+      "meaning": "(measure word for an indefinite amount), some"
+    },
+    {
+      "hanzi": "夠",
+      "pinyin": "gòu",
+      "meaning": "enough"
+    },
+    {
+      "hanzi": "餓",
+      "pinyin": "è",
+      "meaning": "hungry"
+    },
+    {
+      "hanzi": "上菜",
+      "pinyin": "shàng cài",
+      "meaning": "to serve food"
     }
   ],
   "12-b": [
@@ -309,7 +364,7 @@
     {
       "hanzi": "紅燒",
       "pinyin": "hóng shāo",
-      "meaning": "to braise in soy sauce(tored-cook)"
+      "meaning": "to braise in soy sauce (to red-cook)"
     },
     {
       "hanzi": "牛肉",
@@ -329,7 +384,7 @@
     {
       "hanzi": "涼拌",
       "pinyin": "liáng bàn",
-      "meaning": "(of food) cold\"blended, \"cold tossed"
+      "meaning": "(of food) cold \"blended,\" cold tossed"
     },
     {
       "hanzi": "黃瓜",
@@ -344,17 +399,17 @@
     {
       "hanzi": "忘",
       "pinyin": "wàng",
-      "meaning": "to forget to bring, to take, to carry"
+      "meaning": "to forget"
     },
     {
       "hanzi": "帶",
       "pinyin": "dài",
-      "meaning": "to bring; to take; to carry; to come with"
+      "meaning": "to bring, to take, to carry, to come with"
     },
     {
       "hanzi": "飯卡",
       "pinyin": "fàn kǎ",
-      "meaning": "to come with meal card"
+      "meaning": "meal card"
     },
     {
       "hanzi": "錯",
@@ -366,12 +421,12 @@
     {
       "hanzi": "上",
       "pinyin": "shàng",
-      "meaning": "to go[colloq.]"
+      "meaning": "to go [colloq.]"
     },
     {
       "hanzi": "中心",
       "pinyin": "zhōng xīn",
-      "meaning": "center to be told, to hear of"
+      "meaning": "center"
     },
     {
       "hanzi": "聽說",
@@ -391,7 +446,7 @@
     {
       "hanzi": "旁邊",
       "pinyin": "páng biān",
-      "meaning": "side; beside"
+      "meaning": "side"
     },
     {
       "hanzi": "遠",
@@ -411,7 +466,7 @@
     {
       "hanzi": "活動",
       "pinyin": "huó dòng",
-      "meaning": "near activity"
+      "meaning": "activity"
     },
     {
       "hanzi": "中間",
@@ -447,8 +502,8 @@
     },
     {
       "hanzi": "過",
-      "pinyin": "guò",
-      "meaning": "to celebrate (a festival), to pass guo"
+      "pinyin": "guo",
+      "meaning": "(particle used after a verb to indicate a past experience)"
     },
     {
       "hanzi": "地圖",
@@ -466,14 +521,19 @@
       "meaning": "(measure word for frequency)"
     },
     {
+      "hanzi": "從",
+      "pinyin": "cóng",
+      "meaning": "from"
+    },
+    {
       "hanzi": "一直",
       "pinyin": "yì zhí",
-      "meaning": "from prep straight, continuously"
+      "meaning": "straight, continuously"
     },
     {
       "hanzi": "往",
       "pinyin": "wǎng",
-      "meaning": "towards prep"
+      "meaning": "towards"
     },
     {
       "hanzi": "南",
@@ -493,12 +553,12 @@
     {
       "hanzi": "拐",
       "pinyin": "guǎi",
-      "meaning": "toturn"
+      "meaning": "to turn"
     },
     {
       "hanzi": "哎",
       "pinyin": "āi",
-      "meaning": "(exclamatory particle to express excl surprise or dissatisfaction)"
+      "meaning": "(exclamatory particle to express surprise or dissatisfaction)"
     },
     {
       "hanzi": "東",
@@ -536,19 +596,9 @@
       "meaning": "left"
     },
     {
-      "hanzi": "摩托車",
-      "pinyin": "mó tuō chē",
-      "meaning": "as you lookout the window.What message does the sign have for"
-    },
-    {
-      "hanzi": "靠右",
-      "pinyin": "kào yòu",
-      "meaning": "keep right"
-    },
-    {
       "hanzi": "前面",
       "pinyin": "qián miàn",
-      "meaning": "partof Definition Speech ahead, nfront"
+      "meaning": "ahead, in front of"
     },
     {
       "hanzi": "谷歌",
@@ -558,69 +608,69 @@
     {
       "hanzi": "日文",
       "pinyin": "rì wén",
-      "meaning": "Japanese language"
-    },
-    {
-      "hanzi": "日本",
-      "pinyin": "rì běn",
-      "meaning": "Japan"
+      "meaning": "Japanese (language)"
     },
     {
       "hanzi": "東京",
       "pinyin": "dōng jīng",
       "meaning": "Tokyo"
+    },
+    {
+      "hanzi": "日本",
+      "pinyin": "rì běn",
+      "meaning": "Japan"
     }
   ],
   "14-a": [
     {
       "hanzi": "過",
       "pinyin": "guò",
-      "meaning": "to celebrate (a festival), to pass guo"
+      "meaning": "to live (a life), to observe (a holiday), to celebrate (a festival), to pass"
     },
     {
       "hanzi": "舞會",
       "pinyin": "wǔ huì",
-      "meaning": "dance party, ball wihui"
+      "meaning": "dance party, ball"
     },
     {
       "hanzi": "表姐",
       "pinyin": "biǎo jiě",
-      "meaning": "older female cousin bia o jie"
+      "meaning": "older female cousin"
     },
     {
       "hanzi": "中學",
       "pinyin": "zhōng xué",
-      "meaning": "middle school, secondary school zhong xue"
+      "meaning": "middle school, secondary school"
     },
     {
       "hanzi": "送",
       "pinyin": "sòng",
-      "meaning": "togive as a gift song"
+      "meaning": "to give as a gift"
     },
     {
       "hanzi": "禮物",
       "pinyin": "lǐ wù",
-      "meaning": "gift, present liwu"
+      "meaning": "gift, present"
     },
     {
       "hanzi": "本",
       "pinyin": "běn",
-      "meaning": "(measure word for books) ben"
+      "meaning": "(measure word for books)"
     },
     {
       "hanzi": "飲料",
       "pinyin": "yǐn liào",
-      "meaning": "yin lido beverage"
+      "meaning": "beverage"
     },
     {
       "hanzi": "水果",
       "pinyin": "shuǐ guǒ",
-      "meaning": "shui guo fruit"
+      "meaning": "fruit"
     },
     {
       "hanzi": "把",
       "pinyin": "bǎ",
-      "meaning": "(indicating disposition, arrangement, or settlement of something)"
+      "meaning": "(measure word for things with handles, for handfuls of things)"
     },
     {
       "hanzi": "花",
@@ -630,7 +680,7 @@
     {
       "hanzi": "愛",
       "pinyin": "ài",
-      "meaning": "to love; to like"
+      "meaning": "to love, to like, to be fond of"
     },
     {
       "hanzi": "蘋果",
@@ -640,17 +690,17 @@
     {
       "hanzi": "梨",
       "pinyin": "lí",
-      "meaning": "li pear"
+      "meaning": "pear"
     },
     {
       "hanzi": "西瓜",
       "pinyin": "xī guā",
-      "meaning": "xigua"
+      "meaning": "watermelon"
     },
     {
       "hanzi": "住",
       "pinyin": "zhù",
-      "meaning": "to live in a place"
+      "meaning": "to live (in a certain place)"
     },
     {
       "hanzi": "重",
@@ -661,6 +711,16 @@
       "hanzi": "接",
       "pinyin": "jiē",
       "meaning": "to catch; to meet; to welcome"
+    },
+    {
+      "hanzi": "樓",
+      "pinyin": "lóu",
+      "meaning": "multi-story building, floor (of a multi-level building)"
+    },
+    {
+      "hanzi": "王紅",
+      "pinyin": "wáng hóng",
+      "meaning": "a personal name"
     }
   ],
   "14-b": [
@@ -697,7 +757,7 @@
     {
       "hanzi": "長",
       "pinyin": "zhǎng",
-      "meaning": "togrow, to appear"
+      "meaning": "to grow, to appear"
     },
     {
       "hanzi": "可愛",
@@ -757,7 +817,7 @@
     {
       "hanzi": "一定",
       "pinyin": "yí dìng",
-      "meaning": "certain, definite; certainly, def in it ly"
+      "meaning": "certain, definite; certainly, definitely"
     },
     {
       "hanzi": "蛋糕",
@@ -767,7 +827,17 @@
     {
       "hanzi": "最",
       "pinyin": "zuì",
-      "meaning": "most, (of superlative degree)-est"
+      "meaning": "most, (of superlative degree) -est"
+    },
+    {
+      "hanzi": "海倫",
+      "pinyin": "hǎi lún",
+      "meaning": "Helen"
+    },
+    {
+      "hanzi": "湯姆",
+      "pinyin": "tāng mǔ",
+      "meaning": "Tom"
     }
   ],
   "15-a": [
@@ -862,6 +932,11 @@
       "meaning": "to get sick from bad food"
     },
     {
+      "hanzi": "壞",
+      "pinyin": "huài",
+      "meaning": "bad"
+    },
+    {
       "hanzi": "打針",
       "pinyin": "dǎ zhēn",
       "meaning": "to get an injection"
@@ -896,7 +971,7 @@
     {
       "hanzi": "過敏",
       "pinyin": "guò mǐn",
-      "meaning": "itchy to be allergic to"
+      "meaning": "to be allergic to"
     },
     {
       "hanzi": "藥店",
@@ -916,7 +991,7 @@
     {
       "hanzi": "趕快",
       "pinyin": "gǎn kuài",
-      "meaning": "quickly; right away"
+      "meaning": "right away, quickly, in a hurry"
     },
     {
       "hanzi": "要不然",
@@ -963,7 +1038,7 @@
     {
       "hanzi": "印象",
       "pinyin": "yìn xiàng",
-      "meaning": "impression yin xiang"
+      "meaning": "impression"
     },
     {
       "hanzi": "成",
@@ -973,44 +1048,44 @@
     {
       "hanzi": "演",
       "pinyin": "yǎn",
-      "meaning": "to show a film; to perform"
+      "meaning": "to show (a film), to perform"
     },
     {
       "hanzi": "費",
       "pinyin": "fèi",
-      "meaning": "to spend; to take effort; fee; expense"
+      "meaning": "to spend, to take (effort)"
     },
     {
       "hanzi": "力氣",
       "pinyin": "lì qì",
-      "meaning": "to spend, totake(effort) strength, effort liqi"
+      "meaning": "strength, effort"
     },
     {
       "hanzi": "就",
       "pinyin": "jiù",
-      "meaning": "just, only(indicating a small number) n!!"
+      "meaning": "just, only (indicating a small number)"
     },
     {
       "hanzi": "倆",
       "pinyin": "liǎ",
-      "meaning": "lia (coll.)two nu+m"
+      "meaning": "(coll.) two"
     },
     {
       "hanzi": "後天",
       "pinyin": "hòu tiān",
-      "meaning": "hou tian the day after tomorrow"
+      "meaning": "the day after tomorrow"
     },
     {
       "hanzi": "一言為定",
-      "pinyin": "yī yán wèi dìng",
-      "meaning": "yiyan wei ding that settles it, that s settled, t'sdeci"
+      "pinyin": "yī yán wéi dìng",
+      "meaning": "that settles it, that's settled, it's decided"
     }
   ],
   "16-b": [
     {
       "hanzi": "記得",
-      "pinyin": "jì dé",
-      "meaning": "to remember jide"
+      "pinyin": "jì de",
+      "meaning": "to remember"
     },
     {
       "hanzi": "記",
@@ -1025,22 +1100,22 @@
     {
       "hanzi": "想起來",
       "pinyin": "xiǎng qǐ lái",
-      "meaning": "xiang to remember, to recall xiang qilai"
+      "meaning": "to remember, to recall"
     },
     {
       "hanzi": "號碼",
       "pinyin": "hào mǎ",
-      "meaning": "haoma number"
+      "meaning": "number"
     },
     {
       "hanzi": "搬",
       "pinyin": "bān",
-      "meaning": "tomove ban"
+      "meaning": "to move"
     },
     {
       "hanzi": "打掃",
       "pinyin": "dǎ sǎo",
-      "meaning": "to clean a room or home"
+      "meaning": "to clean up (a room, apartment or house)"
     },
     {
       "hanzi": "掃",
@@ -1050,22 +1125,22 @@
     {
       "hanzi": "整理",
       "pinyin": "zhěng lǐ",
-      "meaning": "sao to sweep zheng li to put in order"
+      "meaning": "to put in order"
     },
     {
       "hanzi": "房間",
       "pinyin": "fáng jiān",
-      "meaning": "fin g jian room"
+      "meaning": "room"
     },
     {
       "hanzi": "旅行",
       "pinyin": "lǚ xíng",
-      "meaning": "laxing to travel"
+      "meaning": "to travel"
     },
     {
       "hanzi": "電",
       "pinyin": "diàn",
-      "meaning": "dian electricity"
+      "meaning": "electricity"
     }
   ],
   "17-a": [
@@ -1077,62 +1152,62 @@
     {
       "hanzi": "連",
       "pinyin": "lián",
-      "meaning": "even prep lian"
+      "meaning": "even"
     },
     {
       "hanzi": "做飯",
       "pinyin": "zuò fàn",
-      "meaning": "tocook, to prepare a meal zuofan"
+      "meaning": "to cook, to prepare a meal"
     },
     {
       "hanzi": "報紙",
       "pinyin": "bào zhǐ",
-      "meaning": "newspaper baozhi"
+      "meaning": "newspaper"
     },
     {
       "hanzi": "廣告",
       "pinyin": "guǎng gào",
-      "meaning": "advertisement guang g do"
+      "meaning": "advertisement"
     },
     {
       "hanzi": "附近",
       "pinyin": "fù jìn",
-      "meaning": "vicinity, i ghb or hood, nar by re fijin"
+      "meaning": "vicinity, neighborhood, nearby area"
     },
     {
       "hanzi": "套",
       "pinyin": "tào",
-      "meaning": "(measure word for things that come tao inaset/sets)"
+      "meaning": "(measure word for things that come in a set/sets)"
     },
     {
       "hanzi": "公寓",
       "pinyin": "gōng yù",
-      "meaning": "gongyu apartment"
+      "meaning": "apartment"
     },
     {
       "hanzi": "出租",
       "pinyin": "chū zū",
-      "meaning": "chuzu to rent out"
+      "meaning": "to rent out"
     },
     {
       "hanzi": "走路",
       "pinyin": "zǒu lù",
-      "meaning": "zoulu to walk"
+      "meaning": "to walk"
     },
     {
       "hanzi": "分鐘",
       "pinyin": "fēn zhōng",
-      "meaning": "fen zhong minute"
+      "meaning": "minute"
     },
     {
       "hanzi": "臥室",
       "pinyin": "wò shì",
-      "meaning": "woshi bedroom"
+      "meaning": "bedroom"
     },
     {
       "hanzi": "廚房",
       "pinyin": "chú fáng",
-      "meaning": "chi fang kitchen"
+      "meaning": "kitchen"
     },
     {
       "hanzi": "衛生間",
@@ -1152,7 +1227,7 @@
     {
       "hanzi": "可能",
       "pinyin": "kě néng",
-      "meaning": "keneng mv/adj"
+      "meaning": "may; possible"
     }
   ],
   "17-b": [
@@ -1163,63 +1238,63 @@
     },
     {
       "hanzi": "乾淨",
-      "pinyin": "qián jìng",
+      "pinyin": "gān jìng",
       "meaning": "clean"
     },
     {
       "hanzi": "沙發",
       "pinyin": "shā fā",
-      "meaning": "sofa prys"
+      "meaning": "sofa"
     },
     {
       "hanzi": "飯桌",
       "pinyin": "fàn zhuō",
-      "meaning": "dining table fan zhuo"
+      "meaning": "dining table"
     },
     {
       "hanzi": "椅子",
       "pinyin": "yǐ zi",
-      "meaning": "chair yizi"
+      "meaning": "chair"
     },
     {
       "hanzi": "書桌",
       "pinyin": "shū zhuō",
-      "meaning": "desk shu zhuo"
+      "meaning": "desk"
     },
     {
       "hanzi": "書架",
       "pinyin": "shū jià",
-      "meaning": "shui jia bookcase, bookshelf"
+      "meaning": "bookcase, bookshelf"
     },
     {
       "hanzi": "那裡",
       "pinyin": "nà lǐ",
-      "meaning": "ndli there"
+      "meaning": "there"
     },
     {
       "hanzi": "安靜",
       "pinyin": "ān jìng",
-      "meaning": "anjing qulet"
+      "meaning": "quiet"
     },
     {
       "hanzi": "房租",
       "pinyin": "fáng zū",
-      "meaning": "fingzi rent"
+      "meaning": "rent"
     },
     {
       "hanzi": "元",
       "pinyin": "yuán",
-      "meaning": "(measure word for the basic yuan"
+      "meaning": "(measure word for the basic Chinese monetary unit), yuan"
     },
     {
       "hanzi": "美元",
       "pinyin": "měi yuán",
-      "meaning": "chl nes e monetary unit), yuan Mei yuan American dollar(USD)"
+      "meaning": "American dollar (USD)"
     },
     {
       "hanzi": "人民幣",
       "pinyin": "rén mín bì",
-      "meaning": "renminbi; Chinese currency"
+      "meaning": "renminbi (RMB, Chinese currency)"
     },
     {
       "hanzi": "人民",
@@ -1234,12 +1309,12 @@
     {
       "hanzi": "差不多",
       "pinyin": "chà bu duō",
-      "meaning": "bi currency ch abu duo adv/adj"
+      "meaning": "almost, nearly; similar"
     },
     {
       "hanzi": "費",
       "pinyin": "fèi",
-      "meaning": "to spend; to take effort; fee; expense"
+      "meaning": "fee, expenses"
     },
     {
       "hanzi": "押金",
@@ -1249,22 +1324,22 @@
     {
       "hanzi": "當",
       "pinyin": "dāng",
-      "meaning": "to serve as; to be"
+      "meaning": "to serve as, to be"
     },
     {
       "hanzi": "還",
-      "pinyin": "hái",
-      "meaning": "to return something"
+      "pinyin": "huán",
+      "meaning": "to return (something)"
     },
     {
       "hanzi": "另外",
       "pinyin": "lìng wài",
-      "meaning": "furthermore; in addition"
+      "meaning": "furthermore, in addition"
     },
     {
-      "hanzi": "準",
+      "hanzi": "准",
       "pinyin": "zhǔn",
-      "meaning": "to allow; to be allowed"
+      "meaning": "to allow, to be allowed"
     },
     {
       "hanzi": "養",
@@ -1274,7 +1349,7 @@
     {
       "hanzi": "寵物",
       "pinyin": "chǒng wù",
-      "meaning": "to raise pet"
+      "meaning": "pet"
     },
     {
       "hanzi": "興趣",
@@ -1296,7 +1371,7 @@
     {
       "hanzi": "怕",
       "pinyin": "pà",
-      "meaning": "tofear, to be afraid of"
+      "meaning": "to fear, to be afraid of"
     },
     {
       "hanzi": "簡單",
@@ -1306,12 +1381,12 @@
     {
       "hanzi": "跑步",
       "pinyin": "pǎo bù",
-      "meaning": "tojog"
+      "meaning": "to jog"
     },
     {
       "hanzi": "跑",
       "pinyin": "pǎo",
-      "meaning": "torun"
+      "meaning": "to run"
     },
     {
       "hanzi": "難受",
@@ -1336,7 +1411,7 @@
     {
       "hanzi": "游泳",
       "pinyin": "yóu yǒng",
-      "meaning": "toswim"
+      "meaning": "to swim"
     },
     {
       "hanzi": "危險",
@@ -1358,32 +1433,32 @@
     {
       "hanzi": "上大學",
       "pinyin": "shàng dà xué",
-      "meaning": "to attend college/university shang daxue"
+      "meaning": "to attend college/university"
     },
     {
       "hanzi": "為了",
       "pinyin": "wèi le",
-      "meaning": "for the sake of prep weile"
+      "meaning": "for the sake of"
     },
     {
       "hanzi": "提高",
       "pinyin": "tí gāo",
-      "meaning": "to improve, to raise, to heighten tigao"
+      "meaning": "to improve, to raise, to heighten"
     },
     {
       "hanzi": "水平",
       "pinyin": "shuǐ píng",
-      "meaning": "level, standard shui ping"
+      "meaning": "level, standard"
     },
     {
       "hanzi": "足球",
       "pinyin": "zú qiú",
-      "meaning": "soccer, football zuqiu"
+      "meaning": "soccer, football"
     },
     {
       "hanzi": "比賽",
       "pinyin": "bǐ sài",
-      "meaning": "game, match, competition; to compete n/v bisai"
+      "meaning": "game, match, competition; to compete"
     },
     {
       "hanzi": "國際",
@@ -1398,12 +1473,12 @@
     {
       "hanzi": "應該",
       "pinyin": "yīng gāi",
-      "meaning": "should, ought to ying gai"
+      "meaning": "should, ought to"
     },
     {
       "hanzi": "腳",
       "pinyin": "jiǎo",
-      "meaning": "jiao foot"
+      "meaning": "foot"
     },
     {
       "hanzi": "踢",
@@ -1438,79 +1513,89 @@
     {
       "hanzi": "棒",
       "pinyin": "bàng",
-      "meaning": "fantastic; great"
+      "meaning": "fantastic, super [colloq.]"
+    },
+    {
+      "hanzi": "運動服",
+      "pinyin": "yùn dòng fú",
+      "meaning": "sportswear, athletic clothing"
+    },
+    {
+      "hanzi": "半天",
+      "pinyin": "bàn tiān",
+      "meaning": "half a day, a long time"
     }
   ],
   "19-a": [
     {
       "hanzi": "馬上",
       "pinyin": "mǎ shàng",
-      "meaning": "immediately, right away ma shang"
+      "meaning": "immediately, right away"
     },
     {
       "hanzi": "放假",
       "pinyin": "fàng jià",
-      "meaning": "go on vacation, have time off fang jia"
+      "meaning": "go on vacation, have time off"
     },
     {
       "hanzi": "放",
       "pinyin": "fàng",
-      "meaning": "to let go, to set free fang"
+      "meaning": "to let go, to set free"
     },
     {
       "hanzi": "假",
-      "pinyin": "jiǎ",
-      "meaning": "vacation, holiday jia"
+      "pinyin": "jià",
+      "meaning": "vacation, holiday"
     },
     {
       "hanzi": "公司",
       "pinyin": "gōng sī",
-      "meaning": "gongsi company"
+      "meaning": "company"
     },
     {
       "hanzi": "實習",
       "pinyin": "shí xí",
-      "meaning": "to intern shixi"
+      "meaning": "to intern"
     },
     {
       "hanzi": "打工",
       "pinyin": "dǎ gōng",
-      "meaning": "to work at a temporary job dagong (often part time)"
+      "meaning": "to work at a temporary job (often part time)"
     },
     {
       "hanzi": "計劃",
       "pinyin": "jì huà",
-      "meaning": "jihua n/v plan; to plan"
+      "meaning": "plan; to plan"
     },
     {
       "hanzi": "暑假",
       "pinyin": "shǔ jià",
-      "meaning": "shujid summer vacation"
+      "meaning": "summer vacation"
     },
     {
       "hanzi": "打算",
       "pinyin": "dǎ suàn",
-      "meaning": "dasuan to plan; plan v/n"
+      "meaning": "to plan; plan"
     },
     {
       "hanzi": "父母",
       "pinyin": "fù mǔ",
-      "meaning": "fumu parents, father and mother"
+      "meaning": "parents, father and mother"
     },
     {
       "hanzi": "首都",
       "pinyin": "shǒu dū",
-      "meaning": "shoudu capital city"
+      "meaning": "capital city"
     },
     {
       "hanzi": "政治",
       "pinyin": "zhèng zhì",
-      "meaning": "zheng zhi politics"
+      "meaning": "politics"
     },
     {
       "hanzi": "文化",
       "pinyin": "wén huà",
-      "meaning": "wenhua culture"
+      "meaning": "culture"
     },
     {
       "hanzi": "名勝古蹟",
@@ -1536,6 +1621,31 @@
       "hanzi": "簽證",
       "pinyin": "qiān zhèng",
       "meaning": "visa"
+    },
+    {
+      "hanzi": "旅行社",
+      "pinyin": "lǚ xíng shè",
+      "meaning": "travel agency"
+    },
+    {
+      "hanzi": "訂",
+      "pinyin": "dìng",
+      "meaning": "to reserve, to book (a ticket, a hotel room, etc.)"
+    },
+    {
+      "hanzi": "長城",
+      "pinyin": "cháng chéng",
+      "meaning": "the Great Wall"
+    },
+    {
+      "hanzi": "香港",
+      "pinyin": "xiāng gǎng",
+      "meaning": "Hong Kong"
+    },
+    {
+      "hanzi": "台北",
+      "pinyin": "tái běi",
+      "meaning": "Taipei"
     }
   ],
   "19-b": [
@@ -1547,17 +1657,17 @@
     {
       "hanzi": "單程",
       "pinyin": "dān chéng",
-      "meaning": "beginning"
+      "meaning": "one-way trip"
     },
     {
       "hanzi": "往返",
       "pinyin": "wǎng fǎn",
-      "meaning": "one-way trip"
+      "meaning": "make a round trip, go there and back"
     },
     {
       "hanzi": "航空",
       "pinyin": "háng kōng",
-      "meaning": "make around trip, go there and back aviation"
+      "meaning": "aviation"
     },
     {
       "hanzi": "查",
@@ -1572,7 +1682,7 @@
     {
       "hanzi": "千",
       "pinyin": "qiān",
-      "meaning": "nu thousand"
+      "meaning": "thousand"
     },
     {
       "hanzi": "直飛",
@@ -1592,7 +1702,7 @@
     {
       "hanzi": "靠",
       "pinyin": "kào",
-      "meaning": "to leanon, to lean against, to be next to"
+      "meaning": "to lean on, to lean against, to be next to"
     },
     {
       "hanzi": "窗戶",
@@ -1642,14 +1752,14 @@
       "meaning": "luggage"
     },
     {
-      "hanzi": "託運",
+      "hanzi": "托運",
       "pinyin": "tuō yùn",
-      "meaning": "to check luggage"
+      "meaning": "to check (luggage)"
     },
     {
       "hanzi": "包",
       "pinyin": "bāo",
-      "meaning": "bag, sack, bundle, ackage"
+      "meaning": "bag, sack, bundle, package"
     },
     {
       "hanzi": "箱子",
@@ -1659,7 +1769,7 @@
     {
       "hanzi": "超重",
       "pinyin": "chāo zhòng",
-      "meaning": "to be overweight(of luggage, freight, etc.)"
+      "meaning": "to be overweight (of luggage, freight, etc.)"
     },
     {
       "hanzi": "超",
@@ -1689,12 +1799,12 @@
     {
       "hanzi": "哭",
       "pinyin": "kū",
-      "meaning": "to cry, toweep"
+      "meaning": "to cry, to weep"
     },
     {
       "hanzi": "地",
-      "pinyin": "dì",
-      "meaning": "(particle to link adverbial and verb) P"
+      "pinyin": "de",
+      "meaning": "(particle to link adverbial and verb)"
     },
     {
       "hanzi": "照顧",
@@ -1704,7 +1814,7 @@
     {
       "hanzi": "起飛",
       "pinyin": "qǐ fēi",
-      "meaning": "(of airplanes)to take off"
+      "meaning": "(of airplanes) to take off"
     },
     {
       "hanzi": "小心",
@@ -1736,7 +1846,7 @@
     {
       "hanzi": "瘦",
       "pinyin": "shòu",
-      "meaning": "thin, skinny, lean paternal grandfather"
+      "meaning": "thin, skinny, lean"
     },
     {
       "hanzi": "爺爺",
