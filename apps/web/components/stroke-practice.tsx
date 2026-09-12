@@ -24,9 +24,28 @@ async function loadCharData(char: string): Promise<CharacterJson> {
   return (await cdn.json()) as CharacterJson;
 }
 
+type Speed = 'slow' | 'normal' | 'fast';
+
+const SPEED_OPTIONS: { id: Speed; label: string }[] = [
+  { id: 'slow', label: 'Slow' },
+  { id: 'normal', label: 'Normal' },
+  { id: 'fast', label: 'Fast' },
+];
+
+// HanziWriter's own defaults are strokeAnimationSpeed: 1, delayBetweenStrokes:
+// 1000 -- that is "normal" here.
+const SPEED_SETTINGS: Record<
+  Speed,
+  { strokeAnimationSpeed: number; delayBetweenStrokes: number }
+> = {
+  slow: { strokeAnimationSpeed: 0.5, delayBetweenStrokes: 1300 },
+  normal: { strokeAnimationSpeed: 1, delayBetweenStrokes: 1000 },
+  fast: { strokeAnimationSpeed: 2.5, delayBetweenStrokes: 350 },
+};
+
 type CharState = 'active' | 'done' | 'error';
 
-function CharacterPractice({ char }: { char: string }) {
+function CharacterPractice({ char, speed }: { char: string; speed: Speed }) {
   const mountRef = useRef<HTMLDivElement>(null);
   const writerRef = useRef<HanziWriter | null>(null);
   const [state, setState] = useState<CharState>('active');
@@ -66,6 +85,7 @@ function CharacterPractice({ char }: { char: string }) {
       outlineColor: '#d9d4c3',
       highlightColor: '#ef765d',
       drawingColor: '#bc4938',
+      ...SPEED_SETTINGS[speed],
       charDataLoader: loadCharData,
       onLoadCharDataError: () => {
         if (!cancelled) setState('error');
@@ -87,7 +107,7 @@ function CharacterPractice({ char }: { char: string }) {
       writerRef.current = null;
       el.innerHTML = '';
     };
-  }, [char]);
+  }, [char, speed]);
 
   return (
     <div className="stroke-char">
@@ -135,6 +155,7 @@ export function StrokePractice({
   onClose: () => void;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const [speed, setSpeed] = useState<Speed>('normal');
   // oxlint-disable-next-line typescript/no-misused-spread -- Traditional characters here are single code points, no combining marks
   const chars = [...hanzi].filter((ch) => HAN_CHAR.test(ch));
 
@@ -179,9 +200,27 @@ export function StrokePractice({
           Trace each character in its box. Miss a few times and the next stroke
           lights up to help.
         </p>
+        <fieldset className="stroke-speed">
+          <legend className="sr-only">Demo animation speed</legend>
+          {SPEED_OPTIONS.map((option) => (
+            <button
+              key={option.id}
+              type="button"
+              className={option.id === speed ? 'active' : ''}
+              onClick={() => setSpeed(option.id)}
+              aria-pressed={option.id === speed}
+            >
+              {option.label}
+            </button>
+          ))}
+        </fieldset>
         <div className="stroke-chars">
           {chars.map((char, index) => (
-            <CharacterPractice key={`${char}-${index}`} char={char} />
+            <CharacterPractice
+              key={`${char}-${index}`}
+              char={char}
+              speed={speed}
+            />
           ))}
         </div>
       </div>

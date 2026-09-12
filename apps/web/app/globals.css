@@ -457,6 +457,9 @@ button:focus-visible, input:focus-visible + .toggle-track { outline: 3px solid c
 .stroke-panel-head strong { display: block; font-family: Georgia, 'Noto Serif TC', serif; font-size: 22px; }
 .stroke-panel-head span { color: var(--muted); font-size: 12px; }
 .stroke-hint { margin: 10px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.stroke-speed { display: inline-flex; margin: 12px 0 0; border: 1px solid var(--line); border-radius: 10px; padding: 3px; gap: 2px; }
+.stroke-speed button { border: 0; border-radius: 7px; padding: 6px 12px; background: transparent; color: var(--muted); font-size: 11px; font-weight: 700; cursor: pointer; }
+.stroke-speed button.active { background: var(--accent); color: #fff; }
 .stroke-chars { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; }
 .stroke-char { display: grid; gap: 8px; justify-items: center; }
 .stroke-canvas { width: 150px; height: 150px; border: 1px solid var(--line); border-radius: 14px; background: #fbfaf3; overflow: hidden; }
