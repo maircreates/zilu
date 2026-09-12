@@ -11,6 +11,7 @@ import {
   NUMBERS,
   PARTICLES,
   PRONOUNS,
+  RADICALS,
   SECTIONS,
   SENTENCE_PATTERNS,
   SOUND_CONTRASTS,
@@ -210,11 +211,62 @@ export function FundamentalsGuide() {
       </section>
 
       <section
+        id="radicals"
+        className="fundamentals-section"
+        aria-labelledby="radicals-heading"
+      >
+        <SectionHeading id="radicals" num="03">
+          Radicals: the recurring pieces
+        </SectionHeading>
+        <p>
+          Most characters are built from smaller, reused pieces called
+          radicals. Learning a radical is not extra work on top of a
+          character -- it is a shortcut that makes the <em>next</em> ten
+          characters with that piece easier to guess and remember.
+        </p>
+        <div className="radical-grid">
+          {RADICALS.map((radical) => (
+            <article key={radical.hanzi} className="radical-card">
+              <div className="radical-head">
+                <AudioButton hanzi={radical.hanzi} onSpeak={speak} />
+                <div className="radical-head-text">
+                  <strong>{radical.pinyin}</strong>
+                  <span>{radical.meaning}</span>
+                </div>
+                {radical.asComponent && (
+                  <span className="radical-as" lang="zh-Hant">
+                    as {radical.asComponent}
+                  </span>
+                )}
+              </div>
+              <p className="radical-tip">{radical.tip}</p>
+              <ul className="radical-examples">
+                {radical.examples.map((example) => (
+                  <li key={example.hanzi}>
+                    <button
+                      type="button"
+                      onClick={() => speak(example.hanzi)}
+                      aria-label={`Hear ${example.hanzi} pronounced`}
+                    >
+                      <span lang="zh-Hant">{example.hanzi}</span>
+                    </button>
+                    <small>
+                      {example.pinyin} · {example.meaning}
+                    </small>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section
         id="pinyin"
         className="fundamentals-section"
         aria-labelledby="pinyin-heading"
       >
-        <SectionHeading id="pinyin" num="03">
+        <SectionHeading id="pinyin" num="04">
           Pinyin, the sound system
         </SectionHeading>
         <p>
@@ -249,7 +301,7 @@ export function FundamentalsGuide() {
         className="fundamentals-section"
         aria-labelledby="tones-heading"
       >
-        <SectionHeading id="tones" num="04">
+        <SectionHeading id="tones" num="05">
           The tones
         </SectionHeading>
         <p>
@@ -285,7 +337,7 @@ export function FundamentalsGuide() {
         className="fundamentals-section"
         aria-labelledby="sounds-heading"
       >
-        <SectionHeading id="sounds" num="05">
+        <SectionHeading id="sounds" num="06">
           Sounds that trip up English speakers
         </SectionHeading>
         <p>
@@ -308,7 +360,7 @@ export function FundamentalsGuide() {
         className="fundamentals-section"
         aria-labelledby="pronouns-heading"
       >
-        <SectionHeading id="pronouns" num="06">
+        <SectionHeading id="pronouns" num="07">
           People words
         </SectionHeading>
         <p>
@@ -339,7 +391,7 @@ export function FundamentalsGuide() {
         className="fundamentals-section"
         aria-labelledby="sentences-heading"
       >
-        <SectionHeading id="sentences" num="07">
+        <SectionHeading id="sentences" num="08">
           Building a sentence
         </SectionHeading>
         <p>
@@ -371,7 +423,7 @@ export function FundamentalsGuide() {
         className="fundamentals-section"
         aria-labelledby="particles-heading"
       >
-        <SectionHeading id="particles" num="08">
+        <SectionHeading id="particles" num="09">
           Little words that do a lot
         </SectionHeading>
         <p>
@@ -400,7 +452,7 @@ export function FundamentalsGuide() {
         className="fundamentals-section"
         aria-labelledby="measure-words-heading"
       >
-        <SectionHeading id="measure-words" num="09">
+        <SectionHeading id="measure-words" num="10">
           Measure words
         </SectionHeading>
         <p>
@@ -431,7 +483,7 @@ export function FundamentalsGuide() {
         className="fundamentals-section"
         aria-labelledby="numbers-heading"
       >
-        <SectionHeading id="numbers" num="10">
+        <SectionHeading id="numbers" num="11">
           Numbers, dates, and time
         </SectionHeading>
         <p>Learn zero through ten and the rest is mostly assembly.</p>
@@ -487,7 +539,7 @@ export function FundamentalsGuide() {
         className="fundamentals-section"
         aria-labelledby="phrases-heading"
       >
-        <SectionHeading id="phrases" num="11">
+        <SectionHeading id="phrases" num="12">
           Survival phrases
         </SectionHeading>
         <p>
@@ -511,7 +563,7 @@ export function FundamentalsGuide() {
         className="fundamentals-section"
         aria-labelledby="study-heading"
       >
-        <SectionHeading id="study" num="12">
+        <SectionHeading id="study" num="13">
           How to study with ZiLu
         </SectionHeading>
         <p>

@@ -15,17 +15,173 @@ export type Example = {
 export const SECTIONS = [
   { id: 'orientation', num: '01', title: 'What you are learning' },
   { id: 'characters', num: '02', title: 'How characters work' },
-  { id: 'pinyin', num: '03', title: 'Pinyin, the sound system' },
-  { id: 'tones', num: '04', title: 'The tones' },
-  { id: 'sounds', num: '05', title: 'Sounds that trip up English speakers' },
-  { id: 'pronouns', num: '06', title: 'People words' },
-  { id: 'sentences', num: '07', title: 'Building a sentence' },
-  { id: 'particles', num: '08', title: 'Little words that do a lot' },
-  { id: 'measure-words', num: '09', title: 'Measure words' },
-  { id: 'numbers', num: '10', title: 'Numbers, dates, and time' },
-  { id: 'phrases', num: '11', title: 'Survival phrases' },
-  { id: 'study', num: '12', title: 'How to study with ZiLu' },
+  { id: 'radicals', num: '03', title: 'Radicals: the recurring pieces' },
+  { id: 'pinyin', num: '04', title: 'Pinyin, the sound system' },
+  { id: 'tones', num: '05', title: 'The tones' },
+  { id: 'sounds', num: '06', title: 'Sounds that trip up English speakers' },
+  { id: 'pronouns', num: '07', title: 'People words' },
+  { id: 'sentences', num: '08', title: 'Building a sentence' },
+  { id: 'particles', num: '09', title: 'Little words that do a lot' },
+  { id: 'measure-words', num: '10', title: 'Measure words' },
+  { id: 'numbers', num: '11', title: 'Numbers, dates, and time' },
+  { id: 'phrases', num: '12', title: 'Survival phrases' },
+  { id: 'study', num: '13', title: 'How to study with ZiLu' },
 ] as const;
+
+export type Radical = {
+  hanzi: string;
+  /** The compressed left/top-side form, when it differs from the standalone character. */
+  asComponent?: string;
+  pinyin: string;
+  meaning: string;
+  tip: string;
+  examples: Example[];
+};
+
+// A hand-picked starter set, not the full 214 Kangxi radicals -- just the
+// dozen or so that turn up constantly in early vocabulary. Meanings and
+// component forms are standard linguistic fact, not textbook text; the tips
+// and example pairings are written for ZiLu.
+export const RADICALS: Radical[] = [
+  {
+    hanzi: '人',
+    asComponent: '亻',
+    pinyin: 'rén',
+    meaning: 'person',
+    tip: 'One of the most common pieces in the whole script. On the left side of a character it narrows to 亻 -- still "person", just compressed.',
+    examples: [
+      { hanzi: '你', pinyin: 'nǐ', meaning: 'you' },
+      { hanzi: '他', pinyin: 'tā', meaning: 'he; him' },
+      { hanzi: '們', pinyin: 'men', meaning: '(marks a plural)' },
+    ],
+  },
+  {
+    hanzi: '口',
+    pinyin: 'kǒu',
+    meaning: 'mouth',
+    tip: 'A square standing for an open mouth. Shows up in most words about eating, speaking, or a small enclosed space.',
+    examples: [
+      { hanzi: '吃', pinyin: 'chī', meaning: 'to eat' },
+      { hanzi: '喝', pinyin: 'hē', meaning: 'to drink' },
+      { hanzi: '叫', pinyin: 'jiào', meaning: 'to be called; to call' },
+    ],
+  },
+  {
+    hanzi: '女',
+    pinyin: 'nǚ',
+    meaning: 'woman',
+    tip: 'A kneeling figure, used across words about women and family. 好 (good) is famously "woman + child" side by side.',
+    examples: [
+      { hanzi: '媽', pinyin: 'mā', meaning: 'mom' },
+      { hanzi: '她', pinyin: 'tā', meaning: 'she; her' },
+      { hanzi: '好', pinyin: 'hǎo', meaning: 'good; fine; well' },
+    ],
+  },
+  {
+    hanzi: '心',
+    asComponent: '忄',
+    pinyin: 'xīn',
+    meaning: 'heart',
+    tip: 'Feelings, thoughts, and states of mind live here. On the left side it stands upright as 忄.',
+    examples: [
+      { hanzi: '想', pinyin: 'xiǎng', meaning: 'to want to; would like to' },
+      { hanzi: '忙', pinyin: 'máng', meaning: 'busy' },
+      { hanzi: '快', pinyin: 'kuài', meaning: 'fast; quick; quickly' },
+    ],
+  },
+  {
+    hanzi: '手',
+    asComponent: '扌',
+    pinyin: 'shǒu',
+    meaning: 'hand',
+    tip: 'Actions done with the hand. As a left-side piece it becomes 扌 -- easy to mistake for 木 (tree) at a glance, so look for the hook at the bottom.',
+    examples: [
+      { hanzi: '打', pinyin: 'dǎ', meaning: 'to hit; to play (a sport)' },
+      { hanzi: '找', pinyin: 'zhǎo', meaning: 'to look for' },
+    ],
+  },
+  {
+    hanzi: '日',
+    pinyin: 'rì',
+    meaning: 'sun; day',
+    tip: 'A small window: originally a picture of the sun. Common in words about time.',
+    examples: [
+      { hanzi: '是', pinyin: 'shì', meaning: 'to be' },
+      { hanzi: '明天', pinyin: 'míng tiān', meaning: 'tomorrow' },
+      { hanzi: '星期', pinyin: 'xīng qī', meaning: 'week' },
+    ],
+  },
+  {
+    hanzi: '月',
+    pinyin: 'yuè',
+    meaning: 'moon; month',
+    tip: 'A close cousin of 日, and easy to confuse with it -- 月 is narrower, with two strokes inside. 明 (bright) is "sun + moon" side by side.',
+    examples: [
+      { hanzi: '朋友', pinyin: 'péng you', meaning: 'friend' },
+      { hanzi: '有', pinyin: 'yǒu', meaning: 'to have' },
+    ],
+  },
+  {
+    hanzi: '言',
+    pinyin: 'yán',
+    meaning: 'speech; words',
+    tip: 'Words coming out of a mouth. Traditional characters keep this piece in full -- Simplified shrinks it to 讠, one of the fastest ways to tell the two scripts apart at a glance.',
+    examples: [
+      { hanzi: '說', pinyin: 'shuō', meaning: 'to say; to speak' },
+      { hanzi: '請', pinyin: 'qǐng', meaning: 'please; to invite' },
+    ],
+  },
+  {
+    hanzi: '門',
+    pinyin: 'mén',
+    meaning: 'door; gate',
+    tip: 'Literally a picture of a two-panel door. If a character is built around this frame, something is opening, closing, or happening in a space.',
+    examples: [
+      { hanzi: '問', pinyin: 'wèn', meaning: 'to ask' },
+      { hanzi: '開', pinyin: 'kāi', meaning: 'to open; to hold (a meeting)' },
+      { hanzi: '間', pinyin: 'jiān', meaning: 'between; room' },
+    ],
+  },
+  {
+    hanzi: '金',
+    pinyin: 'jīn',
+    meaning: 'metal; gold',
+    tip: 'Money, metal, and precious things.',
+    examples: [{ hanzi: '錢', pinyin: 'qián', meaning: 'money' }],
+  },
+  {
+    hanzi: '艹',
+    pinyin: 'cǎo',
+    meaning: 'grass; plant',
+    tip: 'Two small sprouts sitting on top of a character -- a strong hint the word is a plant, or made from one.',
+    examples: [{ hanzi: '茶', pinyin: 'chá', meaning: 'tea' }],
+  },
+  {
+    hanzi: '食',
+    asComponent: '飠',
+    pinyin: 'shí',
+    meaning: 'food; to eat',
+    tip: 'Points to food and eating. As a left-side piece it becomes 飠.',
+    examples: [{ hanzi: '飯', pinyin: 'fàn', meaning: 'meal; cooked rice' }],
+  },
+  {
+    hanzi: '大',
+    pinyin: 'dà',
+    meaning: 'big',
+    tip: 'A person standing with arms stretched wide. 天 (day; sky) is this same figure with the sky drawn as a line above the head.',
+    examples: [
+      { hanzi: '天', pinyin: 'tiān', meaning: 'day' },
+      { hanzi: '太', pinyin: 'tài', meaning: 'too; extremely' },
+    ],
+  },
+  {
+    hanzi: '小',
+    pinyin: 'xiǎo',
+    meaning: 'small',
+    tip: 'Three small strokes for something little. 少 (few) is the same idea with one more stroke splitting off.',
+    examples: [{ hanzi: '少', pinyin: 'shǎo', meaning: 'few; little' }],
+  },
+];
 
 export type ToneCard = {
   id: string;

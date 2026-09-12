@@ -4,6 +4,7 @@ import {
   NUMBERS,
   PARTICLES,
   PRONOUNS,
+  RADICALS,
   SECTIONS,
   SURVIVAL_PHRASES,
   TIME_WORDS,
@@ -116,6 +117,8 @@ const SECTION_KEYWORDS: Record<string, string> = {
     'what chinese means mandarin traditional simplified characters taiwan hong kong macau card',
   characters:
     'how characters work syllable meaning components radical panda cat bear woman no spaces between words',
+  radicals:
+    'radicals recurring pieces components person mouth heart hand door grass food',
   pinyin: 'pinyin sound system initial final tone spelling alphabet',
   tones:
     'tones tone marks four tones neutral tone pitch tone sandhi third tone',
@@ -138,6 +141,7 @@ const SECTION_NOTES: Record<string, string> = {
   orientation: 'What "Chinese" means, and how ZiLu presents each word.',
   characters:
     'How characters carry meaning, and how words are built from them.',
+  radicals: 'The recurring pieces that turn up across many characters.',
   pinyin: 'How pinyin spells the sound of a syllable.',
   tones: 'The four tones plus the neutral tone, with audio.',
   sounds: 'The sound groups that trip up English speakers, with audio.',
@@ -246,43 +250,57 @@ function buildIndex(): SearchHit[] {
     hits.push(
       wordHit(
         { hanzi: tone.hanzi, pinyin: tone.pinyin, meaning: tone.meaning },
-        '04 · The tones',
+        '05 · The tones',
         '/fundamentals#tones',
       ),
     );
   });
+  RADICALS.forEach((radical) => {
+    hits.push(
+      wordHit(
+        {
+          hanzi: radical.hanzi,
+          pinyin: radical.pinyin,
+          meaning: radical.meaning,
+        },
+        '03 · Radicals',
+        '/fundamentals#radicals',
+        radical.asComponent ? `also written ${radical.asComponent}` : '',
+      ),
+    );
+  });
   PRONOUNS.forEach((item) => {
-    hits.push(wordHit(item, '06 · People words', '/fundamentals#pronouns'));
+    hits.push(wordHit(item, '07 · People words', '/fundamentals#pronouns'));
   });
   MEASURE_WORDS.forEach((item) => {
     hits.push(
       wordHit(
         { hanzi: item.hanzi, pinyin: item.pinyin, meaning: item.use },
-        '09 · Measure words',
+        '10 · Measure words',
         '/fundamentals#measure-words',
       ),
     );
   });
   NUMBERS.forEach((item) => {
     hits.push(
-      wordHit(item, '10 · Numbers, dates, and time', '/fundamentals#numbers'),
+      wordHit(item, '11 · Numbers, dates, and time', '/fundamentals#numbers'),
     );
   });
   NUMBER_BUILD.forEach((item) => {
     hits.push(
-      wordHit(item, '10 · Numbers, dates, and time', '/fundamentals#numbers'),
+      wordHit(item, '11 · Numbers, dates, and time', '/fundamentals#numbers'),
     );
   });
   TIME_WORDS.forEach((item) => {
     hits.push(
-      wordHit(item, '10 · Numbers, dates, and time', '/fundamentals#numbers'),
+      wordHit(item, '11 · Numbers, dates, and time', '/fundamentals#numbers'),
     );
   });
   SURVIVAL_PHRASES.forEach((item) => {
     hits.push(
       wordHit(
         item,
-        '11 · Survival phrases',
+        '12 · Survival phrases',
         '/fundamentals#phrases',
         item.situation,
       ),
@@ -292,7 +310,7 @@ function buildIndex(): SearchHit[] {
     hits.push(
       wordHit(
         { hanzi: item.hanzi, pinyin: item.pinyin, meaning: item.role },
-        '08 · Little words that do a lot',
+        '09 · Little words that do a lot',
         '/fundamentals#particles',
       ),
     );
