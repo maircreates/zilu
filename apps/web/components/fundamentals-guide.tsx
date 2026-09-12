@@ -5,6 +5,7 @@ import { ArrowRight, Moon, Sun, Volume2 } from 'lucide-react';
 
 import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
+import { ToneDrill } from '@/components/tone-drill';
 import {
   MEASURE_WORDS,
   NUMBER_BUILD,
@@ -219,10 +220,10 @@ export function FundamentalsGuide() {
           Radicals: the recurring pieces
         </SectionHeading>
         <p>
-          Most characters are built from smaller, reused pieces called
-          radicals. Learning a radical is not extra work on top of a
-          character -- it is a shortcut that makes the <em>next</em> ten
-          characters with that piece easier to guess and remember.
+          Most characters are built from smaller, reused pieces called radicals.
+          Learning a radical is not extra work on top of a character -- it is a
+          shortcut that makes the <em>next</em> ten characters with that piece
+          easier to guess and remember.
         </p>
         <div className="radical-grid">
           {RADICALS.map((radical) => (
@@ -324,6 +325,9 @@ export function FundamentalsGuide() {
             </article>
           ))}
         </div>
+
+        <ToneDrill />
+
         <p className="fundamentals-note">
           The tone mark sits on the main vowel. In natural speech, tones bend a
           little next to each other -- for example, two third tones in a row and

@@ -10,7 +10,7 @@
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "deploy": "vinext build && wrangler deploy --config dist/server/wrangler.json",
-    "lint": "oxlint app components/flashcard-explorer.tsx components/study-session.tsx components/home-page.tsx components/fundamentals-guide.tsx components/grammar-guide.tsx components/search-palette.tsx components/search-trigger.tsx lib/pathways.ts lib/study-session.ts lib/use-pinyinciation.ts lib/use-theme.ts lib/use-english.ts lib/use-mirror.ts lib/use-type-mode.ts lib/fundamentals.ts lib/grammar.ts lib/search-index.ts",
+    "lint": "oxlint app components/flashcard-explorer.tsx components/study-session.tsx components/home-page.tsx components/fundamentals-guide.tsx components/grammar-guide.tsx components/search-palette.tsx components/search-trigger.tsx components/tone-drill.tsx lib/pathways.ts lib/study-session.ts lib/use-pinyinciation.ts lib/use-theme.ts lib/use-english.ts lib/use-mirror.ts lib/use-type-mode.ts lib/fundamentals.ts lib/grammar.ts lib/search-index.ts",
     "format": "oxfmt"
   },
   "dependencies": {

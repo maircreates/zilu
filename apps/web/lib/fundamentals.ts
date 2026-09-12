@@ -243,6 +243,56 @@ export const TONES: ToneCard[] = [
   },
 ];
 
+export type ToneDrillItem = {
+  hanzi: string;
+  pinyin: string;
+  toneNumber: 1 | 2 | 3 | 4;
+  meaning: string;
+};
+
+export type ToneDrillSet = {
+  id: string;
+  items: ToneDrillItem[];
+};
+
+// Classic minimal-pair sets -- the same syllable across all four tones.
+// Widely used for teaching tone discrimination; safe to present without a
+// source since it is a standard teaching device, not copied text.
+export const TONE_DRILLS: ToneDrillSet[] = [
+  {
+    id: 'ma',
+    items: [
+      { hanzi: '媽', pinyin: 'mā', toneNumber: 1, meaning: 'mom' },
+      { hanzi: '麻', pinyin: 'má', toneNumber: 2, meaning: 'hemp; numb' },
+      { hanzi: '馬', pinyin: 'mǎ', toneNumber: 3, meaning: 'horse' },
+      { hanzi: '罵', pinyin: 'mà', toneNumber: 4, meaning: 'to scold' },
+    ],
+  },
+  {
+    id: 'ba',
+    items: [
+      { hanzi: '八', pinyin: 'bā', toneNumber: 1, meaning: 'eight' },
+      { hanzi: '拔', pinyin: 'bá', toneNumber: 2, meaning: 'to pull out' },
+      {
+        hanzi: '把',
+        pinyin: 'bǎ',
+        toneNumber: 3,
+        meaning: '(a measure word; to hold)',
+      },
+      { hanzi: '爸', pinyin: 'bà', toneNumber: 4, meaning: 'dad' },
+    ],
+  },
+  {
+    id: 'yi',
+    items: [
+      { hanzi: '一', pinyin: 'yī', toneNumber: 1, meaning: 'one' },
+      { hanzi: '姨', pinyin: 'yí', toneNumber: 2, meaning: 'aunt' },
+      { hanzi: '椅', pinyin: 'yǐ', toneNumber: 3, meaning: 'chair' },
+      { hanzi: '易', pinyin: 'yì', toneNumber: 4, meaning: 'easy' },
+    ],
+  },
+];
+
 export type SoundContrast = {
   pair: string;
   example: string;
