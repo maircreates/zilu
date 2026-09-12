@@ -1,13 +1,15 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, ArrowRight, Check, Moon, Shuffle, Sparkles, Sun, Volume2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Moon, Shuffle, Sparkles, Sun, Volume2, X } from 'lucide-react';
 
 import { pathways } from '@/lib/pathways';
+import { collapsePinyin } from '@/lib/search-index';
 import { findGuidedStudyDeck } from '@/lib/study-session';
 import { useMirrorPreference } from '@/lib/use-mirror';
 import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
 import { useTheme } from '@/lib/use-theme';
+import { useTypeModePreference } from '@/lib/use-type-mode';
 import { SearchTrigger } from '@/components/search-trigger';
 import { StudySession } from '@/components/study-session';
 
@@ -42,6 +44,9 @@ export function FlashcardExplorer({
   const [flipped, setFlipped] = useState(false);
   const [showPinyinFront, setShowPinyinFront] = usePinyinciationPreference();
   const [mirror, setMirror] = useMirrorPreference();
+  const [typeMode, setTypeMode] = useTypeModePreference();
+  const [typedAnswer, setTypedAnswer] = useState('');
+  const [checked, setChecked] = useState<'correct' | 'wrong' | null>(null);
   const [darkMode, setDarkMode] = useTheme();
   const [soundStatus, setSoundStatus] = useState('');
   // A "?guided=1" link (used by the home page callout) opens the guided study
@@ -72,6 +77,8 @@ export function FlashcardExplorer({
     setFlipped(false);
     setSoundStatus('');
     setGuidedActive(false);
+    setTypedAnswer('');
+    setChecked(null);
   }
 
   function resetDeck(nextWaypoint: number, nextDeck: number) {
@@ -82,12 +89,16 @@ export function FlashcardExplorer({
     setFlipped(false);
     setSoundStatus('');
     setGuidedActive(false);
+    setTypedAnswer('');
+    setChecked(null);
   }
 
   function move(direction: -1 | 1) {
     setCardIndex((current) => (current + direction + deck.cards.length) % deck.cards.length);
     setFlipped(false);
     setSoundStatus('');
+    setTypedAnswer('');
+    setChecked(null);
   }
 
   function shuffle() {
@@ -95,6 +106,15 @@ export function FlashcardExplorer({
     setCardIndex(0);
     setFlipped(false);
     setSoundStatus('Deck shuffled');
+    setTypedAnswer('');
+    setChecked(null);
+  }
+
+  function checkTyped() {
+    const target = collapsePinyin(card.pinyin);
+    const guess = collapsePinyin(typedAnswer);
+    setChecked(guess.length > 0 && guess === target ? 'correct' : 'wrong');
+    setFlipped(true);
   }
 
   function speak(event: React.MouseEvent<HTMLButtonElement>) {
@@ -210,6 +230,11 @@ export function FlashcardExplorer({
                     <input type="checkbox" checked={mirror} onChange={(event) => { setMirror(event.target.checked); setFlipped(false); setSoundStatus(''); }} />
                     <span className="toggle-track" aria-hidden="true"><span /></span>
                   </label>
+                  <label className="pinyin-toggle" aria-label="Type It: type the pinyin before the card flips">
+                    <span><strong>Type It</strong><small>Type the pinyin to flip</small></span>
+                    <input type="checkbox" checked={typeMode} onChange={(event) => { setTypeMode(event.target.checked); setFlipped(false); setTypedAnswer(''); setChecked(null); }} />
+                    <span className="toggle-track" aria-hidden="true"><span /></span>
+                  </label>
                 </div>
                 <button type="button" className="shuffle-button" onClick={shuffle}><Shuffle aria-hidden="true" /> Shuffle</button>
               </div>
@@ -258,6 +283,29 @@ export function FlashcardExplorer({
                   <Volume2 aria-hidden="true" /><span>Hear it</span>
                 </button>
               </div>
+
+              {typeMode && !flipped && (
+                <div className="type-box">
+                  <input
+                    type="text"
+                    value={typedAnswer}
+                    onChange={(event) => setTypedAnswer(event.target.value)}
+                    onKeyDown={(event) => { if (event.key === 'Enter') checkTyped(); }}
+                    placeholder="Type the pinyin, e.g. ni3 hao3"
+                    aria-label="Type the pinyin for this card"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck={false}
+                  />
+                  <button type="button" onClick={checkTyped}>Check</button>
+                </div>
+              )}
+              {typeMode && checked && (
+                <p className={`type-feedback ${checked}`} aria-live="polite">
+                  {checked === 'correct' ? <Check aria-hidden="true" /> : <X aria-hidden="true" />}
+                  {checked === 'correct' ? 'Correct!' : `Close -- it's ${card.pinyin}`}
+                </p>
+              )}
 
               <div className="card-controls">
                 <button type="button" onClick={() => move(-1)} aria-label="Previous card"><ArrowLeft aria-hidden="true" /><span>Previous</span></button>
