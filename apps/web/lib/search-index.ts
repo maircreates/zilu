@@ -1,32 +1,55 @@
+import {
+  MEASURE_WORDS,
+  NUMBER_BUILD,
+  NUMBERS,
+  PARTICLES,
+  PRONOUNS,
+  SECTIONS,
+  SURVIVAL_PHRASES,
+  TIME_WORDS,
+  TONES,
+} from './fundamentals';
 import { GRAMMAR_THEMES } from './grammar';
 import { pathways } from './pathways';
 
 /**
  * A flat, prebuilt index of everything the search palette can find: every
- * flashcard across all pathways, plus every grammar point. Built once at module
- * load from the static data, so lookups are just array filtering.
+ * flashcard across all pathways, every grammar point, and the glossary items
+ * and sections on the Fundamentals page. Built once at module load from the
+ * static data, so lookups are just array filtering.
  */
 
 export type SearchHit = {
-  kind: 'vocab' | 'grammar';
-  /** Main line: the hanzi for a card, the point title for grammar. */
+  kind: 'vocab' | 'grammar' | 'fundamentals';
+  /** Main line: the hanzi for a card, the title for grammar/fundamentals. */
   primary: string;
-  /** Pinyin for a card; empty for grammar. */
+  /** Pinyin, when the entry is a single word. */
   secondary: string;
-  /** Meaning for a card; "Grammar" for grammar. */
+  /** Meaning for a word; "Grammar" for grammar. */
   tertiary: string;
   /** Where it lives, e.g. "Pathway 01 · Greetings · Deck A". */
   location: string;
-  /** Link that opens it: a deep link into /study, or /grammar#point-id. */
+  /** Link that opens it. */
   href: string;
+  /** True when `primary` itself is Chinese text (so it can be sliced for a
+   * highlight, and an exact match against it is a strong signal). */
+  primaryIsHanzi: boolean;
   /** Lowercased hanzi to match a Chinese query against. */
   han: string;
   /** Tone-stripped, space-free pinyin ("nihao"). */
   pinyin: string;
   /** Tone-stripped pinyin with syllable spacing kept ("ni hao"). */
   pinyinSpaced: string;
-  /** Lowercased English text for word queries (the meaning, or a grammar blob). */
+  /** Lowercased English text for word queries (the meaning, or a blob). */
   text: string;
+  /** Grammar only: the pattern template, shown in the inline preview. */
+  template?: string;
+  /** Grammar only: the one-line explanation. */
+  why?: string;
+  /** Grammar only: one representative example. */
+  example?: { hanzi: string; pinyin: string; english: string };
+  /** Fundamentals section entries only: a one-line description. */
+  note?: string;
 };
 
 /** Which slice of which display field the query matched, for highlighting. */
@@ -62,6 +85,73 @@ export function queryIsHan(query: string): boolean {
   return HAN_CHAR.test(query);
 }
 
+type WordLike = { hanzi: string; pinyin: string; meaning: string };
+
+function wordHit(
+  item: WordLike,
+  location: string,
+  href: string,
+  extraText = '',
+): SearchHit {
+  const spaced = tonelessSpaced(item.pinyin);
+  return {
+    kind: 'fundamentals',
+    primary: item.hanzi,
+    secondary: item.pinyin,
+    tertiary: item.meaning,
+    location,
+    href,
+    primaryIsHanzi: true,
+    han: item.hanzi.toLowerCase(),
+    pinyin: spaced.replace(/ /g, ''),
+    pinyinSpaced: spaced,
+    text: `${item.meaning} ${extraText}`.toLowerCase().trim(),
+  };
+}
+
+/** Hand-written keywords for the sections that are prose rather than a word
+ * list, so the topic itself is findable even with no glossary item to match. */
+const SECTION_KEYWORDS: Record<string, string> = {
+  orientation:
+    'what chinese means mandarin traditional simplified characters taiwan hong kong macau card',
+  characters:
+    'how characters work syllable meaning components radical panda cat bear woman no spaces between words',
+  pinyin: 'pinyin sound system initial final tone spelling alphabet',
+  tones:
+    'tones tone marks four tones neutral tone pitch tone sandhi third tone',
+  sounds:
+    'sounds pronunciation aspirated unaspirated tongue curled retroflex j q x zh ch sh r c z b d g u umlaut n ng',
+  pronouns: 'pronouns people words i you he she we they plural',
+  sentences:
+    'sentence structure grammar subject verb object word order time word placement',
+  particles:
+    'particles little words possessive completed action question suggestion',
+  'measure-words': 'measure words counting classifier number noun',
+  numbers:
+    'numbers dates time zero to ten hundred year month day weekday clock hour half past',
+  phrases:
+    'survival phrases hello thank you sorry excuse me goodbye greeting apology',
+  study: 'how to study tips habits guided loop audio practice pinyinciation',
+};
+
+const SECTION_NOTES: Record<string, string> = {
+  orientation: 'What "Chinese" means, and how ZiLu presents each word.',
+  characters:
+    'How characters carry meaning, and how words are built from them.',
+  pinyin: 'How pinyin spells the sound of a syllable.',
+  tones: 'The four tones plus the neutral tone, with audio.',
+  sounds: 'The sound groups that trip up English speakers, with audio.',
+  pronouns: 'I, you, he, she, we, they -- and how to make them plural.',
+  sentences:
+    'The core sentence patterns, with a link to the full Grammar page.',
+  particles: 'The short words that change what a sentence does.',
+  'measure-words': 'The counting word every number-plus-noun phrase needs.',
+  numbers: 'Zero through ten, then dates, weekdays, and telling time.',
+  phrases:
+    'Ten phrases for greeting, thanking, apologizing, and asking for help.',
+  study: 'Habits that make the flashcard decks actually work.',
+};
+
 function buildIndex(): SearchHit[] {
   const hits: SearchHit[] = [];
   const seenVocab = new Set<string>();
@@ -82,6 +172,7 @@ function buildIndex(): SearchHit[] {
             tertiary: card.meaning,
             location: `${pathwayLabel} · ${waypoint.name} · ${deck.name}`,
             href: `/study?pi=${pathwayIndex}&wi=${waypointIndex}&di=${deckIndex}&ci=${cardIndex}`,
+            primaryIsHanzi: true,
             han: card.hanzi.toLowerCase(),
             pinyin: spaced.replace(/ /g, ''),
             pinyinSpaced: spaced,
@@ -100,6 +191,7 @@ function buildIndex(): SearchHit[] {
       const exampleText = point.examples
         .map((example) => `${example.pinyin} ${example.english}`)
         .join(' ');
+      const first = point.examples[0];
       hits.push({
         kind: 'grammar',
         primary: point.title,
@@ -107,12 +199,95 @@ function buildIndex(): SearchHit[] {
         tertiary: 'Grammar',
         location: `${theme.num} · ${theme.title}`,
         href: `/grammar#point-${point.id}`,
+        primaryIsHanzi: false,
         han: `${point.title} ${point.template} ${exampleHan}`.toLowerCase(),
         pinyin: collapsePinyin(`${point.template} ${exampleText}`),
         pinyinSpaced: '',
         text: `${point.title} ${point.template} ${point.why} ${exampleText}`.toLowerCase(),
+        template: point.template,
+        why: point.why,
+        example: first
+          ? { hanzi: first.hanzi, pinyin: first.pinyin, english: first.english }
+          : undefined,
       });
     });
+  });
+
+  // Fundamentals: the topic sections themselves, findable by keyword even
+  // when there is no single glossary item to match.
+  SECTIONS.forEach((section) => {
+    hits.push({
+      kind: 'fundamentals',
+      primary: section.title,
+      secondary: '',
+      tertiary: 'Fundamentals',
+      location: `${section.num} · Fundamentals`,
+      href: `/fundamentals#${section.id}`,
+      primaryIsHanzi: false,
+      han: '',
+      pinyin: '',
+      pinyinSpaced: '',
+      text: `${section.title} ${SECTION_KEYWORDS[section.id] ?? ''}`.toLowerCase(),
+      note: SECTION_NOTES[section.id],
+    });
+  });
+
+  // Fundamentals: the individual glossary-style items (pronouns, numbers,
+  // measure words, particles, survival phrases) behave just like vocabulary.
+  TONES.forEach((tone) => {
+    hits.push(
+      wordHit(
+        { hanzi: tone.hanzi, pinyin: tone.pinyin, meaning: tone.meaning },
+        '04 · The tones',
+        '/fundamentals#tones',
+      ),
+    );
+  });
+  PRONOUNS.forEach((item) => {
+    hits.push(wordHit(item, '06 · People words', '/fundamentals#pronouns'));
+  });
+  MEASURE_WORDS.forEach((item) => {
+    hits.push(
+      wordHit(
+        { hanzi: item.hanzi, pinyin: item.pinyin, meaning: item.use },
+        '09 · Measure words',
+        '/fundamentals#measure-words',
+      ),
+    );
+  });
+  NUMBERS.forEach((item) => {
+    hits.push(
+      wordHit(item, '10 · Numbers, dates, and time', '/fundamentals#numbers'),
+    );
+  });
+  NUMBER_BUILD.forEach((item) => {
+    hits.push(
+      wordHit(item, '10 · Numbers, dates, and time', '/fundamentals#numbers'),
+    );
+  });
+  TIME_WORDS.forEach((item) => {
+    hits.push(
+      wordHit(item, '10 · Numbers, dates, and time', '/fundamentals#numbers'),
+    );
+  });
+  SURVIVAL_PHRASES.forEach((item) => {
+    hits.push(
+      wordHit(
+        item,
+        '11 · Survival phrases',
+        '/fundamentals#phrases',
+        item.situation,
+      ),
+    );
+  });
+  PARTICLES.forEach((item) => {
+    hits.push(
+      wordHit(
+        { hanzi: item.hanzi, pinyin: item.pinyin, meaning: item.role },
+        '08 · Little words that do a lot',
+        '/fundamentals#particles',
+      ),
+    );
   });
 
   return hits;
@@ -154,12 +329,17 @@ function scorePinyin(hit: SearchHit, query: string): Scored {
 function scoreEnglish(hit: SearchHit, query: string): Scored {
   const markSlice = (): string | undefined => {
     const idx = hit.text.indexOf(query);
-    if (hit.kind === 'vocab') {
-      return idx >= 0 ? hit.tertiary.slice(idx, idx + query.length) : undefined;
+    if (idx < 0) return undefined;
+    if (hit.kind === 'grammar') {
+      const titleIdx = hit.primary.toLowerCase().indexOf(query);
+      return titleIdx >= 0
+        ? hit.primary.slice(titleIdx, titleIdx + query.length)
+        : undefined;
     }
-    const titleIdx = hit.primary.toLowerCase().indexOf(query);
-    return titleIdx >= 0
-      ? hit.primary.slice(titleIdx, titleIdx + query.length)
+    // Only mark when the match falls inside the part of `text` that is
+    // actually shown as `tertiary` (extra context appended after it is not).
+    return idx + query.length <= hit.tertiary.length
+      ? hit.tertiary.slice(idx, idx + query.length)
       : undefined;
   };
 
@@ -179,6 +359,12 @@ function scoreEnglish(hit: SearchHit, query: string): Scored {
   return { score: 0 };
 }
 
+const KIND_BONUS: Record<SearchHit['kind'], number> = {
+  vocab: 4,
+  fundamentals: 2,
+  grammar: 0,
+};
+
 /** Returns up to `limit` hits, best matches first. Empty for a too-short query. */
 export function searchEntries(rawQuery: string, limit = 40): SearchResult[] {
   const query = rawQuery.trim();
@@ -197,19 +383,19 @@ export function searchEntries(rawQuery: string, limit = 40): SearchResult[] {
 
     if (han) {
       const at = hit.han.indexOf(lower);
-      if (hit.kind === 'vocab' && hit.han === lower) {
+      if (hit.primaryIsHanzi && hit.han === lower) {
         score = 110;
         match = { primary: hit.primary };
       } else if (at === 0) {
         score = 96;
-        if (hit.kind === 'vocab')
+        if (hit.primaryIsHanzi)
           match = { primary: hit.primary.slice(0, lower.length) };
       } else if (at > 0) {
         score = 60;
-        if (hit.kind === 'vocab') {
+        if (hit.primaryIsHanzi) {
           match = { primary: hit.primary.slice(at, at + lower.length) };
         }
-      } else if (lower.length > 1) {
+      } else if (lower.length > 1 && hit.han) {
         // A phrase like 你好 is often taught as separate words; credit each
         // character that turns up somewhere.
         let parts = 0;
@@ -236,7 +422,7 @@ export function searchEntries(rawQuery: string, limit = 40): SearchResult[] {
     }
 
     if (score === 0) continue;
-    if (hit.kind === 'vocab') score += 4;
+    score += KIND_BONUS[hit.kind];
     score -= Math.min(hit.primary.length, 12) * 0.1;
     // Tie-breaker: a crisp gloss ("not; no") is likelier the word you meant
     // than one that merely mentions the query ("(yes/no question particle)").
