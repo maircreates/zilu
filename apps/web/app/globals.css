@@ -6,44 +6,44 @@
    its own explicit block below for when the attribute is set to it directly). */
 :root {
   color-scheme: light;
-  --bg: #f3ead9;
-  --panel: rgba(255,251,242,.85);
-  --panel-solid: #fdf7ec;
-  --ink: #2a2118;
-  --muted: #7a6b57;
-  --line: rgba(122,66,32,.18);
-  --accent: #c1442c;
-  --accent-deep: #8f2d1c;
-  --green: #2f7d5c;
-  --shadow: 0 28px 80px rgba(90,62,25,.16);
+  --bg: #f7e6cf;
+  --panel: rgba(255,248,236,.85);
+  --panel-solid: #fdf6e8;
+  --ink: #241c14;
+  --muted: #8a7458;
+  --line: rgba(179,108,42,.18);
+  --accent: #c2492b;
+  --accent-deep: #8a2c1a;
+  --green: #3f8a63;
+  --shadow: 0 28px 80px rgba(120,80,30,.18);
 }
 
 :root[data-theme='silkpunk-day'] {
   color-scheme: light;
-  --bg: #f3ead9;
-  --panel: rgba(255,251,242,.85);
-  --panel-solid: #fdf7ec;
-  --ink: #2a2118;
-  --muted: #7a6b57;
-  --line: rgba(122,66,32,.18);
-  --accent: #c1442c;
-  --accent-deep: #8f2d1c;
-  --green: #2f7d5c;
-  --shadow: 0 28px 80px rgba(90,62,25,.16);
+  --bg: #f7e6cf;
+  --panel: rgba(255,248,236,.85);
+  --panel-solid: #fdf6e8;
+  --ink: #241c14;
+  --muted: #8a7458;
+  --line: rgba(179,108,42,.18);
+  --accent: #c2492b;
+  --accent-deep: #8a2c1a;
+  --green: #3f8a63;
+  --shadow: 0 28px 80px rgba(120,80,30,.18);
 }
 
 :root[data-theme='silkpunk-night'] {
   color-scheme: dark;
-  --bg: #1a1210;
-  --panel: rgba(38,26,20,.82);
-  --panel-solid: #241a15;
-  --ink: #f3e6d4;
-  --muted: #b89e82;
-  --line: rgba(216,168,90,.18);
-  --accent: #e0a63e;
-  --accent-deep: #f0c268;
-  --green: #4ea684;
-  --shadow: 0 30px 90px rgba(0,0,0,.5);
+  --bg: #10162a;
+  --panel: rgba(24,32,56,.82);
+  --panel-solid: #1a2340;
+  --ink: #efe6d3;
+  --muted: #9aa3c4;
+  --line: rgba(120,150,200,.18);
+  --accent: #e8a94a;
+  --accent-deep: #f4c878;
+  --green: #4a9b7c;
+  --shadow: 0 30px 90px rgba(4,8,20,.55);
 }
 
 :root[data-theme='taopunk-day'] {
@@ -159,14 +159,21 @@ button { color: inherit; }
 .ambient { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
 .ambient::before { content: ''; position: absolute; inset: 0; opacity: .42; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 72px 72px; mask-image: linear-gradient(to bottom, black, transparent 72%); }
 .ambient span { position: absolute; border-radius: 50%; filter: blur(4px); opacity: .33; animation: drift 14s ease-in-out infinite alternate; }
-.ambient span:nth-child(1) { width: 42vw; height: 42vw; left: -14vw; top: 8vh; background: radial-gradient(circle, #8bd6ac, transparent 68%); }
-.ambient span:nth-child(2) { width: 35vw; height: 35vw; right: -8vw; top: 14vh; background: radial-gradient(circle, #ffd77a, transparent 70%); animation-delay: -5s; }
-.ambient span:nth-child(3) { width: 30vw; height: 30vw; left: 44vw; bottom: -20vw; background: radial-gradient(circle, #f68b77, transparent 70%); animation-delay: -9s; }
+/* Silkpunk Day's default palette: pulled straight from the header's own
+   reference photos -- a sunset-gold mountain mist, a vermillion palace-
+   banner/maple red, and the soft blue-lavender haze the distant peaks fade
+   into, with that misty blue threaded into the gold blob too so it reads
+   as one scene's light rather than isolated colors. */
+.ambient span:nth-child(1) { width: 42vw; height: 42vw; left: -14vw; top: 8vh; background: radial-gradient(circle at 30% 70%, #c3d3ea, transparent 35%), radial-gradient(circle, #f0b565, transparent 68%); }
+.ambient span:nth-child(2) { width: 35vw; height: 35vw; right: -8vw; top: 14vh; background: radial-gradient(circle at 70% 30%, #ffdcae, transparent 35%), radial-gradient(circle, #d9642f, transparent 70%); animation-delay: -5s; }
+.ambient span:nth-child(3) { width: 30vw; height: 30vw; left: 44vw; bottom: -20vw; background: radial-gradient(circle, #a7b7cf, transparent 70%); animation-delay: -9s; }
 
-/* Silkpunk: jade / brass / lacquer, richer and more jewel-toned at night. */
-[data-theme='silkpunk-night'] .ambient span:nth-child(1) { background: radial-gradient(circle, #3f6e56, transparent 68%); }
-[data-theme='silkpunk-night'] .ambient span:nth-child(2) { background: radial-gradient(circle, #d68b4a, transparent 70%); }
-[data-theme='silkpunk-night'] .ambient span:nth-child(3) { background: radial-gradient(circle, #7a2e2e, transparent 70%); }
+/* Silkpunk night: the same scene after dark -- deep indigo sky, warm
+   lantern-gold light spilling off the palace, and the moon's cool
+   blue-silver glow. */
+[data-theme='silkpunk-night'] .ambient span:nth-child(1) { background: radial-gradient(circle, #263863, transparent 68%); }
+[data-theme='silkpunk-night'] .ambient span:nth-child(2) { background: radial-gradient(circle, #dba13f, transparent 70%); }
+[data-theme='silkpunk-night'] .ambient span:nth-child(3) { background: radial-gradient(circle, #5f7aa8, transparent 70%); }
 
 /* Taopunk: muted stone/sage/clay, low-saturation ink-wash calm. */
 [data-theme='taopunk-day'] .ambient span:nth-child(1) { background: radial-gradient(circle, #a8c2ab, transparent 68%); }
@@ -180,9 +187,12 @@ button { color: inherit; }
 [data-theme='cyberpunk-day'] .ambient span:nth-child(1) { background: radial-gradient(circle, #7de8d1, transparent 68%); }
 [data-theme='cyberpunk-day'] .ambient span:nth-child(2) { background: radial-gradient(circle, #ff9fc0, transparent 70%); }
 [data-theme='cyberpunk-day'] .ambient span:nth-child(3) { background: radial-gradient(circle, #b3a0ff, transparent 70%); }
-[data-theme='cyberpunk-night'] .ambient span:nth-child(1) { background: radial-gradient(circle, #00f5d4, transparent 68%); }
-[data-theme='cyberpunk-night'] .ambient span:nth-child(2) { background: radial-gradient(circle, #ff2f75, transparent 70%); }
-[data-theme='cyberpunk-night'] .ambient span:nth-child(3) { background: radial-gradient(circle, #6d4aff, transparent 70%); }
+/* Richer neon-city-night mix: each blob layers a second, off-center tint
+   under the original color instead of a single flat hue -- a skyline glow
+   made of mixed signage colors, not one uniform light source. */
+[data-theme='cyberpunk-night'] .ambient span:nth-child(1) { background: radial-gradient(circle at 35% 65%, #ffb84d, transparent 35%), radial-gradient(circle, #00f5d4, transparent 68%); }
+[data-theme='cyberpunk-night'] .ambient span:nth-child(2) { background: radial-gradient(circle at 65% 30%, #3fa9ff, transparent 35%), radial-gradient(circle, #ff2f75, transparent 70%); }
+[data-theme='cyberpunk-night'] .ambient span:nth-child(3) { background: radial-gradient(circle at 30% 70%, #ff4d94, transparent 35%), radial-gradient(circle, #6d4aff, transparent 70%); }
 
 /* Cyberpunk HUD notch: clipped opposite corners on the main card surfaces,
    reinforcing the near-zero border-radius above with an angular panel look. */
@@ -233,6 +243,9 @@ button { color: inherit; }
 [data-theme^='silkpunk'] .theme-divider-path { stroke: var(--accent-deep); stroke-width: 1.75; opacity: .8; transition: stroke-dashoffset 1.4s cubic-bezier(.22,.61,.36,1); }
 [data-theme^='silkpunk'] .theme-divider-node { fill: var(--accent); opacity: .6; }
 [data-theme^='silkpunk'] .theme-divider:hover .theme-divider-node { opacity: 1; filter: drop-shadow(0 0 4px var(--accent)); }
+[data-theme^='silkpunk'] .theme-divider-spool-cap { fill: var(--accent-deep); opacity: .85; }
+[data-theme^='silkpunk'] .theme-divider-spool-body { fill: color-mix(in srgb, var(--accent-deep) 55%, transparent); }
+[data-theme^='silkpunk'] .theme-divider-spool-thread { fill: none; stroke: var(--panel-solid); stroke-width: 1; opacity: .65; }
 
 [data-theme^='taopunk'] .theme-divider-taopunk { display: block; }
 [data-theme^='taopunk'] .theme-divider-path { stroke: var(--ink); stroke-width: 1.5; opacity: .55; transition: stroke-dashoffset 2s cubic-bezier(.45,0,.15,1), opacity .6s ease; }
@@ -279,6 +292,28 @@ button { color: inherit; }
 }
 [data-theme^='taopunk'] .home-card:hover::after, [data-theme^='taopunk'] .hub-card:hover::after { opacity: .4; transform: rotate(12deg); }
 
+/* Taopunk only: a large yin-yang watermark behind the "Guided study loop"
+   callout -- the ensō above stays as the small universal card-corner accent
+   (it holds up at that tiny, partly-clipped size; yin-yang's two-tone swirl
+   doesn't -- confirmed by comparing both live). This gets its own bigger,
+   deliberate spot instead. Two-tone, so hardcoded per exact day/night combo
+   rather than mask-image (a single-color mask can't render contrasting
+   halves). Sits behind the card's real content via normal ::before stacking
+   (pseudo-element paints first, so later real children paint over it). */
+[data-theme='taopunk-day'] .home-card-pilot::before {
+  content: ''; position: absolute; bottom: -40px; right: -40px; width: 200px; height: 200px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%23f6f7f3' stroke='%231e2420' stroke-width='.5'/%3E%3Cpath d='M16,4 A6,6 0 0,1 16,16 A6,6 0 0,0 16,28 A12,12 0 0,1 16,4 Z' fill='%231e2420'/%3E%3Ccircle cx='16' cy='10' r='2' fill='%231e2420'/%3E%3Ccircle cx='16' cy='22' r='2' fill='%23f6f7f3'/%3E%3C/svg%3E");
+  background-size: contain; background-repeat: no-repeat;
+  opacity: .06; transition: opacity var(--dur-hover) var(--ease-hover), transform var(--dur-hover) var(--ease-hover);
+}
+[data-theme='taopunk-night'] .home-card-pilot::before {
+  content: ''; position: absolute; bottom: -40px; right: -40px; width: 200px; height: 200px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%23121613' stroke='%23e4e8e2' stroke-width='.5'/%3E%3Cpath d='M16,4 A6,6 0 0,1 16,16 A6,6 0 0,0 16,28 A12,12 0 0,1 16,4 Z' fill='%23e4e8e2'/%3E%3Ccircle cx='16' cy='10' r='2' fill='%23e4e8e2'/%3E%3Ccircle cx='16' cy='22' r='2' fill='%23121613'/%3E%3C/svg%3E");
+  background-size: contain; background-repeat: no-repeat;
+  opacity: .08; transition: opacity var(--dur-hover) var(--ease-hover), transform var(--dur-hover) var(--ease-hover);
+}
+[data-theme^='taopunk'] .home-card-pilot:hover::before { opacity: .16; transform: rotate(8deg); }
+
 .topbar, .workspace, .footer,
 .home-hero, .home-cards,
 .fundamentals-hero, .fundamentals-section, .fundamentals-cta, .fundamentals-status {
@@ -295,6 +330,38 @@ button { color: inherit; }
 .topbar-nav a { border-radius: var(--radius-md); padding: 8px 12px; color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 700; }
 .topbar-nav a:hover { color: var(--ink); }
 .topbar-nav a[aria-current='page'] { color: var(--ink); background: var(--panel-solid); }
+
+/* Fills the empty middle of the topbar (brand left, nav pushed right by its
+   own margin-left:auto leaves open space between them). Taopunk only for
+   now. Real inline SVG using the theme's own tokens directly (see
+   topbar-emblem.tsx), so this needs no per-exact-combo hardcoding the way
+   the CSS-mask card corners did. */
+.topbar-emblem { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: none; opacity: .55; transition: opacity var(--dur-hover) var(--ease-hover); }
+.topbar:hover .topbar-emblem { opacity: .85; }
+.topbar-emblem-taopunk, .topbar-emblem-cyberpunk, .topbar-emblem-silkpunk { display: none; }
+[data-theme^='taopunk'] .topbar-emblem-taopunk { display: block; }
+.topbar-emblem-enso { fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-linecap: round; filter: drop-shadow(0 0 1.2px var(--ink)); }
+.topbar-emblem-yy-dark { fill: var(--ink); }
+.topbar-emblem-yy-light { fill: var(--panel-solid); stroke: var(--ink); stroke-width: .5; }
+
+[data-theme^='cyberpunk'] .topbar-emblem-cyberpunk { display: flex; align-items: center; gap: 4px; height: 40px; }
+.topbar-emblem-rain-col { width: 14px; height: 40px; overflow: hidden; mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent); }
+.topbar-emblem-rain-inner { display: flex; flex-direction: column; animation-name: topbar-rain-fall; animation-timing-function: linear; animation-iteration-count: infinite; }
+.topbar-emblem-rain-inner span { display: block; height: 16px; line-height: 16px; text-align: center; font-family: Georgia, 'Noto Serif TC', serif; font-size: 12px; }
+.topbar-emblem-rain-col:nth-child(odd) span { color: var(--green); text-shadow: 0 0 6px var(--green); }
+.topbar-emblem-rain-col:nth-child(even) span { color: var(--accent); text-shadow: 0 0 6px var(--accent); }
+@keyframes topbar-rain-fall { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+
+[data-theme^='silkpunk'] .topbar-emblem-silkpunk { display: block; }
+/* Not hand-coded -- these are the actual reference frames the theme is
+   being designed from (see topbar-emblem.tsx), swapped in place (a hard
+   cut, no crossfade -- two slightly different frames overlapping during a
+   fade reads as blur/ghosting) so the scene itself stays a moving target
+   we can point at and discuss rather than something baked into markup. */
+.topbar-emblem-silkpunk { position: relative; width: 220px; height: 64px; border-radius: var(--radius-md); overflow: hidden; }
+.topbar-emblem-silkpunk img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 42%; opacity: 0; }
+.topbar-emblem-silkpunk img.is-active { opacity: 1; }
+
 .path-label { display: grid; grid-template-columns: auto auto; column-gap: 10px; text-align: right; }
 .path-label span { grid-row: 1 / 3; align-self: center; color: var(--muted); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; }
 .path-label strong { font-size: 13px; }
@@ -791,6 +858,39 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
 .floating-char-dot { display: block; width: 5px; height: 5px; margin-top: 1px; border-radius: 50%; background: var(--char-tint, transparent); opacity: .75; }
 .floating-char:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 4px; opacity: 1; }
 .floating-char.is-popping span[lang] { animation: floatingPop .28s ease forwards; }
+
+/* Taopunk: each rising character sits lit inside a paper sky lantern (天燈).
+   Tall/tapered silhouette (not a symmetric oval -- that read as an egg) with
+   a visible frame bar near the base, like the real opening a lantern's
+   flame sits in; the warm glow is concentrated low, near that frame,
+   instead of centered, since the light source is at the bottom. The
+   character itself is bright gold with a red-orange halo -- deliberately
+   NOT the same hue as the paper body, so it stays legible against it
+   instead of blending into one orange blur. The flicker is an infinite CSS
+   loop (safe -- no "stuck" failure mode the way a one-time transition on a
+   per-frame-driven property could have). */
+[data-theme^='taopunk'] .floating-char {
+  background:
+    radial-gradient(ellipse 58% 50% at 50% 80%, rgba(255,185,80,.8) 0%, rgba(255,150,60,.4) 55%, transparent 82%),
+    radial-gradient(ellipse 56% 80% at 50% 38%, rgba(200,125,60,.55) 0%, rgba(150,80,38,.42) 58%, rgba(95,48,20,.24) 84%, transparent 100%);
+  border-radius: 50% 50% 20% 20% / 62% 62% 16% 16%;
+  padding: 22px 10px 16px;
+  animation: lanternFlicker 2.6s ease-in-out infinite;
+}
+[data-theme^='taopunk'] .floating-char::after {
+  content: '';
+  position: absolute;
+  bottom: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56%;
+  height: 2.5px;
+  border-radius: 2px;
+  background: rgba(85,42,15,.65);
+}
+[data-theme^='taopunk'] .floating-char span[lang] { color: #ffd966; text-shadow: 0 0 3px #3a1a05, 0 0 8px #ff6a00, 0 0 16px #ff3d00; }
+[data-theme^='taopunk'] .floating-char.is-hovered span[lang] { text-shadow: 0 0 3px #3a1a05, 0 0 12px #ff8c1a, 0 0 24px #ff3d00; }
+@keyframes lanternFlicker { 0%, 100% { filter: brightness(1); } 45% { filter: brightness(1.08); } 60% { filter: brightness(.96); } 80% { filter: brightness(1.04); } }
 @keyframes floatingPop { to { transform: scale(1.6); opacity: 0; } }
 .floating-burst { position: absolute; inset: 0; pointer-events: none; }
 .floating-burst span { position: absolute; left: 50%; top: 50%; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); transform: rotate(var(--angle)) translate(0, 0); animation: floatingBurst .32s ease-out forwards; }

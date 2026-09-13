@@ -7,6 +7,7 @@ import { SearchTrigger } from '@/components/search-trigger';
 import { SettingsTrigger } from '@/components/settings-trigger';
 import { DayNightToggle } from '@/components/day-night-toggle';
 import { ThemeDivider } from '@/components/theme-divider';
+import { TopbarEmblem } from '@/components/topbar-emblem';
 
 export function FundamentalsHub() {
   return (
@@ -18,6 +19,7 @@ export function FundamentalsHub() {
       </div>
 
       <header className="topbar">
+        <TopbarEmblem />
         <a className="brand" href="/" aria-label="ZiLu home">
           <span className="brand-mark">字</span>
           <span>

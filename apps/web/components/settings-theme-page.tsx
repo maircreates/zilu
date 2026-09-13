@@ -7,6 +7,7 @@ import { SearchTrigger } from '@/components/search-trigger';
 import { SegmentedControl } from '@/components/segmented-control';
 import { DayNightToggle } from '@/components/day-night-toggle';
 import { FloatingCharactersBg } from '@/components/floating-characters-bg';
+import { TopbarEmblem } from '@/components/topbar-emblem';
 
 const FAMILY_OPTIONS: { id: ThemeFamily; label: string }[] = [
   { id: 'silkpunk', label: 'Silkpunk' },
@@ -34,6 +35,7 @@ export function SettingsThemePage() {
       <FloatingCharactersBg />
 
       <header className="topbar">
+        <TopbarEmblem />
         <a className="brand" href="/" aria-label="ZiLu home">
           <span className="brand-mark">字</span>
           <span>

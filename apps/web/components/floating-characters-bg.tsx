@@ -52,9 +52,9 @@ const CURSOR_FORCE = 430;
 const HOVER_CLEAR_DISTANCE = 60;
 
 const DENSITY_COUNT: Record<HomepageFxSettings['density'], number> = {
-  normal: 100,
-  many: 200,
-  swarm: 400,
+  normal: 75,
+  many: 150,
+  swarm: 300,
 };
 
 const SPEED_FACTOR: Record<HomepageFxSettings['speed'], number> = {
@@ -64,27 +64,89 @@ const SPEED_FACTOR: Record<HomepageFxSettings['speed'], number> = {
 };
 
 /** Drift personality per color family -- independent of the speed setting
- * above, which just scales all of these together. Cyberpunk drifts fast and
- * jerky with the odd glitchy jump; Silkpunk drifts slow and smooth, like
- * floating on water; Taopunk is the calmest of the three. */
+ * above, which just scales all of these together. Cyberpunk falls straight
+ * down like digital rain with the odd glitchy jump; Silkpunk sweeps
+ * sideways like a silk banner caught in a breeze, rippling gently as it
+ * goes; Taopunk's characters rise gently like sky lanterns (天燈) released
+ * at a festival -- the traditional Taoist/folk custom of writing a wish on
+ * a paper lantern and letting it drift up into the night sky. */
 const FAMILY_TUNING: Record<
   ThemeFamily,
-  { wander: number; rotationAmp: number; rotationSpeed: number; jitter: boolean }
+  {
+    wander: number;
+    rotationAmp: number;
+    rotationSpeed: number;
+    jitter: boolean;
+    motion: 'none' | 'fall' | 'rise' | 'drift';
+    sizeScale: number;
+  }
 > = {
-  cyberpunk: { wander: 1.6, rotationAmp: 1.3, rotationSpeed: 1.6, jitter: true },
-  silkpunk: { wander: 0.7, rotationAmp: 0.75, rotationSpeed: 0.7, jitter: false },
-  taopunk: { wander: 0.45, rotationAmp: 0.5, rotationSpeed: 0.55, jitter: false },
+  cyberpunk: {
+    wander: 1.6,
+    rotationAmp: 1.3,
+    rotationSpeed: 1.6,
+    jitter: true,
+    motion: 'fall',
+    sizeScale: 0.65,
+  },
+  silkpunk: {
+    wander: 0.7,
+    rotationAmp: 0.75,
+    rotationSpeed: 0.7,
+    jitter: false,
+    motion: 'drift',
+    sizeScale: 1,
+  },
+  taopunk: {
+    wander: 0.45,
+    rotationAmp: 0.5,
+    rotationSpeed: 0.55,
+    jitter: false,
+    motion: 'rise',
+    sizeScale: 0.7,
+  },
 };
 /** Odds per tick of a Cyberpunk glitch-jump -- small and infrequent so it
  * reads as flavor, not disorienting. */
 const JITTER_CHANCE = 0.003;
+/** Downward acceleration for Cyberpunk's digital-rain fall (px/s²).
+ * Unconditional -- applied every tick regardless of flinging/jitter state,
+ * so a thrown or glitch-kicked character still resumes falling afterward
+ * rather than settling into ambient wander like the other two families. */
+const FALL_GRAVITY = 55;
+/** Falling characters read as rain-brisk, not ambient-drift-slow, so they
+ * get their own (higher) speed ceiling instead of the shared wander cap. */
+const FALL_MAX_SPEED = 100;
+/** Upward pull for Taopunk's sky-lantern rise (px/s²) -- gentler than the
+ * rain's gravity, since a lantern drifts up slowly and peacefully rather
+ * than urgently. Also unconditional, same reasoning as FALL_GRAVITY. */
+const RISE_FORCE = 18;
+/** Lanterns rise slowly -- a much lower ceiling than the rain's. */
+const RISE_MAX_SPEED = 45;
+/** Sideways push for Silkpunk's banner-in-the-wind sweep (px/s²) -- between
+ * the rain's urgency and the lantern's gentleness. Unconditional, same
+ * reasoning as FALL_GRAVITY/RISE_FORCE. */
+const DRIFT_FORCE = 22;
+/** Silk drifts at a calm, steady pace -- faster than a rising lantern,
+ * much slower than falling rain. */
+const DRIFT_MAX_SPEED = 55;
 const JITTER_KICK = 240;
-/** How long a freshly spawned character takes to fade+scale up to full
- * presence, Taopunk only. Driven entirely by the same per-tick imperative
- * transform/opacity writes the rest of the physics already uses (not a CSS
- * transition/animation) so it can never get stuck the way a competing CSS
- * transition on a per-frame-driven property could. */
+/** How long a freshly spawned/rewrapped character takes to fade+scale up to
+ * full presence, Taopunk only -- a slow, dreamy lantern-lighting curve.
+ * Driven entirely by the same per-tick imperative transform/opacity writes
+ * the rest of the physics already uses (not a CSS transition/animation) so
+ * it can never get stuck the way a competing CSS transition on a
+ * per-frame-driven property could. */
 const MOUNT_MS = 900;
+/** Cyberpunk's equivalent, opacity-only (no scale ramp -- a glyph
+ * materializing digitally doesn't grow, it just appears) and much quicker,
+ * matching the header rain's soft fade at its column edges instead of an
+ * abrupt pop-in every time a character re-enters at the top. */
+const FALL_MOUNT_MS = 320;
+/** Silkpunk's equivalent -- a banner unfurling into view, between the
+ * other two in both feel and duration: fades and grows in (like Taopunk)
+ * but quicker (closer to Cyberpunk's pace). */
+const DRIFT_MOUNT_MS = 550;
 
 /** A quiet per-pathway tint (reusing the app's existing theme colors, so it
  * still adapts to whichever color theme is active) shown as a small dot
@@ -225,16 +287,31 @@ export function FloatingCharactersBg() {
     const el = elsRef.current.get(id);
     const physics = physicsRef.current.get(id);
     if (!el || !physics) return;
-    // Taopunk eases a fresh (or freshly respawned) character in over
-    // MOUNT_MS instead of having it appear at full presence instantly --
-    // entirely via this per-tick write, never a competing CSS transition.
+    // All three families ease a fresh (or freshly rewrapped) character in
+    // instead of having it appear at full presence instantly -- entirely
+    // via this per-tick write, never a competing CSS transition. Taopunk
+    // ramps scale too (a lantern growing into view), slow and dreamy;
+    // Silkpunk also ramps scale (a banner unfurling), quicker; Cyberpunk is
+    // opacity-only and quickest of all (a glyph materializing doesn't
+    // grow, it just appears -- matches the header rain's soft fade at its
+    // column edges).
+    const family = familyRef.current;
     let mountT = 1;
-    if (familyRef.current === 'taopunk') {
+    let mountScaleT = 1;
+    if (family === 'taopunk' || family === 'silkpunk') {
+      const duration = family === 'silkpunk' ? DRIFT_MOUNT_MS : MOUNT_MS;
       const age = performance.now() - physics.mountAt;
-      const raw = Math.min(1, Math.max(0, age / MOUNT_MS));
+      const raw = Math.min(1, Math.max(0, age / duration));
       mountT = 1 - (1 - raw) ** 3;
+      mountScaleT = mountT;
+    } else if (family === 'cyberpunk') {
+      const age = performance.now() - physics.mountAt;
+      mountT = Math.min(1, Math.max(0, age / FALL_MOUNT_MS));
     }
-    const scale = (0.72 + physics.depth * 0.56) * (0.55 + mountT * 0.45);
+    const scale =
+      (0.72 + physics.depth * 0.56) *
+      (0.55 + mountScaleT * 0.45) *
+      FAMILY_TUNING[family].sizeScale;
     el.style.transform = `translate3d(${physics.x}px, ${physics.y}px, 0) translate(-50%, -50%) rotate(${physics.rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
     el.style.setProperty(
       '--depth-opacity',
@@ -371,17 +448,25 @@ export function FloatingCharactersBg() {
             continue;
           }
 
+          // Real digital rain glyphs are always upright, never tumbling --
+          // so Cyberpunk skips the wobble entirely instead of just damping
+          // it, matching the perfectly-still header rain columns.
           physics.rotation =
-            Math.sin(now / (480 / tuning.rotationSpeed) + physics.phase) *
-            13 *
-            tuning.rotationAmp;
+            tuning.motion === 'fall'
+              ? 0
+              : Math.sin(now / (480 / tuning.rotationSpeed) + physics.phase) *
+                13 *
+                tuning.rotationAmp;
           if (dragRef.current?.id === id) continue;
 
           // Cursor proximity: curve away before the pointer even reaches
           // the character, falling off linearly to nothing at the radius.
-          const mouse = settingsRef.current.cursorForce
-            ? mouseRef.current
-            : null;
+          // Skipped for Cyberpunk's rain -- real digital rain doesn't react
+          // to the mouse, it just falls in a straight, independent column.
+          const mouse =
+            settingsRef.current.cursorForce && tuning.motion !== 'fall'
+              ? mouseRef.current
+              : null;
           if (mouse) {
             const mdx = physics.x - mouse.x;
             const mdy = physics.y - mouse.y;
@@ -397,7 +482,27 @@ export function FloatingCharactersBg() {
           // cheap parallax feel alongside their larger, more opaque render.
           const depthSpeed = 0.55 + physics.depth * 0.9;
           const effectiveSpeedFactor = speedFactor * depthSpeed;
-          const maxSpeed = 36 * effectiveSpeedFactor;
+          const maxSpeed =
+            tuning.motion === 'fall'
+              ? FALL_MAX_SPEED * effectiveSpeedFactor
+              : tuning.motion === 'rise'
+                ? RISE_MAX_SPEED * effectiveSpeedFactor
+                : tuning.motion === 'drift'
+                  ? DRIFT_MAX_SPEED * effectiveSpeedFactor
+                  : 36 * effectiveSpeedFactor;
+
+          // Cyberpunk falls, Taopunk rises, Silkpunk sweeps sideways -- a
+          // constant directional pull, applied unconditionally (even
+          // mid-fling/glitch-jump) so a thrown or kicked character still
+          // resumes its own direction afterward instead of settling into
+          // aimless ambient wander.
+          if (tuning.motion === 'fall') {
+            physics.vy += FALL_GRAVITY * effectiveSpeedFactor * dt;
+          } else if (tuning.motion === 'rise') {
+            physics.vy -= RISE_FORCE * effectiveSpeedFactor * dt;
+          } else if (tuning.motion === 'drift') {
+            physics.vx += DRIFT_FORCE * effectiveSpeedFactor * dt;
+          }
 
           if (physics.flinging) {
             physics.vx *= FLING_DAMPING;
@@ -412,6 +517,42 @@ export function FloatingCharactersBg() {
             physics.vx += randomBetween(-JITTER_KICK, JITTER_KICK);
             physics.vy += randomBetween(-JITTER_KICK, JITTER_KICK);
             physics.flinging = true;
+          } else if (tuning.motion === 'fall') {
+            // Rain straight from above, no horizontal drift at all -- real
+            // digital rain holds its column. Actively damp vx toward 0
+            // rather than just not adding to it, so any leftover sideways
+            // velocity (from a completed throw, a glitch-jump, cursor
+            // force before this tick's gate, whatever) bleeds off quickly
+            // instead of drifting the column sideways forever.
+            physics.vx *= 0.85;
+            const speed = Math.hypot(physics.vx, physics.vy);
+            if (speed > maxSpeed) {
+              physics.vx = (physics.vx / speed) * maxSpeed;
+              physics.vy = (physics.vy / speed) * maxSpeed;
+            }
+          } else if (tuning.motion === 'rise') {
+            // A lantern sways gently side to side (and a little in its
+            // climb rate) as it rises, rather than tracking a rigid line.
+            physics.vx += randomBetween(-14, 14) * tuning.wander * dt;
+            physics.vy += randomBetween(-6, 6) * tuning.wander * dt;
+            const speed = Math.hypot(physics.vx, physics.vy);
+            if (speed > maxSpeed) {
+              physics.vx = (physics.vx / speed) * maxSpeed;
+              physics.vy = (physics.vy / speed) * maxSpeed;
+            }
+          } else if (tuning.motion === 'drift') {
+            // A silk banner ripples smoothly as it's carried along -- a
+            // sine wave directly driving vy (not accumulated random jitter,
+            // which would look jittery rather than fabric-like), riding on
+            // top of the steady sideways push above.
+            physics.vy =
+              Math.sin(now / 900 + physics.phase) * 16 * tuning.wander;
+            physics.vx += randomBetween(-5, 5) * tuning.wander * dt;
+            const speed = Math.hypot(physics.vx, physics.vy);
+            if (speed > maxSpeed) {
+              physics.vx = (physics.vx / speed) * maxSpeed;
+              physics.vy = (physics.vy / speed) * maxSpeed;
+            }
           } else {
             physics.vx += randomBetween(-24, 24) * tuning.wander * dt;
             physics.vy += randomBetween(-24, 24) * tuning.wander * dt;
@@ -428,15 +569,52 @@ export function FloatingCharactersBg() {
             physics.x = bounds.left;
             physics.vx = Math.abs(physics.vx) * WALL_RESTITUTION;
           } else if (physics.x > bounds.right) {
-            physics.x = bounds.right;
-            physics.vx = -Math.abs(physics.vx) * WALL_RESTITUTION;
+            if (tuning.motion === 'drift') {
+              // A banner sweeps off the right edge -- re-enters from the
+              // left to sweep across again, with a fresh mount-fade (see
+              // applyTransform) so it reads as unfurling anew rather than
+              // an abrupt teleport.
+              physics.x = bounds.left - randomBetween(0, 80);
+              physics.y = randomBetween(bounds.top, bounds.bottom);
+              physics.vy = 0;
+              physics.vx = randomBetween(15, 35) * effectiveSpeedFactor;
+              physics.mountAt = now;
+            } else {
+              physics.x = bounds.right;
+              physics.vx = -Math.abs(physics.vx) * WALL_RESTITUTION;
+            }
           }
           if (physics.y < bounds.top) {
-            physics.y = bounds.top;
-            physics.vy = Math.abs(physics.vy) * WALL_RESTITUTION;
+            if (tuning.motion === 'rise') {
+              // A lantern drifts out of view at the top -- released again
+              // from the bottom to rise once more, with a fresh mount-fade
+              // (see applyTransform) so it reads as a newly-lit lantern
+              // rather than an abrupt teleport.
+              physics.y = bounds.bottom + randomBetween(0, 80);
+              physics.x = randomBetween(bounds.left, bounds.right);
+              physics.vx = randomBetween(-8, 8);
+              physics.vy = -randomBetween(15, 35) * effectiveSpeedFactor;
+              physics.mountAt = now;
+            } else {
+              physics.y = bounds.top;
+              physics.vy = Math.abs(physics.vy) * WALL_RESTITUTION;
+            }
           } else if (physics.y > bounds.bottom) {
-            physics.y = bounds.bottom;
-            physics.vy = -Math.abs(physics.vy) * WALL_RESTITUTION;
+            if (tuning.motion === 'fall') {
+              // Exits the bottom like it exits the screen -- wraps back to
+              // the top and falls again, rather than bouncing back down
+              // the way every other family's characters do at a wall. A
+              // fresh mountAt gives it the quick fade-in from applyTransform
+              // instead of popping in at full opacity instantly.
+              physics.y = bounds.top - randomBetween(0, 80);
+              physics.x = randomBetween(bounds.left, bounds.right);
+              physics.vx = 0;
+              physics.vy = randomBetween(30, 70) * effectiveSpeedFactor;
+              physics.mountAt = now;
+            } else {
+              physics.y = bounds.bottom;
+              physics.vy = -Math.abs(physics.vy) * WALL_RESTITUTION;
+            }
           }
         }
 
@@ -444,7 +622,11 @@ export function FloatingCharactersBg() {
         // normal (heavier/nearer characters push harder and budge less),
         // plus a small positional correction so overlapping pairs don't sink
         // into each other while their velocities sort themselves out.
-        const entries = [...physicsRef.current.entries()];
+        // Skipped entirely for Cyberpunk -- rain glyphs are independent
+        // columns that pass through each other, not solid objects that
+        // bump and deflect sideways.
+        const entries =
+          tuning.motion === 'fall' ? [] : [...physicsRef.current.entries()];
         for (let i = 0; i < entries.length; i++) {
           const [idA, a] = entries[i];
           if (a.merge || dragRef.current?.id === idA) continue;

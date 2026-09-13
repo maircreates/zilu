@@ -2,12 +2,16 @@
 
 import { useCallback, useSyncExternalStore } from 'react';
 
+import { useThemeFamily, type ThemeFamily } from './use-theme';
+
 /**
  * Settings for the homepage's floating-characters background, reachable from
- * Settings > Display > Aesthetics > Homepage. Stored as one JSON blob so the
- * choice survives navigation and reload, same as the mirror/theme toggles.
+ * Settings > Display > Aesthetics > Homepage. Each color family remembers
+ * its own configuration under its own storage key, so switching families in
+ * Settings > Display > Theme recalls that family's own saved setup instead
+ * of carrying over whatever was last set for a different one.
  */
-const STORAGE_KEY = 'zilu:homepage-fx';
+const STORAGE_PREFIX = 'zilu:homepage-fx:';
 
 export type HoverMode = 'glow' | 'stroke';
 export type ClickMode = 'pop' | 'flashcard';
@@ -31,22 +35,51 @@ export type HomepageFxSettings = {
   throwEnabled: boolean;
 };
 
-export const DEFAULT_HOMEPAGE_FX: HomepageFxSettings = {
-  enabled: true,
-  density: 'normal',
-  speed: 'normal',
-  hover: 'glow',
-  click: 'flashcard',
-  drag: 'physics',
-  cursorForce: true,
-  pathwayColors: true,
-  throwEnabled: true,
+/** Deliberately different per family, not just one shared starting point:
+ * Cyberpunk favors a dense, slow, moody rain with the full flashcard on
+ * click; Taopunk a lighter, quicker lantern drift with a playful
+ * pop-and-respawn click; Silkpunk stays closest to the original calm
+ * default. */
+const FAMILY_DEFAULTS: Record<ThemeFamily, HomepageFxSettings> = {
+  cyberpunk: {
+    enabled: true,
+    density: 'swarm',
+    speed: 'slow',
+    hover: 'stroke',
+    click: 'flashcard',
+    drag: 'physics',
+    cursorForce: true,
+    pathwayColors: true,
+    throwEnabled: true,
+  },
+  taopunk: {
+    enabled: true,
+    density: 'normal',
+    speed: 'fast',
+    hover: 'stroke',
+    click: 'pop',
+    drag: 'physics',
+    cursorForce: true,
+    pathwayColors: true,
+    throwEnabled: true,
+  },
+  silkpunk: {
+    enabled: true,
+    density: 'normal',
+    speed: 'normal',
+    hover: 'glow',
+    click: 'flashcard',
+    drag: 'physics',
+    cursorForce: true,
+    pathwayColors: true,
+    throwEnabled: true,
+  },
 };
 
 type Listener = () => void;
 let listeners: Listener[] = [];
-let cachedRaw: string | null = null;
-let cachedValue: HomepageFxSettings = DEFAULT_HOMEPAGE_FX;
+const cachedRaw = new Map<ThemeFamily, string | null>();
+const cachedValue = new Map<ThemeFamily, HomepageFxSettings>();
 
 function notify() {
   for (const listener of listeners) listener();
@@ -55,7 +88,7 @@ function notify() {
 function subscribe(listener: Listener) {
   listeners = [...listeners, listener];
   const onStorage = (event: StorageEvent) => {
-    if (event.key === STORAGE_KEY) listener();
+    if (event.key?.startsWith(STORAGE_PREFIX)) listener();
   };
   window.addEventListener('storage', onStorage);
   return () => {
@@ -75,57 +108,59 @@ const LEGACY_DENSITY: Record<string, Density> = {
   swarm: 'swarm',
 };
 
-function parse(raw: string | null): HomepageFxSettings {
-  if (!raw) return DEFAULT_HOMEPAGE_FX;
+function parse(raw: string | null, family: ThemeFamily): HomepageFxSettings {
+  const fallback = FAMILY_DEFAULTS[family];
+  if (!raw) return fallback;
   try {
     const parsed = JSON.parse(raw) as Partial<HomepageFxSettings>;
     const density = parsed.density ? LEGACY_DENSITY[parsed.density] : undefined;
-    return { ...DEFAULT_HOMEPAGE_FX, ...parsed, density: density ?? DEFAULT_HOMEPAGE_FX.density };
+    return { ...fallback, ...parsed, density: density ?? fallback.density };
   } catch {
-    return DEFAULT_HOMEPAGE_FX;
+    return fallback;
   }
 }
 
-function getSnapshot(): HomepageFxSettings {
+function getSnapshot(family: ThemeFamily): HomepageFxSettings {
   let raw: string | null = null;
   try {
-    raw = window.localStorage.getItem(STORAGE_KEY);
+    raw = window.localStorage.getItem(STORAGE_PREFIX + family);
   } catch {
     raw = null;
   }
-  if (raw !== cachedRaw) {
-    cachedRaw = raw;
-    cachedValue = parse(raw);
+  if (raw !== cachedRaw.get(family)) {
+    cachedRaw.set(family, raw);
+    cachedValue.set(family, parse(raw, family));
   }
-  return cachedValue;
-}
-
-function getServerSnapshot(): HomepageFxSettings {
-  return DEFAULT_HOMEPAGE_FX;
+  return cachedValue.get(family) ?? FAMILY_DEFAULTS[family];
 }
 
 export function useHomepageFx(): [
   HomepageFxSettings,
   (patch: Partial<HomepageFxSettings>) => void,
 ] {
+  const [family] = useThemeFamily();
+
   const settings = useSyncExternalStore(
     subscribe,
-    getSnapshot,
-    getServerSnapshot,
+    useCallback(() => getSnapshot(family), [family]),
+    useCallback(() => FAMILY_DEFAULTS[family], [family]),
   );
 
-  const update = useCallback((patch: Partial<HomepageFxSettings>) => {
-    const next = { ...getSnapshot(), ...patch };
-    const raw = JSON.stringify(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, raw);
-    } catch {
-      // Ignore write failures; the in-memory value still applies this visit.
-    }
-    cachedRaw = raw;
-    cachedValue = next;
-    notify();
-  }, []);
+  const update = useCallback(
+    (patch: Partial<HomepageFxSettings>) => {
+      const next = { ...getSnapshot(family), ...patch };
+      const raw = JSON.stringify(next);
+      try {
+        window.localStorage.setItem(STORAGE_PREFIX + family, raw);
+      } catch {
+        // Ignore write failures; the in-memory value still applies this visit.
+      }
+      cachedRaw.set(family, raw);
+      cachedValue.set(family, next);
+      notify();
+    },
+    [family],
+  );
 
   return [settings, update];
 }

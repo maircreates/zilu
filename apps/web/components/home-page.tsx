@@ -12,6 +12,7 @@ import { SettingsTrigger } from '@/components/settings-trigger';
 import { FloatingCharactersBg } from '@/components/floating-characters-bg';
 import { DayNightToggle } from '@/components/day-night-toggle';
 import { ThemeDivider } from '@/components/theme-divider';
+import { TopbarEmblem } from '@/components/topbar-emblem';
 
 export function HomePage() {
   return (
@@ -25,6 +26,7 @@ export function HomePage() {
       <FloatingCharactersBg />
 
       <header className="topbar">
+        <TopbarEmblem />
         <a className="brand" href="/" aria-label="ZiLu home">
           <span className="brand-mark">字</span>
           <span>

@@ -9,6 +9,7 @@ import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
 import { SearchTrigger } from '@/components/search-trigger';
 import { SettingsTrigger } from '@/components/settings-trigger';
 import { DayNightToggle } from '@/components/day-night-toggle';
+import { TopbarEmblem } from '@/components/topbar-emblem';
 
 function Toggle({
   label,
@@ -92,6 +93,7 @@ export function GrammarThemePage({ themeId }: { themeId: string }) {
       </div>
 
       <header className="topbar">
+        <TopbarEmblem />
         <a className="brand" href="/" aria-label="ZiLu home">
           <span className="brand-mark">字</span>
           <span>

@@ -12,6 +12,7 @@ import { SettingsTrigger } from '@/components/settings-trigger';
 import { StrokePractice } from '@/components/stroke-practice';
 import { StudySession } from '@/components/study-session';
 import { DayNightToggle } from '@/components/day-night-toggle';
+import { TopbarEmblem } from '@/components/topbar-emblem';
 
 type ExplorerPosition = {
   pathwayIndex: number;
@@ -134,6 +135,7 @@ export function FlashcardExplorer({
     <main className="app-shell">
       <div className="ambient" aria-hidden="true"><span /><span /><span /></div>
       <header className="topbar">
+        <TopbarEmblem />
         <a className="brand" href="/" aria-label="ZiLu home">
           <span className="brand-mark">字</span>
           <span><strong>ZiLu</strong><small>Your path into Chinese</small></span>

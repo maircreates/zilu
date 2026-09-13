@@ -7,6 +7,7 @@ import { SearchTrigger } from '@/components/search-trigger';
 import { SettingsTrigger } from '@/components/settings-trigger';
 import { ToneDrill } from '@/components/tone-drill';
 import { DayNightToggle } from '@/components/day-night-toggle';
+import { TopbarEmblem } from '@/components/topbar-emblem';
 import {
   MEASURE_WORDS,
   NUMBER_BUILD,
@@ -512,6 +513,7 @@ export function FundamentalsSectionPage({ sectionId }: { sectionId: string }) {
       </div>
 
       <header className="topbar">
+        <TopbarEmblem />
         <a className="brand" href="/" aria-label="ZiLu home">
           <span className="brand-mark">字</span>
           <span>

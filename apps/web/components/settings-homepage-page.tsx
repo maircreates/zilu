@@ -15,6 +15,7 @@ import { SearchTrigger } from '@/components/search-trigger';
 import { FloatingCharactersBg } from '@/components/floating-characters-bg';
 import { SegmentedControl } from '@/components/segmented-control';
 import { DayNightToggle } from '@/components/day-night-toggle';
+import { TopbarEmblem } from '@/components/topbar-emblem';
 
 const DENSITY_OPTIONS: { id: Density; label: string }[] = [
   { id: 'normal', label: 'Normal' },
@@ -64,6 +65,7 @@ export function SettingsHomepagePage() {
       <FloatingCharactersBg />
 
       <header className="topbar">
+        <TopbarEmblem />
         <a className="brand" href="/" aria-label="ZiLu home">
           <span className="brand-mark">字</span>
           <span>
@@ -89,7 +91,9 @@ export function SettingsHomepagePage() {
         <p>
           The Chinese characters drifting behind the homepage hero. Every
           character is a real word from your pathways, and changes here take
-          effect immediately -- visit the homepage to see them live.
+          effect immediately -- visit the homepage to see them live. Saved
+          separately per color family, so switching themes in Settings /
+          Display / Theme recalls that family&apos;s own setup here too.
         </p>
       </section>
 
