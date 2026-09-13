@@ -44,10 +44,8 @@ function SegmentedControl<T extends string>({
 }
 
 const DENSITY_OPTIONS: { id: Density; label: string }[] = [
-  { id: 'few', label: 'Few' },
-  { id: 'some', label: 'Some' },
+  { id: 'normal', label: 'Normal' },
   { id: 'many', label: 'Many' },
-  { id: 'crowded', label: 'Crowded' },
   { id: 'swarm', label: 'Swarm' },
 ];
 

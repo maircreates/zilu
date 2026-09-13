@@ -12,7 +12,7 @@ const STORAGE_KEY = 'zilu:homepage-fx';
 export type HoverMode = 'glow' | 'stroke';
 export type ClickMode = 'pop' | 'flashcard';
 export type DragMode = 'physics' | 'combine';
-export type Density = 'few' | 'some' | 'many' | 'crowded' | 'swarm';
+export type Density = 'normal' | 'many' | 'swarm';
 export type Speed = 'slow' | 'normal' | 'fast';
 
 export type HomepageFxSettings = {
@@ -33,7 +33,7 @@ export type HomepageFxSettings = {
 
 export const DEFAULT_HOMEPAGE_FX: HomepageFxSettings = {
   enabled: true,
-  density: 'some',
+  density: 'normal',
   speed: 'normal',
   hover: 'glow',
   click: 'flashcard',
@@ -64,11 +64,23 @@ function subscribe(listener: Listener) {
   };
 }
 
+/** Density used to have five tiers (few/some/many/crowded/swarm); carries an
+ * older visitor's stored choice over to the nearest of the current three by
+ * relative position, rather than leaving it as an unrecognized value. */
+const LEGACY_DENSITY: Record<string, Density> = {
+  few: 'normal',
+  some: 'normal',
+  many: 'many',
+  crowded: 'swarm',
+  swarm: 'swarm',
+};
+
 function parse(raw: string | null): HomepageFxSettings {
   if (!raw) return DEFAULT_HOMEPAGE_FX;
   try {
     const parsed = JSON.parse(raw) as Partial<HomepageFxSettings>;
-    return { ...DEFAULT_HOMEPAGE_FX, ...parsed };
+    const density = parsed.density ? LEGACY_DENSITY[parsed.density] : undefined;
+    return { ...DEFAULT_HOMEPAGE_FX, ...parsed, density: density ?? DEFAULT_HOMEPAGE_FX.density };
   } catch {
     return DEFAULT_HOMEPAGE_FX;
   }

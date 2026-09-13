@@ -27,7 +27,11 @@ const COLLISION_MIN_DIST = 46;
 /** Below this release speed (px/s) a drag just settles into normal drift --
  * deliberately not too sensitive, so a slow/small drag never flings. */
 const THROW_MIN_SPEED = 90;
-const THROW_MAX_SPEED = 480;
+const THROW_MAX_SPEED = 640;
+/** A release always launches noticeably faster than the tracked drag speed
+ * itself -- a real flick imparts a snap beyond what the hand's average
+ * velocity captures, so without this the takeoff reads as weak/slow. */
+const THROW_BOOST = 1.45;
 const FLING_DAMPING = 0.965;
 const IDLE_MS = 15000;
 const IDLE_CHECK_MS = 3000;
@@ -47,11 +51,9 @@ const CURSOR_FORCE = 260;
 const HOVER_CLEAR_DISTANCE = 60;
 
 const DENSITY_COUNT: Record<HomepageFxSettings['density'], number> = {
-  few: 20,
-  some: 30,
-  many: 50,
-  crowded: 70,
-  swarm: 100,
+  normal: 50,
+  many: 100,
+  swarm: 200,
 };
 
 const SPEED_FACTOR: Record<HomepageFxSettings['speed'], number> = {
@@ -701,9 +703,10 @@ export function FloatingCharactersBg() {
 
       const releaseSpeed = Math.hypot(drag.smoothVx, drag.smoothVy);
       if (settingsRef.current.throwEnabled && releaseSpeed > THROW_MIN_SPEED) {
-        const clamped = Math.min(releaseSpeed, THROW_MAX_SPEED) / releaseSpeed;
-        physics.vx = drag.smoothVx * clamped;
-        physics.vy = drag.smoothVy * clamped;
+        const boosted = Math.min(releaseSpeed * THROW_BOOST, THROW_MAX_SPEED);
+        const scale = boosted / releaseSpeed;
+        physics.vx = drag.smoothVx * scale;
+        physics.vy = drag.smoothVy * scale;
         physics.flinging = true;
       } else {
         physics.vx = Math.max(-40, Math.min(40, drag.smoothVx));
