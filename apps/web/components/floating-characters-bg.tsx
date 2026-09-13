@@ -21,8 +21,8 @@ const MERGE_DISTANCE = 70;
 const MERGE_TWEEN_MS = 260;
 const POP_MS = 280;
 const TOAST_MS = 2600;
-const WALL_RESTITUTION = 0.82;
-const COLLISION_RESTITUTION = 0.75;
+const WALL_RESTITUTION = 0.92;
+const COLLISION_RESTITUTION = 0.85;
 const COLLISION_MIN_DIST = 46;
 /** Below this release speed (px/s) a drag just settles into normal drift --
  * deliberately not too sensitive, so a slow/small drag never flings. */
@@ -39,8 +39,8 @@ const IDLE_CHECK_MS = 3000;
  * and how hard it pushes at zero distance (falls off linearly to 0 at the
  * radius). This is proximity, not contact -- it fires before you're even
  * hovering the character. */
-const CURSOR_RADIUS = 150;
-const CURSOR_FORCE = 340;
+const CURSOR_RADIUS = 110;
+const CURSOR_FORCE = 430;
 /** A hovered character keeps drifting (hover doesn't freeze it), so it can
  * end up drifting out from under a cursor that never itself moves. Browsers
  * only recompute pointerenter/pointerleave in response to real pointer
@@ -63,8 +63,9 @@ const SPEED_FACTOR: Record<HomepageFxSettings['speed'], number> = {
 };
 
 /** A quiet per-pathway tint (reusing the app's existing theme colors, so it
- * still adapts to Solarpunk/Cyberpunk) shown as a small dot under each
- * character -- a hint at which pathway teaches it, not a full recolor. */
+ * still adapts to whichever color theme is active) shown as a small dot
+ * under each character -- a hint at which pathway teaches it, not a full
+ * recolor. */
 const PATHWAY_TINT: Record<number, string> = {
   1: 'var(--green)',
   2: 'var(--accent)',
@@ -327,7 +328,7 @@ export function FloatingCharactersBg() {
             continue;
           }
 
-          physics.rotation = Math.sin(now / 650 + physics.phase) * 8;
+          physics.rotation = Math.sin(now / 480 + physics.phase) * 13;
           if (dragRef.current?.id === id) continue;
 
           // Cursor proximity: curve away before the pointer even reaches
@@ -350,7 +351,7 @@ export function FloatingCharactersBg() {
           // cheap parallax feel alongside their larger, more opaque render.
           const depthSpeed = 0.55 + physics.depth * 0.9;
           const effectiveSpeedFactor = speedFactor * depthSpeed;
-          const maxSpeed = 26 * effectiveSpeedFactor;
+          const maxSpeed = 36 * effectiveSpeedFactor;
 
           if (physics.flinging) {
             physics.vx *= FLING_DAMPING;
@@ -359,8 +360,8 @@ export function FloatingCharactersBg() {
               physics.flinging = false;
             }
           } else {
-            physics.vx += randomBetween(-14, 14) * dt;
-            physics.vy += randomBetween(-14, 14) * dt;
+            physics.vx += randomBetween(-24, 24) * dt;
+            physics.vy += randomBetween(-24, 24) * dt;
             const speed = Math.hypot(physics.vx, physics.vy);
             if (speed > maxSpeed) {
               physics.vx = (physics.vx / speed) * maxSpeed;

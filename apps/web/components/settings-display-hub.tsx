@@ -1,9 +1,10 @@
 'use client';
 
-import { ArrowLeft, ArrowRight, Moon, Sun } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 
-import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
+import { FloatingCharactersBg } from '@/components/floating-characters-bg';
+import { DayNightToggle } from '@/components/day-night-toggle';
 
 const CARDS = [
   {
@@ -22,12 +23,11 @@ const CARDS = [
     href: '/settings/display/theme',
     num: '03',
     title: 'Theme',
-    teaser: 'Solarpunk / Cyberpunk color themes. In progress -- for now, use the toggle in the footer.',
+    teaser: 'Cyberpunk, Silkpunk, or Taopunk -- each with its own day and night look.',
   },
 ] as const;
 
 export function SettingsDisplayHub() {
-  const [darkMode, setDarkMode] = useTheme();
 
   return (
     <main className="app-shell">
@@ -36,6 +36,8 @@ export function SettingsDisplayHub() {
         <span />
         <span />
       </div>
+
+      <FloatingCharactersBg />
 
       <header className="topbar">
         <a className="brand" href="/" aria-label="ZiLu home">
@@ -78,24 +80,7 @@ export function SettingsDisplayHub() {
 
       <footer className="footer">
         <p>Learner-facing Chinese is always Traditional Chinese.</p>
-        <label
-          className="theme-control"
-          aria-label="Choose light or dark appearance"
-        >
-          <Sun aria-hidden="true" />
-          <span>Solarpunk</span>
-          <input
-            type="checkbox"
-            checked={darkMode}
-            onChange={(event) => setDarkMode(event.target.checked)}
-            aria-label="Use Cyberpunk dark mode"
-          />
-          <span className="toggle-track" aria-hidden="true">
-            <span />
-          </span>
-          <Moon aria-hidden="true" />
-          <span>Cyberpunk</span>
-        </label>
+        <DayNightToggle />
       </footer>
     </main>
   );

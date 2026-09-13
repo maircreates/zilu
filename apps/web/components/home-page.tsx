@@ -4,19 +4,15 @@ import {
   ArrowRight,
   BookOpenText,
   Layers,
-  Moon,
   Sparkles,
-  Sun,
 } from 'lucide-react';
 
-import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
 import { SettingsTrigger } from '@/components/settings-trigger';
 import { FloatingCharactersBg } from '@/components/floating-characters-bg';
+import { DayNightToggle } from '@/components/day-night-toggle';
 
 export function HomePage() {
-  const [darkMode, setDarkMode] = useTheme();
-
   return (
     <main className="app-shell">
       <div className="ambient" aria-hidden="true">
@@ -45,7 +41,6 @@ export function HomePage() {
       </header>
 
       <section className="home-hero">
-        <span className="eyebrow">Beginner-first Mandarin</span>
         <h1>Your path into Chinese, one Waypoint at a time.</h1>
         <p>
           ZiLu is built for people who are starting with zero Chinese knowledge.
@@ -109,24 +104,7 @@ export function HomePage() {
           Only the flashcard experience and this fundamentals bridge are in
           scope right now. Traditional Chinese stays canonical throughout.
         </p>
-        <label
-          className="theme-control"
-          aria-label="Choose light or dark appearance"
-        >
-          <Sun aria-hidden="true" />
-          <span>Solarpunk</span>
-          <input
-            type="checkbox"
-            checked={darkMode}
-            onChange={(event) => setDarkMode(event.target.checked)}
-            aria-label="Use Cyberpunk dark mode"
-          />
-          <span className="toggle-track" aria-hidden="true">
-            <span />
-          </span>
-          <Moon aria-hidden="true" />
-          <span>Cyberpunk</span>
-        </label>
+        <DayNightToggle />
       </footer>
     </main>
   );

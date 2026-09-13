@@ -1,12 +1,12 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { ArrowLeft, Moon, Sun, Volume2 } from 'lucide-react';
+import { ArrowLeft, Volume2 } from 'lucide-react';
 
-import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
 import { SettingsTrigger } from '@/components/settings-trigger';
 import { ToneDrill } from '@/components/tone-drill';
+import { DayNightToggle } from '@/components/day-night-toggle';
 import {
   MEASURE_WORDS,
   NUMBER_BUILD,
@@ -482,7 +482,6 @@ const SECTION_CONTENT: Record<
 
 export function FundamentalsSectionPage({ sectionId }: { sectionId: string }) {
   const [status, setStatus] = useState('');
-  const [darkMode, setDarkMode] = useTheme();
 
   const speak = useCallback((hanzi: string) => {
     if (!('speechSynthesis' in window)) {
@@ -577,24 +576,7 @@ export function FundamentalsSectionPage({ sectionId }: { sectionId: string }) {
 
       <footer className="footer">
         <p>Learner-facing Chinese is always Traditional Chinese.</p>
-        <label
-          className="theme-control"
-          aria-label="Choose light or dark appearance"
-        >
-          <Sun aria-hidden="true" />
-          <span>Solarpunk</span>
-          <input
-            type="checkbox"
-            checked={darkMode}
-            onChange={(event) => setDarkMode(event.target.checked)}
-            aria-label="Use Cyberpunk dark mode"
-          />
-          <span className="toggle-track" aria-hidden="true">
-            <span />
-          </span>
-          <Moon aria-hidden="true" />
-          <span>Cyberpunk</span>
-        </label>
+        <DayNightToggle />
       </footer>
     </main>
   );

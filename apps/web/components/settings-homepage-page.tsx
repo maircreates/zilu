@@ -1,8 +1,7 @@
 'use client';
 
-import { ArrowLeft, Moon, Sun } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
-import { useTheme } from '@/lib/use-theme';
 import {
   useHomepageFx,
   type ClickMode,
@@ -13,35 +12,9 @@ import {
   type Speed,
 } from '@/lib/use-homepage-fx';
 import { SearchTrigger } from '@/components/search-trigger';
-
-function SegmentedControl<T extends string>({
-  value,
-  options,
-  onChange,
-  legend,
-}: {
-  value: T;
-  options: readonly { id: T; label: string }[];
-  onChange: (next: T) => void;
-  legend: string;
-}) {
-  return (
-    <fieldset className="stroke-speed">
-      <legend className="sr-only">{legend}</legend>
-      {options.map((option) => (
-        <button
-          key={option.id}
-          type="button"
-          className={option.id === value ? 'active' : ''}
-          aria-pressed={option.id === value}
-          onClick={() => onChange(option.id)}
-        >
-          {option.label}
-        </button>
-      ))}
-    </fieldset>
-  );
-}
+import { FloatingCharactersBg } from '@/components/floating-characters-bg';
+import { SegmentedControl } from '@/components/segmented-control';
+import { DayNightToggle } from '@/components/day-night-toggle';
 
 const DENSITY_OPTIONS: { id: Density; label: string }[] = [
   { id: 'normal', label: 'Normal' },
@@ -71,7 +44,6 @@ const DRAG_OPTIONS: { id: DragMode; label: string }[] = [
 ];
 
 export function SettingsHomepagePage() {
-  const [darkMode, setDarkMode] = useTheme();
   const [fx, setFx] = useHomepageFx();
 
   function set<K extends keyof HomepageFxSettings>(
@@ -88,6 +60,8 @@ export function SettingsHomepagePage() {
         <span />
         <span />
       </div>
+
+      <FloatingCharactersBg />
 
       <header className="topbar">
         <a className="brand" href="/" aria-label="ZiLu home">
@@ -289,24 +263,7 @@ export function SettingsHomepagePage() {
 
       <footer className="footer">
         <p>Learner-facing Chinese is always Traditional Chinese.</p>
-        <label
-          className="theme-control"
-          aria-label="Choose light or dark appearance"
-        >
-          <Sun aria-hidden="true" />
-          <span>Solarpunk</span>
-          <input
-            type="checkbox"
-            checked={darkMode}
-            onChange={(event) => setDarkMode(event.target.checked)}
-            aria-label="Use Cyberpunk dark mode"
-          />
-          <span className="toggle-track" aria-hidden="true">
-            <span />
-          </span>
-          <Moon aria-hidden="true" />
-          <span>Cyberpunk</span>
-        </label>
+        <DayNightToggle />
       </footer>
     </main>
   );

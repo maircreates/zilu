@@ -1,17 +1,17 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, ArrowRight, Check, Moon, PenLine, Shuffle, Sparkles, Sun, Volume2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, PenLine, Shuffle, Sparkles, Volume2 } from 'lucide-react';
 
 import { pathways } from '@/lib/pathways';
 import { findGuidedStudyDeck } from '@/lib/study-session';
 import { useMirrorPreference } from '@/lib/use-mirror';
 import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
-import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
 import { SettingsTrigger } from '@/components/settings-trigger';
 import { StrokePractice } from '@/components/stroke-practice';
 import { StudySession } from '@/components/study-session';
+import { DayNightToggle } from '@/components/day-night-toggle';
 
 type ExplorerPosition = {
   pathwayIndex: number;
@@ -44,7 +44,6 @@ export function FlashcardExplorer({
   const [flipped, setFlipped] = useState(false);
   const [showPinyinFront, setShowPinyinFront] = usePinyinciationPreference();
   const [mirror, setMirror] = useMirrorPreference();
-  const [darkMode, setDarkMode] = useTheme();
   const [soundStatus, setSoundStatus] = useState('');
   const [practiceOpen, setPracticeOpen] = useState(false);
   // A "?guided=1" link (used by the home page callout) opens the guided study
@@ -290,12 +289,7 @@ export function FlashcardExplorer({
 
       <footer className="footer">
         <p><Check aria-hidden="true" /> {totalCards} cards · Learner-facing Chinese is always Traditional Chinese.</p>
-        <label className="theme-control" aria-label="Choose light or dark appearance">
-          <Sun aria-hidden="true" /><span>Solarpunk</span>
-          <input type="checkbox" checked={darkMode} onChange={(event) => setDarkMode(event.target.checked)} aria-label="Use Cyberpunk dark mode" />
-          <span className="toggle-track" aria-hidden="true"><span /></span>
-          <Moon aria-hidden="true" /><span>Cyberpunk</span>
-        </label>
+        <DayNightToggle />
       </footer>
     </main>
   );

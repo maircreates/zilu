@@ -1,15 +1,13 @@
 'use client';
 
-import { ArrowRight, Moon, Sun } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 import { GRAMMAR_THEMES } from '@/lib/grammar';
-import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
 import { SettingsTrigger } from '@/components/settings-trigger';
+import { DayNightToggle } from '@/components/day-night-toggle';
 
 export function GrammarHub() {
-  const [darkMode, setDarkMode] = useTheme();
-
   return (
     <main className="app-shell">
       <div className="ambient" aria-hidden="true">
@@ -77,24 +75,7 @@ export function GrammarHub() {
 
       <footer className="footer">
         <p>Learner-facing Chinese is always Traditional Chinese.</p>
-        <label
-          className="theme-control"
-          aria-label="Choose light or dark appearance"
-        >
-          <Sun aria-hidden="true" />
-          <span>Solarpunk</span>
-          <input
-            type="checkbox"
-            checked={darkMode}
-            onChange={(event) => setDarkMode(event.target.checked)}
-            aria-label="Use Cyberpunk dark mode"
-          />
-          <span className="toggle-track" aria-hidden="true">
-            <span />
-          </span>
-          <Moon aria-hidden="true" />
-          <span>Cyberpunk</span>
-        </label>
+        <DayNightToggle />
       </footer>
     </main>
   );

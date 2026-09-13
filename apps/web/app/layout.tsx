@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#ef765d',
+  themeColor: '#c1442c',
 };
 
 export default function RootLayout({
@@ -40,11 +40,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* Apply the saved theme before paint so there is no flash of the wrong palette. */}
+        {/* Apply the saved color family + day/night mode before paint so there is no flash of the wrong palette. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{if(localStorage.getItem('zilu:theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}",
+              "try{var f=localStorage.getItem('zilu:theme-family');f=(f==='cyberpunk'||f==='silkpunk'||f==='taopunk')?f:'silkpunk';var m=localStorage.getItem('zilu:theme-mode');if(m!=='day'&&m!=='night')m=localStorage.getItem('zilu:theme')==='dark'?'night':'day';document.documentElement.setAttribute('data-theme',f+'-'+m)}catch(e){}",
           }}
         />
         {children}

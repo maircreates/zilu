@@ -1,9 +1,10 @@
 'use client';
 
-import { ArrowLeft, Moon, Sun } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
-import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
+import { FloatingCharactersBg } from '@/components/floating-characters-bg';
+import { DayNightToggle } from '@/components/day-night-toggle';
 
 export function SettingsStubPage({
   title,
@@ -12,8 +13,6 @@ export function SettingsStubPage({
   title: string;
   description: string;
 }) {
-  const [darkMode, setDarkMode] = useTheme();
-
   return (
     <main className="app-shell">
       <div className="ambient" aria-hidden="true">
@@ -21,6 +20,8 @@ export function SettingsStubPage({
         <span />
         <span />
       </div>
+
+      <FloatingCharactersBg />
 
       <header className="topbar">
         <a className="brand" href="/" aria-label="ZiLu home">
@@ -54,24 +55,7 @@ export function SettingsStubPage({
 
       <footer className="footer">
         <p>Learner-facing Chinese is always Traditional Chinese.</p>
-        <label
-          className="theme-control"
-          aria-label="Choose light or dark appearance"
-        >
-          <Sun aria-hidden="true" />
-          <span>Solarpunk</span>
-          <input
-            type="checkbox"
-            checked={darkMode}
-            onChange={(event) => setDarkMode(event.target.checked)}
-            aria-label="Use Cyberpunk dark mode"
-          />
-          <span className="toggle-track" aria-hidden="true">
-            <span />
-          </span>
-          <Moon aria-hidden="true" />
-          <span>Cyberpunk</span>
-        </label>
+        <DayNightToggle />
       </footer>
     </main>
   );

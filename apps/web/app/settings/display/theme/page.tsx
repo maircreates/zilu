@@ -1,17 +1,12 @@
 import type { Metadata } from 'next';
 
-import { SettingsStubPage } from '@/components/settings-stub-page';
+import { SettingsThemePage } from '@/components/settings-theme-page';
 
 export const metadata: Metadata = {
   title: 'Theme — Display — Settings — ZiLu',
-  description: 'Solarpunk / Cyberpunk color theme settings for ZiLu.',
+  description: 'Cyberpunk, Silkpunk, and Taopunk color themes for ZiLu, each with a day and night mode.',
 };
 
-export default function SettingsThemePage() {
-  return (
-    <SettingsStubPage
-      title="Theme"
-      description="Solarpunk / Cyberpunk color themes. For now, use the toggle in the footer of any page."
-    />
-  );
+export default function SettingsThemeRoute() {
+  return <SettingsThemePage />;
 }

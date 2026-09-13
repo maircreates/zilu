@@ -1,14 +1,14 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { ArrowLeft, Moon, Sun, Volume2 } from 'lucide-react';
+import { ArrowLeft, Volume2 } from 'lucide-react';
 
 import { GRAMMAR_THEMES, type GrammarExample } from '@/lib/grammar';
 import { useEnglishPreference } from '@/lib/use-english';
 import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
-import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
 import { SettingsTrigger } from '@/components/settings-trigger';
+import { DayNightToggle } from '@/components/day-night-toggle';
 
 function Toggle({
   label,
@@ -41,7 +41,6 @@ function Toggle({
 
 export function GrammarThemePage({ themeId }: { themeId: string }) {
   const [status, setStatus] = useState('');
-  const [darkMode, setDarkMode] = useTheme();
   const [showPinyin, setShowPinyin] = usePinyinciationPreference();
   const [showEnglish, setShowEnglish] = useEnglishPreference();
 
@@ -209,24 +208,7 @@ export function GrammarThemePage({ themeId }: { themeId: string }) {
 
       <footer className="footer">
         <p>Learner-facing Chinese is always Traditional Chinese.</p>
-        <label
-          className="theme-control"
-          aria-label="Choose light or dark appearance"
-        >
-          <Sun aria-hidden="true" />
-          <span>Solarpunk</span>
-          <input
-            type="checkbox"
-            checked={darkMode}
-            onChange={(event) => setDarkMode(event.target.checked)}
-            aria-label="Use Cyberpunk dark mode"
-          />
-          <span className="toggle-track" aria-hidden="true">
-            <span />
-          </span>
-          <Moon aria-hidden="true" />
-          <span>Cyberpunk</span>
-        </label>
+        <DayNightToggle />
       </footer>
     </main>
   );
