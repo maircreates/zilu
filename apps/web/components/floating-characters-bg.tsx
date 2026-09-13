@@ -12,6 +12,7 @@ import {
   type SourcedCard,
 } from '@/lib/floating-characters';
 import { useHomepageFx, type HomepageFxSettings } from '@/lib/use-homepage-fx';
+import { useThemeFamily, type ThemeFamily } from '@/lib/use-theme';
 import { StrokePractice } from '@/components/stroke-practice';
 
 const TOPBAR_HEIGHT = 76;
@@ -62,6 +63,29 @@ const SPEED_FACTOR: Record<HomepageFxSettings['speed'], number> = {
   fast: 1.9,
 };
 
+/** Drift personality per color family -- independent of the speed setting
+ * above, which just scales all of these together. Cyberpunk drifts fast and
+ * jerky with the odd glitchy jump; Silkpunk drifts slow and smooth, like
+ * floating on water; Taopunk is the calmest of the three. */
+const FAMILY_TUNING: Record<
+  ThemeFamily,
+  { wander: number; rotationAmp: number; rotationSpeed: number; jitter: boolean }
+> = {
+  cyberpunk: { wander: 1.6, rotationAmp: 1.3, rotationSpeed: 1.6, jitter: true },
+  silkpunk: { wander: 0.7, rotationAmp: 0.75, rotationSpeed: 0.7, jitter: false },
+  taopunk: { wander: 0.45, rotationAmp: 0.5, rotationSpeed: 0.55, jitter: false },
+};
+/** Odds per tick of a Cyberpunk glitch-jump -- small and infrequent so it
+ * reads as flavor, not disorienting. */
+const JITTER_CHANCE = 0.003;
+const JITTER_KICK = 240;
+/** How long a freshly spawned character takes to fade+scale up to full
+ * presence, Taopunk only. Driven entirely by the same per-tick imperative
+ * transform/opacity writes the rest of the physics already uses (not a CSS
+ * transition/animation) so it can never get stuck the way a competing CSS
+ * transition on a per-frame-driven property could. */
+const MOUNT_MS = 900;
+
 /** A quiet per-pathway tint (reusing the app's existing theme colors, so it
  * still adapts to whichever color theme is active) shown as a small dot
  * under each character -- a hint at which pathway teaches it, not a full
@@ -89,6 +113,8 @@ type Physics = {
   rotation: number;
   /** True right after a fast-enough throw; decays back to normal drift. */
   flinging: boolean;
+  /** performance.now() at spawn/respawn -- drives the Taopunk mount fade. */
+  mountAt: number;
 };
 
 type Bounds = { left: number; right: number; top: number; bottom: number };
@@ -145,6 +171,7 @@ function computeBounds(): Bounds {
  * derived from the real vocabulary data, not a hand-picked list. */
 export function FloatingCharactersBg() {
   const [settings] = useHomepageFx();
+  const [family] = useThemeFamily();
   const [items, setItems] = useState<Item[]>([]);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [poppingId, setPoppingId] = useState<number | null>(null);
@@ -170,6 +197,7 @@ export function FloatingCharactersBg() {
   const rafRef = useRef<number | null>(null);
   const lastFrameRef = useRef<number>(0);
   const settingsRef = useRef(settings);
+  const familyRef = useRef(family);
   const reducedMotionRef = useRef(false);
   const itemsRef = useRef<Item[]>([]);
   const lastInteractionRef = useRef(0);
@@ -180,6 +208,10 @@ export function FloatingCharactersBg() {
   useEffect(() => {
     settingsRef.current = settings;
   }, [settings]);
+
+  useEffect(() => {
+    familyRef.current = family;
+  }, [family]);
 
   useEffect(() => {
     hoveredIdRef.current = hoveredId;
@@ -193,11 +225,20 @@ export function FloatingCharactersBg() {
     const el = elsRef.current.get(id);
     const physics = physicsRef.current.get(id);
     if (!el || !physics) return;
-    const scale = 0.72 + physics.depth * 0.56;
+    // Taopunk eases a fresh (or freshly respawned) character in over
+    // MOUNT_MS instead of having it appear at full presence instantly --
+    // entirely via this per-tick write, never a competing CSS transition.
+    let mountT = 1;
+    if (familyRef.current === 'taopunk') {
+      const age = performance.now() - physics.mountAt;
+      const raw = Math.min(1, Math.max(0, age / MOUNT_MS));
+      mountT = 1 - (1 - raw) ** 3;
+    }
+    const scale = (0.72 + physics.depth * 0.56) * (0.55 + mountT * 0.45);
     el.style.transform = `translate3d(${physics.x}px, ${physics.y}px, 0) translate(-50%, -50%) rotate(${physics.rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
     el.style.setProperty(
       '--depth-opacity',
-      (0.32 + physics.depth * 0.5).toFixed(3),
+      ((0.32 + physics.depth * 0.5) * (0.3 + mountT * 0.7)).toFixed(3),
     );
   }, []);
 
@@ -221,6 +262,7 @@ export function FloatingCharactersBg() {
         phase: Math.random() * Math.PI * 2,
         rotation: 0,
         flinging: false,
+        mountAt: performance.now(),
       });
       return { id, card };
     },
@@ -310,6 +352,7 @@ export function FloatingCharactersBg() {
       lastFrameRef.current = now;
       const bounds = boundsRef.current;
       const speedFactor = SPEED_FACTOR[settingsRef.current.speed];
+      const tuning = FAMILY_TUNING[familyRef.current];
 
       if (!reducedMotionRef.current) {
         for (const [id, physics] of physicsRef.current) {
@@ -328,7 +371,10 @@ export function FloatingCharactersBg() {
             continue;
           }
 
-          physics.rotation = Math.sin(now / 480 + physics.phase) * 13;
+          physics.rotation =
+            Math.sin(now / (480 / tuning.rotationSpeed) + physics.phase) *
+            13 *
+            tuning.rotationAmp;
           if (dragRef.current?.id === id) continue;
 
           // Cursor proximity: curve away before the pointer even reaches
@@ -359,9 +405,16 @@ export function FloatingCharactersBg() {
             if (Math.hypot(physics.vx, physics.vy) <= maxSpeed) {
               physics.flinging = false;
             }
+          } else if (tuning.jitter && Math.random() < JITTER_CHANCE) {
+            // Cyberpunk glitch-jump: a sudden kick that decays back to
+            // normal drift through the same fling-damping path a throw
+            // uses, rather than a one-off teleport.
+            physics.vx += randomBetween(-JITTER_KICK, JITTER_KICK);
+            physics.vy += randomBetween(-JITTER_KICK, JITTER_KICK);
+            physics.flinging = true;
           } else {
-            physics.vx += randomBetween(-24, 24) * dt;
-            physics.vy += randomBetween(-24, 24) * dt;
+            physics.vx += randomBetween(-24, 24) * tuning.wander * dt;
+            physics.vy += randomBetween(-24, 24) * tuning.wander * dt;
             const speed = Math.hypot(physics.vx, physics.vy);
             if (speed > maxSpeed) {
               physics.vx = (physics.vx / speed) * maxSpeed;

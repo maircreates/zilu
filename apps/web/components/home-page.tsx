@@ -11,6 +11,7 @@ import { SearchTrigger } from '@/components/search-trigger';
 import { SettingsTrigger } from '@/components/settings-trigger';
 import { FloatingCharactersBg } from '@/components/floating-characters-bg';
 import { DayNightToggle } from '@/components/day-night-toggle';
+import { ThemeDivider } from '@/components/theme-divider';
 
 export function HomePage() {
   return (
@@ -56,6 +57,8 @@ export function HomePage() {
           </a>
         </div>
       </section>
+
+      <ThemeDivider />
 
       <section className="home-cards" aria-label="Where to go next">
         <a href="/fundamentals" className="home-card">

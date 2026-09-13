@@ -6,6 +6,7 @@ import { GRAMMAR_THEMES } from '@/lib/grammar';
 import { SearchTrigger } from '@/components/search-trigger';
 import { SettingsTrigger } from '@/components/settings-trigger';
 import { DayNightToggle } from '@/components/day-night-toggle';
+import { ThemeDivider } from '@/components/theme-divider';
 
 export function GrammarHub() {
   return (
@@ -45,6 +46,8 @@ export function GrammarHub() {
           self-test.
         </p>
       </section>
+
+      <ThemeDivider />
 
       <div className="hub-grid">
         {GRAMMAR_THEMES.map((theme) => (

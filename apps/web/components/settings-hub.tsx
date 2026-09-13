@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import { SearchTrigger } from '@/components/search-trigger';
 import { FloatingCharactersBg } from '@/components/floating-characters-bg';
 import { DayNightToggle } from '@/components/day-night-toggle';
+import { ThemeDivider } from '@/components/theme-divider';
 
 export function SettingsHub() {
   return (
@@ -38,6 +39,8 @@ export function SettingsHub() {
         <h1>Settings</h1>
         <p>Control how ZiLu looks and behaves. Nothing here changes what you study.</p>
       </section>
+
+      <ThemeDivider />
 
       <div className="hub-grid">
         <a href="/settings/display" className="hub-card">

@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { SearchTrigger } from '@/components/search-trigger';
 import { FloatingCharactersBg } from '@/components/floating-characters-bg';
 import { DayNightToggle } from '@/components/day-night-toggle';
+import { ThemeDivider } from '@/components/theme-divider';
 
 export function SettingsAestheticsHub() {
   return (
@@ -42,6 +43,8 @@ export function SettingsAestheticsHub() {
         <h1>Aesthetics</h1>
         <p>Visual flourishes layered on top of the core experience.</p>
       </section>
+
+      <ThemeDivider />
 
       <div className="hub-grid">
         <a href="/settings/display/aesthetics/homepage" className="hub-card">

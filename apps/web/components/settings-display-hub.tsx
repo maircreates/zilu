@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { SearchTrigger } from '@/components/search-trigger';
 import { FloatingCharactersBg } from '@/components/floating-characters-bg';
 import { DayNightToggle } from '@/components/day-night-toggle';
+import { ThemeDivider } from '@/components/theme-divider';
 
 const CARDS = [
   {
@@ -64,6 +65,8 @@ export function SettingsDisplayHub() {
         <h1>Display</h1>
         <p>How ZiLu looks: visual effects, interface density, and color theme.</p>
       </section>
+
+      <ThemeDivider />
 
       <div className="hub-grid">
         {CARDS.map((card) => (
