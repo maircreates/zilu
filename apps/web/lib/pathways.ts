@@ -1,6 +1,7 @@
 import volume1Vocabulary from './pathway01-vocabulary.json';
 import volume2Vocabulary from './vocabulary.json';
 import volume3Vocabulary from './volume3-vocabulary.json';
+import volume4Vocabulary from './volume4-vocabulary.json';
 
 export type Flashcard = {
   hanzi: string;
@@ -70,6 +71,19 @@ const volume3Topics = [
   ['geography', 'Geography of China', '中國地理'],
 ] as const;
 
+const volume4Topics = [
+  ['holidays', "China's Holidays", '中國的節日'],
+  ['changes', 'Changes in China', '中國的變化'],
+  ['yunnan-trip', 'A Trip to Yunnan', '去雲南旅遊'],
+  ['health', 'Lifestyle and Health', '生活與健康'],
+  ['gender-equality', 'Gender Equality', '男女平等'],
+  ['environment', 'Environmental Protection and Energy Conservation', '環境保護與節約能源'],
+  ['wealth-management', 'Wealth Management and Investing', '理財與投資'],
+  ['chinese-history', "China's History", '中國歷史'],
+  ['job-interview', 'Job Interview', '面試'],
+  ['smaller-world', 'The World Is Getting Smaller', '世界變小了'],
+] as const;
+
 function makeWaypoints(
   topics: ReadonlyArray<readonly [string, string, string]>,
   source: Record<string, Flashcard[]>,
@@ -114,5 +128,13 @@ export const pathways: Pathway[] = [
     chinese: '拓展視野',
     description: 'Build independence through school, work, relationships, technology, and travel.',
     waypoints: makeWaypoints(volume3Topics, volume3Vocabulary as Record<string, Flashcard[]>, 1),
+  },
+  {
+    id: 'deeper-fluency',
+    number: 4,
+    name: 'Deeper Fluency',
+    chinese: '學以致用',
+    description: 'Engage with real adult topics -- society, history, money, and the wider world -- in fluent, natural Chinese.',
+    waypoints: makeWaypoints(volume4Topics, volume4Vocabulary as Record<string, Flashcard[]>, 11),
   },
 ];
