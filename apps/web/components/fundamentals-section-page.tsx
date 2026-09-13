@@ -5,6 +5,7 @@ import { ArrowLeft, Moon, Sun, Volume2 } from 'lucide-react';
 
 import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
+import { SettingsTrigger } from '@/components/settings-trigger';
 import { ToneDrill } from '@/components/tone-drill';
 import {
   MEASURE_WORDS,
@@ -526,6 +527,7 @@ export function FundamentalsSectionPage({ sectionId }: { sectionId: string }) {
           <a href="/grammar">Grammar</a>
           <a href="/study">Study</a>
           <SearchTrigger />
+          <SettingsTrigger />
         </nav>
       </header>
 

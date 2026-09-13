@@ -11,6 +11,8 @@ import {
 
 import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
+import { SettingsTrigger } from '@/components/settings-trigger';
+import { FloatingCharactersBg } from '@/components/floating-characters-bg';
 
 export function HomePage() {
   const [darkMode, setDarkMode] = useTheme();
@@ -22,6 +24,8 @@ export function HomePage() {
         <span />
         <span />
       </div>
+
+      <FloatingCharactersBg />
 
       <header className="topbar">
         <a className="brand" href="/" aria-label="ZiLu home">
@@ -36,6 +40,7 @@ export function HomePage() {
           <a href="/grammar">Grammar</a>
           <a href="/study">Study</a>
           <SearchTrigger />
+          <SettingsTrigger />
         </nav>
       </header>
 

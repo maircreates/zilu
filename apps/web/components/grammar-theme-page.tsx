@@ -8,6 +8,7 @@ import { useEnglishPreference } from '@/lib/use-english';
 import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
 import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
+import { SettingsTrigger } from '@/components/settings-trigger';
 
 function Toggle({
   label,
@@ -106,6 +107,7 @@ export function GrammarThemePage({ themeId }: { themeId: string }) {
           </a>
           <a href="/study">Study</a>
           <SearchTrigger />
+          <SettingsTrigger />
         </nav>
       </header>
 

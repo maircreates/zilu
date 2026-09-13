@@ -9,6 +9,7 @@ import { useMirrorPreference } from '@/lib/use-mirror';
 import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
 import { useTheme } from '@/lib/use-theme';
 import { SearchTrigger } from '@/components/search-trigger';
+import { SettingsTrigger } from '@/components/settings-trigger';
 import { StrokePractice } from '@/components/stroke-practice';
 import { StudySession } from '@/components/study-session';
 
@@ -143,6 +144,7 @@ export function FlashcardExplorer({
           <a href="/grammar">Grammar</a>
           <a href="/study" aria-current="page">Study</a>
           <SearchTrigger />
+          <SettingsTrigger />
         </nav>
         <div className="path-label"><span>Pathway</span><strong>{pathway.name}</strong><small>{pathway.chinese}</small></div>
       </header>

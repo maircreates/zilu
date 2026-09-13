@@ -549,8 +549,58 @@ button:focus-visible, input:focus-visible + .toggle-track { outline: 3px solid c
   .hub-grid { grid-template-columns: 1fr 1fr; }
 }
 
+/* Floating characters background (Home page) */
+.floating-field { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
+.floating-char { position: absolute; left: 0; top: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; border: 0; padding: 6px; background: transparent; color: var(--ink); cursor: grab; pointer-events: auto; opacity: .55; touch-action: none; transition: opacity .2s ease; will-change: transform; }
+.floating-char:active { cursor: grabbing; }
+.floating-char span[lang] { font-family: Georgia, 'Noto Serif TC', 'Noto Serif CJK TC', serif; font-size: clamp(26px, 3.4vw, 42px); line-height: 1; }
+.floating-char.is-hovered { opacity: 1; z-index: 2; }
+.floating-char.is-hovered span[lang] { text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 55%, transparent); }
+.floating-char small { max-width: 160px; padding: 3px 8px; border-radius: 99px; background: var(--panel-solid); border: 1px solid var(--line); color: var(--muted); font-size: 10px; font-weight: 700; white-space: nowrap; box-shadow: var(--shadow); }
+.floating-char-writer { display: block; width: 56px; height: 56px; border-radius: 12px; background: #fbfaf3; overflow: hidden; }
+.floating-char:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 4px; opacity: 1; }
+.floating-char.is-popping span[lang] { animation: floatingPop .28s ease forwards; }
+@keyframes floatingPop { to { transform: scale(1.6); opacity: 0; } }
+.floating-burst { position: absolute; inset: 0; pointer-events: none; }
+.floating-burst span { position: absolute; left: 50%; top: 50%; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); transform: rotate(var(--angle)) translate(0, 0); animation: floatingBurst .32s ease-out forwards; }
+@keyframes floatingBurst { to { transform: rotate(var(--angle)) translate(26px, 0); opacity: 0; } }
+.floating-toast { position: fixed; transform: translate(-50%, -130%); z-index: 3; display: grid; justify-items: center; gap: 3px; padding: 10px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-solid); box-shadow: var(--shadow); pointer-events: none; animation: floatingToastIn .2s ease; }
+.floating-toast span[lang] { font-family: Georgia, 'Noto Serif TC', serif; font-size: 22px; }
+.floating-toast strong { color: var(--accent-deep); font-size: 12px; }
+.floating-toast em { color: var(--muted); font-size: 12px; font-style: normal; }
+@keyframes floatingToastIn { from { opacity: 0; transform: translate(-50%, -110%); } to { opacity: 1; transform: translate(-50%, -130%); } }
+.floating-popover { position: fixed; transform: translate(-50%, -50%); z-index: 4; display: grid; gap: 4px; width: 200px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel-solid); box-shadow: var(--shadow); pointer-events: auto; text-align: center; }
+.floating-popover-close { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 22px; height: 22px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); cursor: pointer; }
+.floating-popover-close:hover { color: var(--ink); background: color-mix(in srgb, var(--muted) 14%, transparent); }
+.floating-popover-close svg { width: 13px; }
+.floating-popover strong { font-family: Georgia, 'Noto Serif TC', serif; font-size: 30px; }
+.floating-popover > span { color: var(--accent-deep); font-size: 13px; }
+.floating-popover p { margin: 4px 0 6px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.floating-popover-actions { display: grid; gap: 6px; }
+.floating-popover-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; background: var(--panel); color: inherit; font-size: 11px; font-weight: 700; cursor: pointer; }
+.floating-popover-actions button:hover { border-color: var(--accent); }
+.floating-popover-actions svg { width: 13px; }
+
+/* Settings pages */
+.topbar-settings { display: grid; place-items: center; width: 32px; height: 32px; margin-left: 4px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--muted); text-decoration: none; }
+.topbar-settings:hover { color: var(--ink); border-color: var(--accent); }
+.topbar-settings svg { width: 15px; }
+.settings-hero { max-width: 720px; margin: 0 auto; padding: 56px max(24px, calc((100vw - 1440px) / 2)) 12px; position: relative; z-index: 1; }
+.settings-hero h1 { margin: 12px 0 14px; font-family: Georgia, 'Noto Serif TC', serif; font-size: clamp(28px, 4.5vw, 42px); font-weight: 500; letter-spacing: -.03em; }
+.settings-hero p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.6; max-width: 560px; }
+.settings-panel { max-width: 720px; margin: 40px auto 0; padding: 0 max(24px, calc((100vw - 1440px) / 2)) 60px; display: grid; gap: 22px; position: relative; z-index: 1; }
+.settings-row { display: grid; gap: 12px; border: 1px solid var(--line); border-radius: 18px; padding: 20px; background: var(--panel-solid); box-shadow: var(--shadow); }
+.settings-row-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.settings-row-head strong { display: block; font-size: 14px; }
+.settings-row-head span { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; line-height: 1.5; max-width: 420px; }
+.settings-stub { max-width: 720px; margin: 40px auto 0; padding: 24px max(24px, calc((100vw - 1440px) / 2)); position: relative; z-index: 1; }
+.settings-stub > div { border: 1px dashed var(--line); border-radius: 18px; padding: 26px; text-align: center; color: var(--muted); font-size: 13px; }
+.settings-toggle input { position: absolute; opacity: 0; pointer-events: none; }
+.settings-toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
+.settings-toggle .toggle-track { order: initial; }
+
 @media (max-width: 640px) {
-  .home-hero, .fundamentals-hero, .fundamentals-section, .fundamentals-cta, .fundamentals-status, .hub-grid, .subpage-back, .subpage-pager, .grammar-toggles { padding-left: 16px; padding-right: 16px; }
+  .home-hero, .fundamentals-hero, .fundamentals-section, .fundamentals-cta, .fundamentals-status, .hub-grid, .subpage-back, .subpage-pager, .grammar-toggles, .settings-hero, .settings-panel, .settings-stub { padding-left: 16px; padding-right: 16px; }
   .fundamentals-cta { flex-direction: column; align-items: stretch; text-align: center; }
   .hub-grid { grid-template-columns: 1fr; }
   .subpage-pager { flex-direction: column; }

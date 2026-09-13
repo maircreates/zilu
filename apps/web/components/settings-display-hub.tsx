@@ -1,13 +1,32 @@
 'use client';
 
-import { ArrowRight, Moon, Sun } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Moon, Sun } from 'lucide-react';
 
 import { useTheme } from '@/lib/use-theme';
-import { SECTIONS } from '@/lib/fundamentals';
 import { SearchTrigger } from '@/components/search-trigger';
-import { SettingsTrigger } from '@/components/settings-trigger';
 
-export function FundamentalsHub() {
+const CARDS = [
+  {
+    href: '/settings/display/aesthetics',
+    num: '01',
+    title: 'Aesthetics',
+    teaser: 'Visual flourishes, like the homepage’s floating-characters background.',
+  },
+  {
+    href: '/settings/display/ui',
+    num: '02',
+    title: 'UI',
+    teaser: 'Layout and interface density. In progress.',
+  },
+  {
+    href: '/settings/display/theme',
+    num: '03',
+    title: 'Theme',
+    teaser: 'Solarpunk / Cyberpunk color themes. In progress -- for now, use the toggle in the footer.',
+  },
+] as const;
+
+export function SettingsDisplayHub() {
   const [darkMode, setDarkMode] = useTheme();
 
   return (
@@ -27,57 +46,35 @@ export function FundamentalsHub() {
           </span>
         </a>
         <nav className="topbar-nav" aria-label="Primary">
-          <a href="/fundamentals" aria-current="page">
-            Fundamentals
-          </a>
+          <a href="/fundamentals">Fundamentals</a>
           <a href="/grammar">Grammar</a>
           <a href="/study">Study</a>
           <SearchTrigger />
-          <SettingsTrigger />
         </nav>
       </header>
 
-      <section className="fundamentals-hero">
-        <span className="eyebrow">Start Here</span>
-        <h1>Chinese fundamentals</h1>
-        <p>
-          A ground-up orientation for anyone starting from zero, in thirteen
-          short pages. Read them in order once, then come back whenever
-          something in a lesson feels unexplained. Everything here is original,
-          and every Chinese word has a button that speaks it aloud.
-        </p>
+      <a href="/settings" className="subpage-back">
+        <ArrowLeft aria-hidden="true" /> Settings
+      </a>
+
+      <section className="settings-hero">
+        <span className="eyebrow">Settings / Display</span>
+        <h1>Display</h1>
+        <p>How ZiLu looks: visual effects, interface density, and color theme.</p>
       </section>
 
       <div className="hub-grid">
-        {SECTIONS.map((section) => (
-          <a
-            key={section.id}
-            href={`/fundamentals/${section.id}`}
-            className="hub-card"
-          >
-            <span className="hub-card-num">{section.num}</span>
-            <h2>{section.title}</h2>
-            <p>{section.teaser}</p>
+        {CARDS.map((card) => (
+          <a key={card.href} href={card.href} className="hub-card">
+            <span className="hub-card-num">{card.num}</span>
+            <h2>{card.title}</h2>
+            <p>{card.teaser}</p>
             <span className="hub-card-link">
-              Read it <ArrowRight aria-hidden="true" />
+              Open <ArrowRight aria-hidden="true" />
             </span>
           </a>
         ))}
       </div>
-
-      <section className="fundamentals-cta">
-        <div>
-          <h2>Ready for Pathway 01</h2>
-          <p>
-            Pathway 01 &mdash; First Steps starts with greetings and family and
-            builds up from there. These fundamentals are the ground it stands
-            on.
-          </p>
-        </div>
-        <a href="/study" className="study-primary">
-          Go to Study <ArrowRight aria-hidden="true" />
-        </a>
-      </section>
 
       <footer className="footer">
         <p>Learner-facing Chinese is always Traditional Chinese.</p>
