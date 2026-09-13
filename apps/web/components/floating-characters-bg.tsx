@@ -40,7 +40,7 @@ const IDLE_CHECK_MS = 3000;
  * radius). This is proximity, not contact -- it fires before you're even
  * hovering the character. */
 const CURSOR_RADIUS = 150;
-const CURSOR_FORCE = 260;
+const CURSOR_FORCE = 340;
 /** A hovered character keeps drifting (hover doesn't freeze it), so it can
  * end up drifting out from under a cursor that never itself moves. Browsers
  * only recompute pointerenter/pointerleave in response to real pointer
@@ -51,9 +51,9 @@ const CURSOR_FORCE = 260;
 const HOVER_CLEAR_DISTANCE = 60;
 
 const DENSITY_COUNT: Record<HomepageFxSettings['density'], number> = {
-  normal: 50,
-  many: 100,
-  swarm: 200,
+  normal: 100,
+  many: 200,
+  swarm: 400,
 };
 
 const SPEED_FACTOR: Record<HomepageFxSettings['speed'], number> = {
