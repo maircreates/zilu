@@ -12,7 +12,7 @@ const STORAGE_KEY = 'zilu:homepage-fx';
 export type HoverMode = 'glow' | 'stroke';
 export type ClickMode = 'pop' | 'flashcard';
 export type DragMode = 'physics' | 'combine';
-export type Density = 'few' | 'some' | 'many';
+export type Density = 'few' | 'some' | 'many' | 'crowded' | 'swarm';
 export type Speed = 'slow' | 'normal' | 'fast';
 
 export type HomepageFxSettings = {
@@ -22,6 +22,13 @@ export type HomepageFxSettings = {
   hover: HoverMode;
   click: ClickMode;
   drag: DragMode;
+  /** Characters curve away as the cursor nears, before you're even hovering. */
+  cursorForce: boolean;
+  /** A small tinted dot per character showing which pathway teaches it. */
+  pathwayColors: boolean;
+  /** A fast-enough drag release flings the character; otherwise it always
+   * settles gently into normal drift no matter how quickly you let go. */
+  throwEnabled: boolean;
 };
 
 export const DEFAULT_HOMEPAGE_FX: HomepageFxSettings = {
@@ -31,6 +38,9 @@ export const DEFAULT_HOMEPAGE_FX: HomepageFxSettings = {
   hover: 'glow',
   click: 'flashcard',
   drag: 'physics',
+  cursorForce: true,
+  pathwayColors: true,
+  throwEnabled: true,
 };
 
 type Listener = () => void;

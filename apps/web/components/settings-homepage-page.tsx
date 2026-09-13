@@ -47,6 +47,8 @@ const DENSITY_OPTIONS: { id: Density; label: string }[] = [
   { id: 'few', label: 'Few' },
   { id: 'some', label: 'Some' },
   { id: 'many', label: 'Many' },
+  { id: 'crowded', label: 'Crowded' },
+  { id: 'swarm', label: 'Swarm' },
 ];
 
 const SPEED_OPTIONS: { id: Speed; label: string }[] = [
@@ -217,6 +219,73 @@ export function SettingsHomepagePage() {
             options={DRAG_OPTIONS}
             onChange={(value) => set('drag', value)}
           />
+        </div>
+
+        <div className="settings-row">
+          <div className="settings-row-head">
+            <div>
+              <strong>Throw</strong>
+              <span>
+                Release a drag with enough speed and the character flies off
+                and coasts to a stop. Turn off and a release always settles
+                gently, no matter how fast you let go.
+              </span>
+            </div>
+            <label className="settings-toggle" aria-label="Enable throwing characters">
+              <input
+                type="checkbox"
+                checked={fx.throwEnabled}
+                onChange={(event) => set('throwEnabled', event.target.checked)}
+              />
+              <span className="toggle-track" aria-hidden="true">
+                <span />
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div className="settings-row">
+          <div className="settings-row-head">
+            <div>
+              <strong>Cursor reacts</strong>
+              <span>
+                Nearby characters curve away as your cursor approaches, even
+                before you&apos;re hovering one.
+              </span>
+            </div>
+            <label className="settings-toggle" aria-label="Enable cursor proximity reaction">
+              <input
+                type="checkbox"
+                checked={fx.cursorForce}
+                onChange={(event) => set('cursorForce', event.target.checked)}
+              />
+              <span className="toggle-track" aria-hidden="true">
+                <span />
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div className="settings-row">
+          <div className="settings-row-head">
+            <div>
+              <strong>Pathway colors</strong>
+              <span>
+                A small tinted dot under each character showing which pathway
+                (Vol 1, 2, or 3) teaches it.
+              </span>
+            </div>
+            <label className="settings-toggle" aria-label="Enable pathway color dots">
+              <input
+                type="checkbox"
+                checked={fx.pathwayColors}
+                onChange={(event) => set('pathwayColors', event.target.checked)}
+              />
+              <span className="toggle-track" aria-hidden="true">
+                <span />
+              </span>
+            </label>
+          </div>
         </div>
       </div>
 

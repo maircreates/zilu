@@ -5,24 +5,53 @@ import { PenLine, Volume2, X } from 'lucide-react';
 import HanziWriter from 'hanzi-writer';
 
 import { loadCharData } from '@/lib/hanzi-data';
-import { ALL_CHARACTERS, findCombo } from '@/lib/floating-characters';
+import {
+  ALL_CHARACTERS,
+  WORD_COMBO_LIST,
+  findCombo,
+  type SourcedCard,
+} from '@/lib/floating-characters';
 import { useHomepageFx, type HomepageFxSettings } from '@/lib/use-homepage-fx';
 import { StrokePractice } from '@/components/stroke-practice';
-import type { Flashcard } from '@/lib/pathways';
 
 const TOPBAR_HEIGHT = 76;
 const FOOTER_HEIGHT = 96;
 const MARGIN = 32;
-const DRAG_THRESHOLD = 6;
 const MERGE_DISTANCE = 70;
 const MERGE_TWEEN_MS = 260;
 const POP_MS = 280;
 const TOAST_MS = 2600;
+const WALL_RESTITUTION = 0.82;
+const COLLISION_RESTITUTION = 0.75;
+const COLLISION_MIN_DIST = 46;
+/** Below this release speed (px/s) a drag just settles into normal drift --
+ * deliberately not too sensitive, so a slow/small drag never flings. */
+const THROW_MIN_SPEED = 90;
+const THROW_MAX_SPEED = 480;
+const FLING_DAMPING = 0.965;
+const IDLE_MS = 15000;
+const IDLE_CHECK_MS = 3000;
+/** How close the cursor has to be before a character starts curving away,
+ * and how hard it pushes at zero distance (falls off linearly to 0 at the
+ * radius). This is proximity, not contact -- it fires before you're even
+ * hovering the character. */
+const CURSOR_RADIUS = 150;
+const CURSOR_FORCE = 260;
+/** A hovered character keeps drifting (hover doesn't freeze it), so it can
+ * end up drifting out from under a cursor that never itself moves. Browsers
+ * only recompute pointerenter/pointerleave in response to real pointer
+ * movement, not content moving underneath a still cursor -- so without this
+ * check, the hover state (and the stroke-animation view it can switch to)
+ * gets stuck forever once that happens, even carrying over to whatever
+ * character later respawns into that same slot. Checked every tick instead. */
+const HOVER_CLEAR_DISTANCE = 60;
 
 const DENSITY_COUNT: Record<HomepageFxSettings['density'], number> = {
-  few: 12,
-  some: 24,
-  many: 42,
+  few: 20,
+  some: 30,
+  many: 50,
+  crowded: 70,
+  swarm: 100,
 };
 
 const SPEED_FACTOR: Record<HomepageFxSettings['speed'], number> = {
@@ -31,7 +60,16 @@ const SPEED_FACTOR: Record<HomepageFxSettings['speed'], number> = {
   fast: 1.9,
 };
 
-type Item = { id: number; card: Flashcard };
+/** A quiet per-pathway tint (reusing the app's existing theme colors, so it
+ * still adapts to Solarpunk/Cyberpunk) shown as a small dot under each
+ * character -- a hint at which pathway teaches it, not a full recolor. */
+const PATHWAY_TINT: Record<number, string> = {
+  1: 'var(--green)',
+  2: 'var(--accent)',
+  3: 'var(--accent-deep)',
+};
+
+type Item = { id: number; card: SourcedCard };
 
 type Physics = {
   x: number;
@@ -40,6 +78,14 @@ type Physics = {
   vy: number;
   frozen: boolean;
   merge: { targetX: number; targetY: number; start: number } | null;
+  /** 0 (far/small/faint) to 1 (near/big/bold) -- cheap parallax depth. */
+  depth: number;
+  /** Random phase offset so the wobble isn't synchronized across items. */
+  phase: number;
+  /** Current wobble rotation in degrees, updated once per tick. */
+  rotation: number;
+  /** True right after a fast-enough throw; decays back to normal drift. */
+  flinging: boolean;
 };
 
 type Bounds = { left: number; right: number; top: number; bottom: number };
@@ -53,13 +99,17 @@ type DragState = {
   lastT: number;
   vx: number;
   vy: number;
+  /** Exponential moving average of recent velocity, used at release so one
+   * jittery final pointermove can't register as a throw by itself. */
+  smoothVx: number;
+  smoothVy: number;
 } | null;
 
 function randomBetween(min: number, max: number) {
   return min + Math.random() * (max - min);
 }
 
-function pickCharacter(exclude: Set<string>): Flashcard {
+function pickCharacter(exclude: Set<string>): SourcedCard {
   const pool = ALL_CHARACTERS.filter((c) => !exclude.has(c.hanzi));
   const from = pool.length ? pool : ALL_CHARACTERS;
   return from[Math.floor(Math.random() * from.length)];
@@ -100,13 +150,13 @@ export function FloatingCharactersBg() {
     x: number;
     y: number;
   } | null>(null);
-  const [practiceCard, setPracticeCard] = useState<Flashcard | null>(null);
+  const [practiceCard, setPracticeCard] = useState<SourcedCard | null>(null);
   const [toast, setToast] = useState<{
     x: number;
     y: number;
-    a: Flashcard;
-    b: Flashcard;
-    word: Flashcard;
+    a: SourcedCard;
+    b: SourcedCard;
+    word: SourcedCard;
   } | null>(null);
 
   const physicsRef = useRef<Map<number, Physics>>(new Map());
@@ -118,16 +168,34 @@ export function FloatingCharactersBg() {
   const lastFrameRef = useRef<number>(0);
   const settingsRef = useRef(settings);
   const reducedMotionRef = useRef(false);
+  const itemsRef = useRef<Item[]>([]);
+  const lastInteractionRef = useRef(0);
+  const idleFiringRef = useRef(false);
+  const mouseRef = useRef<{ x: number; y: number } | null>(null);
+  const hoveredIdRef = useRef<number | null>(null);
 
   useEffect(() => {
     settingsRef.current = settings;
   }, [settings]);
 
+  useEffect(() => {
+    hoveredIdRef.current = hoveredId;
+  }, [hoveredId]);
+
+  useEffect(() => {
+    itemsRef.current = items;
+  }, [items]);
+
   const applyTransform = useCallback((id: number) => {
     const el = elsRef.current.get(id);
     const physics = physicsRef.current.get(id);
     if (!el || !physics) return;
-    el.style.transform = `translate3d(${physics.x}px, ${physics.y}px, 0) translate(-50%, -50%)`;
+    const scale = 0.72 + physics.depth * 0.56;
+    el.style.transform = `translate3d(${physics.x}px, ${physics.y}px, 0) translate(-50%, -50%) rotate(${physics.rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+    el.style.setProperty(
+      '--depth-opacity',
+      (0.32 + physics.depth * 0.5).toFixed(3),
+    );
   }, []);
 
   const spawnItem = useCallback(
@@ -146,43 +214,92 @@ export function FloatingCharactersBg() {
         vy: Math.sin(angle) * speed,
         frozen: false,
         merge: null,
+        depth: Math.random(),
+        phase: Math.random() * Math.PI * 2,
+        rotation: 0,
+        flinging: false,
       });
       return { id, card };
     },
     [],
   );
 
-  // Mount: seed the field, track viewport bounds, respect reduced-motion,
-  // and run the drift animation loop. Runs client-only so server and client
-  // markup match (positions are random). The initial setItems call happens
-  // inside the rAF callback below rather than as a bare effect-body
-  // statement, matching this codebase's pattern for effect-driven state.
-  useEffect(() => {
-    boundsRef.current = computeBounds();
-    reducedMotionRef.current = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches;
-
+  // How many characters the current density + viewport width call for.
+  // Read fresh every time it's invoked (not just once at mount) so it stays
+  // correct across density changes and window resizes, and so a transient
+  // bad window.innerWidth read at mount (e.g. before layout has settled)
+  // doesn't permanently under-seed the field.
+  const targetCount = useCallback(() => {
     const isNarrow = window.innerWidth < 640;
-    const count = Math.max(
+    return Math.max(
       4,
       Math.round(
         DENSITY_COUNT[settingsRef.current.density] * (isNarrow ? 0.5 : 1),
       ),
     );
-    const used = new Set<string>();
-    const seeded: Item[] = [];
-    for (let i = 0; i < count; i++) {
-      const item = spawnItem(used);
-      used.add(item.card.hanzi);
-      seeded.push(item);
-    }
-    const seedFrame = requestAnimationFrame(() => setItems(seeded));
+  }, []);
+
+  const adjustToTarget = useCallback(() => {
+    boundsRef.current = computeBounds();
+    const target = targetCount();
+    setItems((current) => {
+      if (current.length === target) return current;
+      if (current.length > target) {
+        for (const item of current.slice(target)) {
+          physicsRef.current.delete(item.id);
+          elsRef.current.delete(item.id);
+        }
+        return current.slice(0, target);
+      }
+      const used = new Set(current.map((it) => it.card.hanzi));
+      const additions: Item[] = [];
+      for (let i = current.length; i < target; i++) {
+        const item = spawnItem(used);
+        used.add(item.card.hanzi);
+        additions.push(item);
+      }
+      return [...current, ...additions];
+    });
+  }, [spawnItem, targetCount]);
+
+  // Seed on mount, and re-adjust (grow or shrink) whenever the density
+  // setting or the viewport width crosses the narrow-screen threshold --
+  // deferred via rAF/the resize listener rather than called bare in the
+  // effect body, matching this codebase's pattern for effect-driven state.
+  useEffect(() => {
+    const frame = requestAnimationFrame(adjustToTarget);
+    window.addEventListener('resize', adjustToTarget);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('resize', adjustToTarget);
+    };
+  }, [settings.density, adjustToTarget]);
+
+  // Mount: track viewport bounds, respect reduced-motion, and run the drift
+  // animation loop. Runs client-only so server and client markup match.
+  useEffect(() => {
+    boundsRef.current = computeBounds();
+    reducedMotionRef.current = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+    lastInteractionRef.current = performance.now();
 
     const onResize = () => {
       boundsRef.current = computeBounds();
     };
     window.addEventListener('resize', onResize);
+
+    const onWindowPointerMove = (event: PointerEvent) => {
+      mouseRef.current = { x: event.clientX, y: event.clientY };
+    };
+    const onWindowPointerLeave = () => {
+      mouseRef.current = null;
+    };
+    window.addEventListener('pointermove', onWindowPointerMove);
+    document.documentElement.addEventListener(
+      'pointerleave',
+      onWindowPointerLeave,
+    );
 
     lastFrameRef.current = performance.now();
     function tick(now: number) {
@@ -207,60 +324,126 @@ export function FloatingCharactersBg() {
             applyTransform(id);
             continue;
           }
+
+          physics.rotation = Math.sin(now / 650 + physics.phase) * 8;
           if (dragRef.current?.id === id) continue;
 
-          physics.vx += randomBetween(-14, 14) * dt;
-          physics.vy += randomBetween(-14, 14) * dt;
-          const speed = Math.hypot(physics.vx, physics.vy);
-          const maxSpeed = 26 * speedFactor;
-          if (speed > maxSpeed) {
-            physics.vx = (physics.vx / speed) * maxSpeed;
-            physics.vy = (physics.vy / speed) * maxSpeed;
+          // Cursor proximity: curve away before the pointer even reaches
+          // the character, falling off linearly to nothing at the radius.
+          const mouse = settingsRef.current.cursorForce
+            ? mouseRef.current
+            : null;
+          if (mouse) {
+            const mdx = physics.x - mouse.x;
+            const mdy = physics.y - mouse.y;
+            const mdist = Math.hypot(mdx, mdy);
+            if (mdist < CURSOR_RADIUS && mdist > 0.01) {
+              const strength = (1 - mdist / CURSOR_RADIUS) * CURSOR_FORCE;
+              physics.vx += (mdx / mdist) * strength * dt;
+              physics.vy += (mdy / mdist) * strength * dt;
+            }
           }
-          physics.x += physics.vx * speedFactor * dt;
-          physics.y += physics.vy * speedFactor * dt;
+
+          // Nearer (higher-depth) characters drift a little faster, for a
+          // cheap parallax feel alongside their larger, more opaque render.
+          const depthSpeed = 0.55 + physics.depth * 0.9;
+          const effectiveSpeedFactor = speedFactor * depthSpeed;
+          const maxSpeed = 26 * effectiveSpeedFactor;
+
+          if (physics.flinging) {
+            physics.vx *= FLING_DAMPING;
+            physics.vy *= FLING_DAMPING;
+            if (Math.hypot(physics.vx, physics.vy) <= maxSpeed) {
+              physics.flinging = false;
+            }
+          } else {
+            physics.vx += randomBetween(-14, 14) * dt;
+            physics.vy += randomBetween(-14, 14) * dt;
+            const speed = Math.hypot(physics.vx, physics.vy);
+            if (speed > maxSpeed) {
+              physics.vx = (physics.vx / speed) * maxSpeed;
+              physics.vy = (physics.vy / speed) * maxSpeed;
+            }
+          }
+          physics.x += physics.vx * dt;
+          physics.y += physics.vy * dt;
 
           if (physics.x < bounds.left) {
             physics.x = bounds.left;
-            physics.vx = Math.abs(physics.vx);
+            physics.vx = Math.abs(physics.vx) * WALL_RESTITUTION;
           } else if (physics.x > bounds.right) {
             physics.x = bounds.right;
-            physics.vx = -Math.abs(physics.vx);
+            physics.vx = -Math.abs(physics.vx) * WALL_RESTITUTION;
           }
           if (physics.y < bounds.top) {
             physics.y = bounds.top;
-            physics.vy = Math.abs(physics.vy);
+            physics.vy = Math.abs(physics.vy) * WALL_RESTITUTION;
           } else if (physics.y > bounds.bottom) {
             physics.y = bounds.bottom;
-            physics.vy = -Math.abs(physics.vy);
+            physics.vy = -Math.abs(physics.vy) * WALL_RESTITUTION;
           }
         }
 
-        // Gentle separation so characters do not pile on top of each other.
+        // Real elastic collisions: exchange velocity along the collision
+        // normal (heavier/nearer characters push harder and budge less),
+        // plus a small positional correction so overlapping pairs don't sink
+        // into each other while their velocities sort themselves out.
         const entries = [...physicsRef.current.entries()];
         for (let i = 0; i < entries.length; i++) {
           const [idA, a] = entries[i];
           if (a.merge || dragRef.current?.id === idA) continue;
+          const massA = 0.6 + a.depth * 0.8;
           for (let j = i + 1; j < entries.length; j++) {
             const [idB, b] = entries[j];
             if (b.merge || dragRef.current?.id === idB) continue;
             const dx = b.x - a.x;
             const dy = b.y - a.y;
-            const dist = Math.hypot(dx, dy) || 1;
-            const minDist = 46;
-            if (dist < minDist) {
-              const push = ((minDist - dist) / minDist) * 6 * dt * 60;
-              const nx = dx / dist;
-              const ny = dy / dist;
-              a.x -= nx * push;
-              a.y -= ny * push;
-              b.x += nx * push;
-              b.y += ny * push;
+            const dist = Math.hypot(dx, dy) || 0.01;
+            if (dist >= COLLISION_MIN_DIST) continue;
+
+            const nx = dx / dist;
+            const ny = dy / dist;
+            const massB = 0.6 + b.depth * 0.8;
+            const relVx = b.vx - a.vx;
+            const relVy = b.vy - a.vy;
+            const closingSpeed = relVx * nx + relVy * ny;
+            if (closingSpeed < 0) {
+              const impulse =
+                (-(1 + COLLISION_RESTITUTION) * closingSpeed) /
+                (1 / massA + 1 / massB);
+              const ix = impulse * nx;
+              const iy = impulse * ny;
+              a.vx -= ix / massA;
+              a.vy -= iy / massA;
+              b.vx += ix / massB;
+              b.vy += iy / massB;
             }
+
+            const overlap = COLLISION_MIN_DIST - dist;
+            const correction = overlap * 0.5;
+            a.x -= nx * correction;
+            a.y -= ny * correction;
+            b.x += nx * correction;
+            b.y += ny * correction;
           }
         }
 
         for (const id of physicsRef.current.keys()) applyTransform(id);
+
+        const hoveredId = hoveredIdRef.current;
+        if (hoveredId !== null) {
+          const hoveredPhysics = physicsRef.current.get(hoveredId);
+          const mouse = mouseRef.current;
+          const stillClose =
+            hoveredPhysics &&
+            mouse &&
+            Math.hypot(hoveredPhysics.x - mouse.x, hoveredPhysics.y - mouse.y) <
+              HOVER_CLEAR_DISTANCE;
+          if (!stillClose) {
+            hoveredIdRef.current = null;
+            setHoveredId((current) => (current === hoveredId ? null : current));
+          }
+        }
       }
 
       rafRef.current = requestAnimationFrame(tick);
@@ -268,8 +451,12 @@ export function FloatingCharactersBg() {
     rafRef.current = requestAnimationFrame(tick);
 
     return () => {
-      cancelAnimationFrame(seedFrame);
       window.removeEventListener('resize', onResize);
+      window.removeEventListener('pointermove', onWindowPointerMove);
+      document.documentElement.removeEventListener(
+        'pointerleave',
+        onWindowPointerLeave,
+      );
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, [applyTransform, spawnItem]);
@@ -303,7 +490,7 @@ export function FloatingCharactersBg() {
   );
 
   const triggerCombine = useCallback(
-    (idA: number, idB: number, cardA: Flashcard, cardB: Flashcard) => {
+    (idA: number, idB: number, cardA: SourcedCard, cardB: SourcedCard) => {
       const physicsA = physicsRef.current.get(idA);
       const physicsB = physicsRef.current.get(idB);
       const word = findCombo(cardA.hanzi, cardB.hanzi);
@@ -334,11 +521,65 @@ export function FloatingCharactersBg() {
     [respawn],
   );
 
+  // Idle easter egg: after a stretch of no interaction, borrow two of the
+  // characters already on screen, relabel them as a real combo pair, and
+  // glide them together with the same animation as a manual drag-combine.
+  // Skipped entirely if the vocabulary has no combos to draw from.
+  useEffect(() => {
+    if (WORD_COMBO_LIST.length === 0) return;
+    const interval = window.setInterval(() => {
+      if (reducedMotionRef.current || idleFiringRef.current) return;
+      if (performance.now() - lastInteractionRef.current < IDLE_MS) return;
+      // Never borrow a character that's currently frozen (its flashcard is
+      // open), mid-merge, or being dragged -- disturbing one of those was
+      // another way a character could look like it vanished.
+      const current = itemsRef.current.filter((it) => {
+        const p = physicsRef.current.get(it.id);
+        return p && !p.frozen && !p.merge && dragRef.current?.id !== it.id;
+      });
+      if (current.length < 2) return;
+
+      const i1 = Math.floor(Math.random() * current.length);
+      let i2 = Math.floor(Math.random() * (current.length - 1));
+      if (i2 >= i1) i2 += 1;
+      const combo =
+        WORD_COMBO_LIST[Math.floor(Math.random() * WORD_COMBO_LIST.length)];
+      const itemA = current[i1];
+      const itemB = current[i2];
+
+      idleFiringRef.current = true;
+      lastInteractionRef.current = performance.now();
+      setItems((items) =>
+        items.map((item) => {
+          if (item.id === itemA.id) return { id: item.id, card: combo.a };
+          if (item.id === itemB.id) return { id: item.id, card: combo.b };
+          return item;
+        }),
+      );
+      triggerCombine(itemA.id, itemB.id, combo.a, combo.b);
+      window.setTimeout(
+        () => {
+          idleFiringRef.current = false;
+        },
+        MERGE_TWEEN_MS + TOAST_MS + 200,
+      );
+    }, IDLE_CHECK_MS);
+
+    return () => window.clearInterval(interval);
+  }, [triggerCombine]);
+
   const runClick = useCallback(
     (item: Item) => {
       if (settingsRef.current.click === 'pop') {
         triggerPop(item.id);
       } else {
+        // Opening a new flashcard without closing the last one used to
+        // leave that earlier character frozen in place forever -- nothing
+        // else ever unfroze it. Unfreeze whatever was previously open first.
+        if (flashcardId !== null && flashcardId !== item.id) {
+          const previous = physicsRef.current.get(flashcardId);
+          if (previous) previous.frozen = false;
+        }
         const physics = physicsRef.current.get(item.id);
         if (physics) {
           physics.frozen = true;
@@ -347,7 +588,7 @@ export function FloatingCharactersBg() {
         setFlashcardId(item.id);
       }
     },
-    [triggerPop],
+    [triggerPop, flashcardId],
   );
 
   const closeFlashcard = useCallback(() => {
@@ -364,6 +605,7 @@ export function FloatingCharactersBg() {
       if (event.button !== undefined && event.button !== 0) return;
       const physics = physicsRef.current.get(item.id);
       if (!physics || physics.merge) return;
+      lastInteractionRef.current = performance.now();
       try {
         event.currentTarget.setPointerCapture(event.pointerId);
       } catch {
@@ -379,6 +621,8 @@ export function FloatingCharactersBg() {
         lastT: performance.now(),
         vx: 0,
         vy: 0,
+        smoothVx: 0,
+        smoothVy: 0,
       };
     },
     [],
@@ -392,18 +636,19 @@ export function FloatingCharactersBg() {
       if (!physics) return;
       const dx = event.clientX - drag.lastX;
       const dy = event.clientY - drag.lastY;
-      if (
-        !drag.moved &&
-        Math.hypot(event.clientX - drag.lastX, event.clientY - drag.lastY) <
-          DRAG_THRESHOLD
-      ) {
-        // still deciding whether this is a click or a drag
-      }
       if (Math.abs(dx) + Math.abs(dy) > 0) drag.moved = true;
       const now = performance.now();
       const dt = Math.max(1, now - drag.lastT);
-      drag.vx = (dx / dt) * 16;
-      drag.vy = (dy / dt) * 16;
+      // Instantaneous velocity in px/s, then folded into a running average
+      // so the release speed reflects the overall gesture, not one jittery
+      // final sample -- that's what keeps a small/slow drag from ever
+      // registering as a throw.
+      const instVx = (dx / dt) * 1000;
+      const instVy = (dy / dt) * 1000;
+      drag.vx = instVx;
+      drag.vy = instVy;
+      drag.smoothVx = drag.smoothVx * 0.7 + instVx * 0.3;
+      drag.smoothVy = drag.smoothVy * 0.7 + instVy * 0.3;
       drag.lastX = event.clientX;
       drag.lastY = event.clientY;
       drag.lastT = now;
@@ -433,7 +678,7 @@ export function FloatingCharactersBg() {
       if (settingsRef.current.drag === 'combine') {
         let nearestId: number | null = null;
         let nearestDist = MERGE_DISTANCE;
-        let nearestCard: Flashcard | null = null;
+        let nearestCard: SourcedCard | null = null;
         for (const other of items) {
           if (other.id === item.id) continue;
           const otherPhysics = physicsRef.current.get(other.id);
@@ -454,17 +699,27 @@ export function FloatingCharactersBg() {
         }
       }
 
-      physics.vx = Math.max(-40, Math.min(40, drag.vx));
-      physics.vy = Math.max(-40, Math.min(40, drag.vy));
+      const releaseSpeed = Math.hypot(drag.smoothVx, drag.smoothVy);
+      if (settingsRef.current.throwEnabled && releaseSpeed > THROW_MIN_SPEED) {
+        const clamped = Math.min(releaseSpeed, THROW_MAX_SPEED) / releaseSpeed;
+        physics.vx = drag.smoothVx * clamped;
+        physics.vy = drag.smoothVy * clamped;
+        physics.flinging = true;
+      } else {
+        physics.vx = Math.max(-40, Math.min(40, drag.smoothVx));
+        physics.vy = Math.max(-40, Math.min(40, drag.smoothVy));
+        physics.flinging = false;
+      }
     },
     [items, runClick, triggerCombine],
   );
 
-  const openPractice = useCallback((card: Flashcard) => {
+  const openPractice = useCallback((card: SourcedCard) => {
     setPracticeCard(card);
   }, []);
 
   const handleHoverStart = useCallback((id: number) => {
+    lastInteractionRef.current = performance.now();
     setHoveredId(id);
   }, []);
 
@@ -495,6 +750,7 @@ export function FloatingCharactersBg() {
           key={item.id}
           item={item}
           hoverMode={settings.hover}
+          pathwayColors={settings.pathwayColors}
           hovered={hoveredId === item.id}
           popping={poppingId === item.id}
           onHoverStart={handleHoverStart}
@@ -574,6 +830,7 @@ export function FloatingCharactersBg() {
 const FloatingCharacter = memo(function FloatingCharacter({
   item,
   hoverMode,
+  pathwayColors,
   hovered,
   popping,
   onHoverStart,
@@ -586,6 +843,7 @@ const FloatingCharacter = memo(function FloatingCharacter({
 }: {
   item: Item;
   hoverMode: HomepageFxSettings['hover'];
+  pathwayColors: boolean;
   hovered: boolean;
   popping: boolean;
   onHoverStart: (id: number) => void;
@@ -597,6 +855,12 @@ const FloatingCharacter = memo(function FloatingCharacter({
   registerEl: (id: number, el: HTMLButtonElement | null) => void;
 }) {
   const writerMountRef = useRef<HTMLDivElement>(null);
+  // Tracks which hanzi (if any) failed to load stroke data, rather than a
+  // plain boolean, so it "resets" for free whenever the character changes
+  // instead of needing a separate effect just to clear it.
+  const [failedHanzi, setFailedHanzi] = useState<string | null>(null);
+  const writerFailed = failedHanzi === item.card.hanzi;
+  const showWriter = hovered && hoverMode === 'stroke' && !writerFailed;
 
   useEffect(() => {
     if (!hovered || hoverMode !== 'stroke') return;
@@ -614,11 +878,14 @@ const FloatingCharacter = memo(function FloatingCharacter({
       strokeColor: '#19302a',
       outlineColor: '#d9d4c3',
       charDataLoader: loadCharData,
+      onLoadCharDataError: () => {
+        if (!cancelled) setFailedHanzi(item.card.hanzi);
+      },
     });
     void writer.animateCharacter();
     return () => {
       cancelled = true;
-      if (!cancelled) writer.cancelQuiz();
+      writer.cancelQuiz();
       el.innerHTML = '';
     };
   }, [hovered, hoverMode, item.card.hanzi]);
@@ -628,6 +895,11 @@ const FloatingCharacter = memo(function FloatingCharacter({
       type="button"
       ref={(el) => registerEl(item.id, el)}
       className={`floating-char${hovered ? ' is-hovered' : ''}${popping ? ' is-popping' : ''}`}
+      style={
+        {
+          '--char-tint': PATHWAY_TINT[item.card.pathway] ?? 'transparent',
+        } as React.CSSProperties
+      }
       aria-label={`${item.card.hanzi}, ${item.card.pinyin}, ${item.card.meaning}`}
       onPointerEnter={() => onHoverStart(item.id)}
       onPointerLeave={() => onHoverEnd(item.id)}
@@ -641,11 +913,14 @@ const FloatingCharacter = memo(function FloatingCharacter({
         }
       }}
     >
-      {hovered && hoverMode === 'stroke' ? (
-        <span className="floating-char-writer" ref={writerMountRef} />
+      {showWriter ? (
+        <span key="writer" className="floating-char-writer" ref={writerMountRef} />
       ) : (
-        <span lang="zh-Hant">{item.card.hanzi}</span>
+        <span key="glyph" lang="zh-Hant">{item.card.hanzi}</span>
       )}
+      {pathwayColors ? (
+        <i className="floating-char-dot" aria-hidden="true" />
+      ) : null}
       {hovered && hoverMode === 'glow' ? (
         <small>
           {item.card.pinyin} · {item.card.meaning}
