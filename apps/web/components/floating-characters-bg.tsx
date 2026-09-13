@@ -76,7 +76,6 @@ const FAMILY_TUNING: Record<
     wander: number;
     rotationAmp: number;
     rotationSpeed: number;
-    jitter: boolean;
     motion: 'none' | 'fall' | 'rise' | 'drift';
     sizeScale: number;
   }
@@ -85,7 +84,6 @@ const FAMILY_TUNING: Record<
     wander: 1.6,
     rotationAmp: 1.3,
     rotationSpeed: 1.6,
-    jitter: true,
     motion: 'fall',
     sizeScale: 0.65,
   },
@@ -93,7 +91,6 @@ const FAMILY_TUNING: Record<
     wander: 0.7,
     rotationAmp: 0.75,
     rotationSpeed: 0.7,
-    jitter: false,
     motion: 'drift',
     sizeScale: 1,
   },
@@ -101,18 +98,14 @@ const FAMILY_TUNING: Record<
     wander: 0.45,
     rotationAmp: 0.5,
     rotationSpeed: 0.55,
-    jitter: false,
     motion: 'rise',
     sizeScale: 0.7,
   },
 };
-/** Odds per tick of a Cyberpunk glitch-jump -- small and infrequent so it
- * reads as flavor, not disorienting. */
-const JITTER_CHANCE = 0.003;
 /** Downward acceleration for Cyberpunk's digital-rain fall (px/s²).
- * Unconditional -- applied every tick regardless of flinging/jitter state,
- * so a thrown or glitch-kicked character still resumes falling afterward
- * rather than settling into ambient wander like the other two families. */
+ * Unconditional -- applied every tick regardless of flinging state, so a
+ * thrown character still resumes falling afterward rather than settling
+ * into ambient wander like the other two families. */
 const FALL_GRAVITY = 55;
 /** Falling characters read as rain-brisk, not ambient-drift-slow, so they
  * get their own (higher) speed ceiling instead of the shared wander cap. */
@@ -130,7 +123,6 @@ const DRIFT_FORCE = 22;
 /** Silk drifts at a calm, steady pace -- faster than a rising lantern,
  * much slower than falling rain. */
 const DRIFT_MAX_SPEED = 55;
-const JITTER_KICK = 240;
 /** How long a freshly spawned/rewrapped character takes to fade+scale up to
  * full presence, Taopunk only -- a slow, dreamy lantern-lighting curve.
  * Driven entirely by the same per-tick imperative transform/opacity writes
@@ -510,18 +502,11 @@ export function FloatingCharactersBg() {
             if (Math.hypot(physics.vx, physics.vy) <= maxSpeed) {
               physics.flinging = false;
             }
-          } else if (tuning.jitter && Math.random() < JITTER_CHANCE) {
-            // Cyberpunk glitch-jump: a sudden kick that decays back to
-            // normal drift through the same fling-damping path a throw
-            // uses, rather than a one-off teleport.
-            physics.vx += randomBetween(-JITTER_KICK, JITTER_KICK);
-            physics.vy += randomBetween(-JITTER_KICK, JITTER_KICK);
-            physics.flinging = true;
           } else if (tuning.motion === 'fall') {
             // Rain straight from above, no horizontal drift at all -- real
-            // digital rain holds its column. Actively damp vx toward 0
-            // rather than just not adding to it, so any leftover sideways
-            // velocity (from a completed throw, a glitch-jump, cursor
+            // digital rain holds its column, no random glitch-jumps. Actively
+            // damp vx toward 0 rather than just not adding to it, so any
+            // leftover sideways velocity (from a completed throw, cursor
             // force before this tick's gate, whatever) bleeds off quickly
             // instead of drifting the column sideways forever.
             physics.vx *= 0.85;
