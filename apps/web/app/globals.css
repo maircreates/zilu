@@ -151,10 +151,27 @@ button { color: inherit; }
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+  padding-bottom: 100px;
   background: var(--bg);
   color: var(--ink);
   transition: background .4s ease, color .4s ease;
 }
+
+/* The skill bar: Fundamentals/Grammar/Study/Settings, moved out of the
+   header (where they used to collide with the centered TopbarEmblem on
+   narrow screens) into a fixed dock -- icon-first, game-HUD style, so it
+   never competes with the header for width regardless of viewport size.
+   `position: fixed` escapes .app-shell's own overflow:hidden (that only
+   clips normal-flow and absolutely-positioned content, not fixed), so this
+   stays pinned to the viewport, not the scrolling page. */
+.skill-bar { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 40; display: flex; gap: 6px; padding: 8px; border-radius: 22px; background: var(--panel); backdrop-filter: blur(18px); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.skill-button { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 60px; padding: 6px 4px 5px; border-radius: 14px; text-decoration: none; color: var(--muted); transition: background var(--dur-hover) var(--ease-hover), color var(--dur-hover) var(--ease-hover), transform var(--dur-hover) var(--ease-hover); }
+.skill-button:hover { color: var(--ink); background: color-mix(in srgb, var(--panel-solid) 70%, transparent); transform: translateY(-2px); }
+.skill-button[aria-current='page'] { color: var(--ink); background: var(--panel-solid); }
+.skill-button-glyph { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff; font-family: Georgia, 'Noto Serif TC', serif; font-weight: 700; font-size: 15px; transition: background var(--dur-hover) var(--ease-hover); }
+[data-theme$='-night'] .skill-button-glyph { color: #04140d; }
+.skill-button[aria-current='page'] .skill-button-glyph { background: var(--accent-deep); }
+.skill-button-label { font-size: 9px; font-weight: 700; letter-spacing: .02em; }
 
 .ambient { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
 .ambient::before { content: ''; position: absolute; inset: 0; opacity: .42; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 72px 72px; mask-image: linear-gradient(to bottom, black, transparent 72%); }
@@ -326,10 +343,7 @@ button { color: inherit; }
 .brand strong, .brand small { display: block; }
 .brand strong { font-size: 18px; letter-spacing: -.02em; }
 .brand small { margin-top: 2px; color: var(--muted); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
-.topbar-nav { display: flex; align-items: center; gap: 4px; margin-left: auto; }
-.topbar-nav a { border-radius: var(--radius-md); padding: 8px 12px; color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 700; }
-.topbar-nav a:hover { color: var(--ink); }
-.topbar-nav a[aria-current='page'] { color: var(--ink); background: var(--panel-solid); }
+.topbar-actions { display: flex; align-items: center; gap: 10px; }
 
 /* Fills the empty middle of the topbar (brand left, nav pushed right by its
    own margin-left:auto leaves open space between them). Taopunk only for
@@ -540,8 +554,12 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
   .study-restart { justify-content: center; }
 
   .topbar { height: 68px; padding: 0 16px; }
-  .topbar-nav { margin-left: 12px; }
-  .topbar-nav a { padding: 6px 8px; font-size: 11px; }
+  /* The emblem is a fixed ~220px-wide decorative element, absolutely
+     centered -- on the narrowest phones it can still clip the brand logo's
+     left edge even with the nav gone. It's aria-hidden and purely
+     decorative, so hiding it below this width is a clean way to guarantee
+     zero collision regardless of exact device width. */
+  .topbar-emblem { display: none; }
   .search-dialog { margin-top: 7vh; }
   .search-panel { max-height: 84vh; }
   .topbar-search { width: 30px; height: 30px; }
@@ -695,7 +713,7 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
 .grammar-point { scroll-margin-top: 20px; }
 
 /* Search palette */
-.topbar-search { display: grid; place-items: center; width: 32px; height: 32px; margin-left: 4px; border: 1px solid var(--line); border-radius: var(--radius-md); background: transparent; color: var(--muted); cursor: pointer; }
+.topbar-search { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--line); border-radius: var(--radius-md); background: transparent; color: var(--muted); cursor: pointer; }
 .topbar-search:hover { color: var(--ink); border-color: var(--accent); }
 .topbar-search svg { width: 15px; }
 .search-dialog { width: min(560px, calc(100vw - 32px)); margin: 12vh auto auto; padding: 0; border: 0; background: transparent; color: var(--ink); overflow: visible; }
@@ -913,9 +931,6 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
 .floating-popover-actions svg { width: 13px; }
 
 /* Settings pages */
-.topbar-settings { display: grid; place-items: center; width: 32px; height: 32px; margin-left: 4px; border: 1px solid var(--line); border-radius: var(--radius-md); background: transparent; color: var(--muted); text-decoration: none; }
-.topbar-settings:hover { color: var(--ink); border-color: var(--accent); }
-.topbar-settings svg { width: 15px; }
 .settings-hero { max-width: 720px; margin: 0 auto; padding: 56px max(24px, calc((100vw - 1440px) / 2)) 12px; position: relative; z-index: 1; pointer-events: none; }
 .settings-hero .eyebrow { text-shadow: -1px -1px 3px var(--bg), 1px -1px 3px var(--bg), -1px 1px 3px var(--bg), 1px 1px 3px var(--bg), 0 0 12px var(--bg); }
 .settings-hero h1 { margin: 12px 0 14px; font-family: Georgia, 'Noto Serif TC', serif; font-size: clamp(28px, 4.5vw, 42px); font-weight: 500; letter-spacing: -.03em; text-shadow: -2px -2px 4px var(--bg), 2px -2px 4px var(--bg), -2px 2px 4px var(--bg), 2px 2px 4px var(--bg), 0 0 18px var(--bg), 0 0 34px var(--bg); }

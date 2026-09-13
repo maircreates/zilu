@@ -6,10 +6,9 @@ import { ArrowLeft, Volume2 } from 'lucide-react';
 import { GRAMMAR_THEMES, type GrammarExample } from '@/lib/grammar';
 import { useEnglishPreference } from '@/lib/use-english';
 import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
-import { SearchTrigger } from '@/components/search-trigger';
-import { SettingsTrigger } from '@/components/settings-trigger';
 import { DayNightToggle } from '@/components/day-night-toggle';
-import { TopbarEmblem } from '@/components/topbar-emblem';
+import { Topbar } from '@/components/topbar';
+import { SkillBar } from '@/components/skill-bar';
 
 function Toggle({
   label,
@@ -92,25 +91,8 @@ export function GrammarThemePage({ themeId }: { themeId: string }) {
         <span />
       </div>
 
-      <header className="topbar">
-        <TopbarEmblem />
-        <a className="brand" href="/" aria-label="ZiLu home">
-          <span className="brand-mark">字</span>
-          <span>
-            <strong>ZiLu</strong>
-            <small>Your path into Chinese</small>
-          </span>
-        </a>
-        <nav className="topbar-nav" aria-label="Primary">
-          <a href="/fundamentals">Fundamentals</a>
-          <a href="/grammar" aria-current="page">
-            Grammar
-          </a>
-          <a href="/study">Study</a>
-          <SearchTrigger />
-          <SettingsTrigger />
-        </nav>
-      </header>
+      <Topbar />
+      <SkillBar active="grammar" />
 
       <a href="/grammar" className="subpage-back">
         <ArrowLeft aria-hidden="true" /> Grammar

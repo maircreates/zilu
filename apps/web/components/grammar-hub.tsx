@@ -3,11 +3,10 @@
 import { ArrowRight } from 'lucide-react';
 
 import { GRAMMAR_THEMES } from '@/lib/grammar';
-import { SearchTrigger } from '@/components/search-trigger';
-import { SettingsTrigger } from '@/components/settings-trigger';
 import { DayNightToggle } from '@/components/day-night-toggle';
 import { ThemeDivider } from '@/components/theme-divider';
-import { TopbarEmblem } from '@/components/topbar-emblem';
+import { Topbar } from '@/components/topbar';
+import { SkillBar } from '@/components/skill-bar';
 
 export function GrammarHub() {
   return (
@@ -18,25 +17,8 @@ export function GrammarHub() {
         <span />
       </div>
 
-      <header className="topbar">
-        <TopbarEmblem />
-        <a className="brand" href="/" aria-label="ZiLu home">
-          <span className="brand-mark">字</span>
-          <span>
-            <strong>ZiLu</strong>
-            <small>Your path into Chinese</small>
-          </span>
-        </a>
-        <nav className="topbar-nav" aria-label="Primary">
-          <a href="/fundamentals">Fundamentals</a>
-          <a href="/grammar" aria-current="page">
-            Grammar
-          </a>
-          <a href="/study">Study</a>
-          <SearchTrigger />
-          <SettingsTrigger />
-        </nav>
-      </header>
+      <Topbar />
+      <SkillBar active="grammar" />
 
       <section className="fundamentals-hero">
         <span className="eyebrow">Reference</span>

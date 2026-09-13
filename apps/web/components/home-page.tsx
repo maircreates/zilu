@@ -7,12 +7,11 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-import { SearchTrigger } from '@/components/search-trigger';
-import { SettingsTrigger } from '@/components/settings-trigger';
 import { FloatingCharactersBg } from '@/components/floating-characters-bg';
 import { DayNightToggle } from '@/components/day-night-toggle';
 import { ThemeDivider } from '@/components/theme-divider';
-import { TopbarEmblem } from '@/components/topbar-emblem';
+import { Topbar } from '@/components/topbar';
+import { SkillBar } from '@/components/skill-bar';
 
 export function HomePage() {
   return (
@@ -25,23 +24,8 @@ export function HomePage() {
 
       <FloatingCharactersBg />
 
-      <header className="topbar">
-        <TopbarEmblem />
-        <a className="brand" href="/" aria-label="ZiLu home">
-          <span className="brand-mark">字</span>
-          <span>
-            <strong>ZiLu</strong>
-            <small>Your path into Chinese</small>
-          </span>
-        </a>
-        <nav className="topbar-nav" aria-label="Primary">
-          <a href="/fundamentals">Fundamentals</a>
-          <a href="/grammar">Grammar</a>
-          <a href="/study">Study</a>
-          <SearchTrigger />
-          <SettingsTrigger />
-        </nav>
-      </header>
+      <Topbar />
+      <SkillBar />
 
       <section className="home-hero">
         <h1>Your path into Chinese, one Waypoint at a time.</h1>

@@ -3,11 +3,11 @@
 import { ArrowLeft } from 'lucide-react';
 
 import { useThemeFamily, type ThemeFamily } from '@/lib/use-theme';
-import { SearchTrigger } from '@/components/search-trigger';
 import { SegmentedControl } from '@/components/segmented-control';
 import { DayNightToggle } from '@/components/day-night-toggle';
 import { FloatingCharactersBg } from '@/components/floating-characters-bg';
-import { TopbarEmblem } from '@/components/topbar-emblem';
+import { Topbar } from '@/components/topbar';
+import { SkillBar } from '@/components/skill-bar';
 
 const FAMILY_OPTIONS: { id: ThemeFamily; label: string }[] = [
   { id: 'silkpunk', label: 'Silkpunk' },
@@ -34,22 +34,8 @@ export function SettingsThemePage() {
 
       <FloatingCharactersBg />
 
-      <header className="topbar">
-        <TopbarEmblem />
-        <a className="brand" href="/" aria-label="ZiLu home">
-          <span className="brand-mark">字</span>
-          <span>
-            <strong>ZiLu</strong>
-            <small>Your path into Chinese</small>
-          </span>
-        </a>
-        <nav className="topbar-nav" aria-label="Primary">
-          <a href="/fundamentals">Fundamentals</a>
-          <a href="/grammar">Grammar</a>
-          <a href="/study">Study</a>
-          <SearchTrigger />
-        </nav>
-      </header>
+      <Topbar />
+      <SkillBar active="settings" />
 
       <a href="/settings/display" className="subpage-back">
         <ArrowLeft aria-hidden="true" /> Display

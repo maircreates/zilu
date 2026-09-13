@@ -3,11 +3,10 @@
 import { useCallback, useState } from 'react';
 import { ArrowLeft, Volume2 } from 'lucide-react';
 
-import { SearchTrigger } from '@/components/search-trigger';
-import { SettingsTrigger } from '@/components/settings-trigger';
 import { ToneDrill } from '@/components/tone-drill';
 import { DayNightToggle } from '@/components/day-night-toggle';
-import { TopbarEmblem } from '@/components/topbar-emblem';
+import { Topbar } from '@/components/topbar';
+import { SkillBar } from '@/components/skill-bar';
 import {
   MEASURE_WORDS,
   NUMBER_BUILD,
@@ -512,25 +511,8 @@ export function FundamentalsSectionPage({ sectionId }: { sectionId: string }) {
         <span />
       </div>
 
-      <header className="topbar">
-        <TopbarEmblem />
-        <a className="brand" href="/" aria-label="ZiLu home">
-          <span className="brand-mark">字</span>
-          <span>
-            <strong>ZiLu</strong>
-            <small>Your path into Chinese</small>
-          </span>
-        </a>
-        <nav className="topbar-nav" aria-label="Primary">
-          <a href="/fundamentals" aria-current="page">
-            Fundamentals
-          </a>
-          <a href="/grammar">Grammar</a>
-          <a href="/study">Study</a>
-          <SearchTrigger />
-          <SettingsTrigger />
-        </nav>
-      </header>
+      <Topbar />
+      <SkillBar active="fundamentals" />
 
       <a href="/fundamentals" className="subpage-back">
         <ArrowLeft aria-hidden="true" /> Fundamentals

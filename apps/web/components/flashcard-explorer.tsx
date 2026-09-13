@@ -7,12 +7,11 @@ import { pathways } from '@/lib/pathways';
 import { findGuidedStudyDeck } from '@/lib/study-session';
 import { useMirrorPreference } from '@/lib/use-mirror';
 import { usePinyinciationPreference } from '@/lib/use-pinyinciation';
-import { SearchTrigger } from '@/components/search-trigger';
-import { SettingsTrigger } from '@/components/settings-trigger';
 import { StrokePractice } from '@/components/stroke-practice';
 import { StudySession } from '@/components/study-session';
 import { DayNightToggle } from '@/components/day-night-toggle';
-import { TopbarEmblem } from '@/components/topbar-emblem';
+import { Topbar } from '@/components/topbar';
+import { SkillBar } from '@/components/skill-bar';
 
 type ExplorerPosition = {
   pathwayIndex: number;
@@ -134,21 +133,10 @@ export function FlashcardExplorer({
   return (
     <main className="app-shell">
       <div className="ambient" aria-hidden="true"><span /><span /><span /></div>
-      <header className="topbar">
-        <TopbarEmblem />
-        <a className="brand" href="/" aria-label="ZiLu home">
-          <span className="brand-mark">字</span>
-          <span><strong>ZiLu</strong><small>Your path into Chinese</small></span>
-        </a>
-        <nav className="topbar-nav" aria-label="Primary">
-          <a href="/fundamentals">Fundamentals</a>
-          <a href="/grammar">Grammar</a>
-          <a href="/study" aria-current="page">Study</a>
-          <SearchTrigger />
-          <SettingsTrigger />
-        </nav>
+      <Topbar>
         <div className="path-label"><span>Pathway</span><strong>{pathway.name}</strong><small>{pathway.chinese}</small></div>
-      </header>
+      </Topbar>
+      <SkillBar active="study" />
 
       <div className="workspace" id="study">
         <aside className="waypoint-panel" aria-label="Waypoints">
