@@ -168,10 +168,37 @@ button { color: inherit; }
 .skill-button { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 60px; padding: 6px 4px 5px; border-radius: 14px; text-decoration: none; color: var(--muted); transition: background var(--dur-hover) var(--ease-hover), color var(--dur-hover) var(--ease-hover), transform var(--dur-hover) var(--ease-hover); }
 .skill-button:hover { color: var(--ink); background: color-mix(in srgb, var(--panel-solid) 70%, transparent); transform: translateY(-2px); }
 .skill-button[aria-current='page'] { color: var(--ink); background: var(--panel-solid); }
-.skill-button-glyph { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff; font-family: Georgia, 'Noto Serif TC', serif; font-weight: 700; font-size: 15px; transition: background var(--dur-hover) var(--ease-hover); }
+.skill-button-glyph { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff; font-family: Georgia, 'Noto Serif TC', serif; font-weight: 700; font-size: 15px; transition: background var(--dur-hover) var(--ease-hover), box-shadow var(--dur-hover) var(--ease-hover), transform .15s ease; }
 [data-theme$='-night'] .skill-button-glyph { color: #04140d; }
 .skill-button[aria-current='page'] .skill-button-glyph { background: var(--accent-deep); }
 .skill-button-label { font-size: 9px; font-weight: 700; letter-spacing: .02em; }
+
+/* Press feedback: the glyph dips and settles back, like a real button being
+   pushed -- immediate physical confirmation of the tap, nothing more. */
+.skill-button:active .skill-button-glyph { transform: scale(.87); transition-duration: .05s; }
+
+/* Cyberpunk: the glyphs read as HUD-panel indicator lights -- a dark face,
+   a neon ring, and glowing text instead of a solid fill, alternating pink
+   and teal the same way the header's digital-rain columns already do, so
+   the dock reads as part of the same console. */
+[data-theme^='cyberpunk'] .skill-button-glyph { background: var(--panel-solid); border: 1.5px solid var(--accent); color: var(--accent); text-shadow: 0 0 6px var(--accent); box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 45%, transparent); }
+[data-theme^='cyberpunk'] .skill-button:nth-child(even) .skill-button-glyph { border-color: var(--green); color: var(--green); text-shadow: 0 0 6px var(--green); box-shadow: 0 0 8px color-mix(in srgb, var(--green) 45%, transparent); }
+[data-theme^='cyberpunk'] .skill-button[aria-current='page'] .skill-button-glyph { background: var(--accent); color: #04140d; text-shadow: none; }
+[data-theme^='cyberpunk'] .skill-button:nth-child(even)[aria-current='page'] .skill-button-glyph { background: var(--green); color: #04140d; }
+
+/* Taopunk: a brush-stamp instead of a printed circle -- a faint ink-bleed
+   halo behind a slightly irregular disc, the same underlay technique the
+   theme divider's ink stroke already uses. */
+[data-theme^='taopunk'] .skill-button-glyph { position: relative; background: var(--ink); color: var(--panel-solid); border-radius: 47% 53% 52% 48% / 48% 46% 54% 52%; }
+[data-theme^='taopunk'] .skill-button-glyph::before { content: ''; position: absolute; inset: -5px; border-radius: inherit; background: var(--ink); opacity: .16; filter: blur(3px); z-index: -1; }
+[data-theme^='taopunk'] .skill-button[aria-current='page'] .skill-button-glyph { background: var(--accent-deep); }
+[data-theme^='taopunk'] .skill-button[aria-current='page'] .skill-button-glyph::before { background: var(--accent-deep); }
+
+/* Silkpunk: a woven sheen -- a slow-drifting gradient instead of a flat
+   fill, the same unhurried pace as the ambient background blobs. */
+[data-theme^='silkpunk'] .skill-button-glyph { background: linear-gradient(120deg, var(--accent-deep), var(--accent) 45%, var(--accent-deep) 90%); background-size: 220% 220%; animation: skillGlyphSheen 7s ease-in-out infinite; }
+[data-theme^='silkpunk'] .skill-button[aria-current='page'] .skill-button-glyph { background: var(--accent-deep); animation: none; }
+@keyframes skillGlyphSheen { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
 .ambient { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
 .ambient::before { content: ''; position: absolute; inset: 0; opacity: .42; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 72px 72px; mask-image: linear-gradient(to bottom, black, transparent 72%); }
