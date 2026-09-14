@@ -44,7 +44,7 @@ const FAMILY_DEFAULTS: Record<ThemeFamily, HomepageFxSettings> = {
   cyberpunk: {
     enabled: true,
     density: 'swarm',
-    speed: 'slow',
+    speed: 'normal',
     hover: 'stroke',
     click: 'flashcard',
     drag: 'physics',
