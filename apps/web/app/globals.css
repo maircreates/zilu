@@ -778,6 +778,17 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
 .hub-card { display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 20px; background: var(--panel-solid); color: inherit; text-decoration: none; box-shadow: var(--shadow); transition: transform var(--dur-hover) var(--ease-hover), border-color var(--dur-hover) var(--ease-hover); pointer-events: auto; }
 .hub-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .hub-card-num { color: var(--accent-deep); font-family: monospace; font-size: 11px; font-weight: 800; letter-spacing: .1em; }
+/* .hub-card-num above is sized for short Latin numerals ("01") -- a single
+   CJK glyph needs a font that actually covers Han characters and a size
+   that doesn't read as a tiny badge. */
+.zili-fang-hub-glyph {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-family: Georgia, 'Noto Serif TC', 'Noto Serif CJK TC', serif;
+  font-size: 26px;
+  color: var(--accent-deep);
+}
 .hub-card h2 { margin: 2px 0 0; font-family: Georgia, 'Noto Serif TC', serif; font-size: 17px; font-weight: 500; }
 .hub-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.55; flex: 1; }
 .hub-card-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; color: var(--accent-deep); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
@@ -1252,3 +1263,61 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
    it. */
 [data-theme^='taopunk'] .home-card, [data-theme^='taopunk'] .hub-card { transition: transform .35s cubic-bezier(.34,1.4,.64,1), border-color var(--dur-hover) var(--ease-hover); }
 [data-theme^='taopunk'] .home-card:hover, [data-theme^='taopunk'] .hub-card:hover { transform: translateY(-2px) rotate(-.6deg); }
+
+/* 字力房 (Zi Li Fang / "The Gym") -- experimental section, may be removed
+   entirely. Kept theme-neutral (CSS vars only, no per-family bespoke
+   treatment) since it isn't meant to be a permanent fixture yet. */
+
+/* Tone Duel */
+.tone-duel-set { display: grid; gap: 10px; margin-bottom: 20px; }
+.tone-duel-item { display: flex; align-items: center; gap: 12px; border: 1px solid var(--line); border-radius: var(--radius-md); padding: 12px 14px; background: var(--panel-solid); }
+.tone-duel-hanzi { font-family: Georgia, 'Noto Serif TC', 'Noto Serif CJK TC', serif; font-size: 22px; color: var(--ink); }
+.tone-duel-pinyin { color: var(--accent-deep); font-size: 13px; }
+.tone-duel-mark { display: inline-block; margin-left: 2px; font-weight: 800; }
+.tone-duel-meaning { margin-left: auto; color: var(--muted); font-size: 12px; text-align: right; }
+.tone-duel-start { display: block; margin: 0 auto; }
+.tone-duel-quiz { margin-top: 24px; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 20px; background: var(--panel-solid); text-align: center; }
+.tone-duel-quiz-head { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 16px; }
+.tone-duel-quiz-head p { margin: 0; font-weight: 700; }
+.tone-duel-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 16px; }
+.tone-duel-option { min-width: 56px; border: 1px solid var(--line); border-radius: var(--radius-md); padding: 12px 16px; background: var(--panel); color: var(--ink); font-family: Georgia, 'Noto Serif TC', serif; font-size: 22px; cursor: pointer; transition: border-color var(--dur-hover) var(--ease-hover), background var(--dur-hover) var(--ease-hover); }
+.tone-duel-option:hover:not(:disabled) { border-color: var(--accent); }
+.tone-duel-option:disabled { cursor: default; }
+.tone-duel-option.is-correct { border-color: var(--green); background: color-mix(in srgb, var(--green) 16%, var(--panel-solid)); }
+.tone-duel-option.is-wrong { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--panel-solid)); }
+.tone-duel-score { margin-top: 16px; text-align: center; color: var(--muted); font-size: 12px; font-weight: 700; }
+
+/* Word Fight -- reuses .grammar-* classes from the Grammar hub; only the
+   pinyin <small> under each contrast line is new here. */
+.grammar-wrong small, .grammar-right small { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; }
+
+/* Character Deconstruction */
+.chaizi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+.chaizi-card { display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 18px; background: var(--panel-solid); text-align: left; cursor: pointer; transition: border-color var(--dur-hover) var(--ease-hover); }
+.chaizi-card:hover, .chaizi-card.is-revealed { border-color: var(--accent); }
+.chaizi-card-head { display: flex; align-items: center; justify-content: space-between; }
+.chaizi-hanzi { font-family: Georgia, 'Noto Serif TC', 'Noto Serif CJK TC', serif; font-size: 34px; color: var(--ink); }
+.chaizi-pinyin { margin: 0; color: var(--accent-deep); font-size: 12px; }
+.chaizi-reveal { margin-top: 8px; border: 0; background: transparent; padding: 0; color: var(--accent-deep); font-size: 11px; font-style: italic; font-weight: 700; cursor: pointer; text-align: left; }
+.chaizi-reveal:hover { text-decoration: underline; }
+.chaizi-body { display: grid; gap: 8px; margin-top: 4px; }
+.chaizi-meaning { margin: 0; font-weight: 700; font-size: 13px; }
+.chaizi-parts { display: flex; flex-wrap: wrap; gap: 8px; }
+.chaizi-part { display: flex; flex-direction: column; align-items: center; gap: 2px; border-radius: var(--radius-sm); padding: 6px 10px; background: color-mix(in srgb, var(--accent) 8%, var(--panel)); }
+.chaizi-part span { font-family: Georgia, 'Noto Serif TC', serif; font-size: 18px; }
+.chaizi-part small { color: var(--muted); font-size: 10px; }
+.chaizi-part-sound { background: color-mix(in srgb, var(--green) 12%, var(--panel)); }
+.chaizi-story { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+
+/* Lazy Mode */
+.lazy-mode-streak { display: flex; align-items: baseline; gap: 8px; justify-content: center; margin-bottom: 20px; text-align: center; }
+.lazy-mode-streak strong { font-family: Georgia, serif; font-size: 32px; color: var(--ink); }
+.lazy-mode-streak span { color: var(--muted); font-size: 13px; }
+.lazy-mode-streak small { flex-basis: 100%; margin-top: 4px; color: var(--muted); font-size: 11px; }
+.lazy-mode-start { display: block; margin: 0 auto; }
+.lazy-mode-card { max-width: 360px; margin: 0 auto; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 28px 20px; background: var(--panel-solid); box-shadow: var(--shadow); text-align: center; }
+.lazy-mode-progress { margin: 0 0 12px; color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.lazy-mode-hanzi-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 14px; }
+.lazy-mode-hanzi { font-family: Georgia, 'Noto Serif TC', 'Noto Serif CJK TC', serif; font-size: 48px; color: var(--ink); }
+.lazy-mode-pinyin { margin: 0 0 4px; color: var(--accent-deep); font-size: 14px; }
+.lazy-mode-meaning { margin: 0 0 16px; color: var(--muted); font-size: 13px; }

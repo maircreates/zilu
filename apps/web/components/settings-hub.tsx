@@ -39,6 +39,17 @@ export function SettingsHub() {
             Open <ArrowRight aria-hidden="true" />
           </span>
         </a>
+        <a href="/zili-fang" className="hub-card">
+          <span className="hub-card-num">02</span>
+          <h2>字力房 -- Experimental</h2>
+          <p>
+            Small drills aimed at specific learner struggles. Genuinely experimental --
+            this may change shape or go away entirely.
+          </p>
+          <span className="hub-card-link">
+            Open <ArrowRight aria-hidden="true" />
+          </span>
+        </a>
       </div>
 
       <footer className="footer">
