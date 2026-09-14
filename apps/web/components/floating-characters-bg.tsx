@@ -1042,7 +1042,17 @@ export function FloatingCharactersBg() {
       ) : null}
 
       {practiceCard ? (
+        // key forces a fresh mount per character -- without it, opening
+        // practice writing for one character then, in the same session,
+        // for a different one before React ever renders the in-between
+        // `null` reuses this instance instead of remounting it. The
+        // dialog's own showModal() call lives in a mount-only effect, so
+        // on that reused instance it silently never fires again: the
+        // panel re-renders with the new character's content but the
+        // <dialog> itself stays closed, which is exactly what "clicking
+        // Practice writing does nothing" looks like.
         <StrokePractice
+          key={practiceCard.hanzi}
           hanzi={practiceCard.hanzi}
           meaning={practiceCard.meaning}
           onClose={() => setPracticeCard(null)}

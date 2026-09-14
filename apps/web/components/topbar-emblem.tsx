@@ -171,8 +171,49 @@ function pickChar(seed: number, index: number) {
  * competing with a per-frame property could -- every point in the cycle is
  * a valid, complete-looking frame, so a paused/resumed compositor just
  * picks the loop back up wherever it left off. */
+/** A column occasionally flickers one of its characters to a different
+ * glyph for a moment, like corrupted terminal output -- purely a post-mount
+ * client effect (Math.random() here doesn't touch the initial render, so it
+ * can't cause the hydration mismatch the deterministic pickChar above was
+ * written to avoid). Each column's own seed staggers its schedule so they
+ * don't all glitch in sync. */
+function useGlyphGlitch(seed: number, length: number) {
+  const [glitch, setGlitch] = useState<{ index: number; char: string } | null>(null);
+
+  useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+    let cancelled = false;
+
+    function scheduleNext() {
+      const delay = 3500 + Math.random() * 4500 + (seed % 7) * 300;
+      timeoutId = setTimeout(() => {
+        if (cancelled) return;
+        setGlitch({
+          index: Math.floor(Math.random() * length),
+          char: RAIN_CHARS[Math.floor(Math.random() * RAIN_CHARS.length)],
+        });
+        timeoutId = setTimeout(() => {
+          if (cancelled) return;
+          setGlitch(null);
+          scheduleNext();
+        }, 180);
+      }, delay);
+    }
+
+    scheduleNext();
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
+  }, [seed, length]);
+
+  return glitch;
+}
+
 function RainColumn({ seed, length = 7 }: { seed: number; length?: number }) {
   const chars = Array.from({ length }, (_, index) => pickChar(seed, index));
+  const glitch = useGlyphGlitch(seed, length);
+  const shown = glitch ? chars.map((ch, i) => (i === glitch.index ? glitch.char : ch)) : chars;
   return (
     <div className="topbar-emblem-rain-col">
       <div
@@ -182,10 +223,10 @@ function RainColumn({ seed, length = 7 }: { seed: number; length?: number }) {
           animationDelay: `${-(seed % 7) * 0.4}s`,
         }}
       >
-        {chars.map((ch, i) => (
+        {shown.map((ch, i) => (
           <span key={`a${i}`}>{ch}</span>
         ))}
-        {chars.map((ch, i) => (
+        {shown.map((ch, i) => (
           <span key={`b${i}`}>{ch}</span>
         ))}
       </div>

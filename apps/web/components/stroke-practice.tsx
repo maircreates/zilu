@@ -143,9 +143,15 @@ export function StrokePractice({
   // oxlint-disable-next-line typescript/no-misused-spread -- Traditional characters here are single code points, no combining marks
   const chars = [...hanzi].filter((ch) => HAN_CHAR.test(ch));
 
+  // Depends on `hanzi`, and guards on `!open`, rather than running once on
+  // mount -- so if a future caller ever reuses this component across
+  // characters without varying its key, the dialog still opens for the
+  // new one instead of silently staying closed the way it did before this
+  // component got a per-character key upstream.
   useEffect(() => {
-    dialogRef.current?.showModal();
-  }, []);
+    const dialog = dialogRef.current;
+    if (dialog && !dialog.open) dialog.showModal();
+  }, [hanzi]);
 
   const close = useCallback(() => {
     if (dialogRef.current?.open) dialogRef.current.close();

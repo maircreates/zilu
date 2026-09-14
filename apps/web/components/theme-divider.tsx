@@ -184,7 +184,12 @@ export function ThemeDivider() {
       aria-hidden="true"
     >
       <svg ref={svgRef} viewBox="0 0 900 40" preserveAspectRatio="none">
-        {/* Cyberpunk: circuit trace with two right-angle jogs and node pads. */}
+        {/* Cyberpunk: circuit trace with two right-angle jogs and node pads,
+            plus a small pulse that continuously travels the trace (offset-
+            path, not a second dashoffset reveal -- it needs to loop
+            forever, the draw-in only ever happens once) so it reads as a
+            live circuit rather than a printed diagram. The two nodes flare
+            on a delay matched to when the pulse actually reaches them. */}
         <g className="theme-divider-cyberpunk">
           <path
             className="theme-divider-path"
@@ -192,6 +197,7 @@ export function ThemeDivider() {
           />
           <rect className="theme-divider-node" x="296" y="4" width="8" height="8" />
           <rect className="theme-divider-node" x="596" y="28" width="8" height="8" />
+          <circle className="theme-divider-pulse" r="3" />
         </g>
 
         {/* Silkpunk: a spool of thread at the left. At rest it's a gentle

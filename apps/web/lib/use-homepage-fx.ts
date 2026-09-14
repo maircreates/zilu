@@ -66,7 +66,7 @@ const FAMILY_DEFAULTS: Record<ThemeFamily, HomepageFxSettings> = {
   silkpunk: {
     enabled: true,
     density: 'normal',
-    speed: 'normal',
+    speed: 'fast',
     hover: 'glow',
     click: 'flashcard',
     drag: 'physics',

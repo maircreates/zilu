@@ -281,12 +281,27 @@ button { color: inherit; }
 /* Texture per family: kept on .ambient's own pseudo-elements / .app-shell's
    own background layer so it always paints behind content and the floating
    characters without touching anything's opacity/transform cascade. */
+/* The scanlines alone are static texture; a second layer -- a soft glow
+   band slowly travelling top to bottom -- reads as an old monitor's
+   refresh sweep passing over them. Same "moving light" technique as
+   Silkpunk's sheen, tinted for the terminal aesthetic instead. Only the
+   second background-position value animates; the scanline layer's stays
+   put. */
 [data-theme^='cyberpunk'] .ambient::after {
   content: '';
   position: absolute;
   inset: 0;
-  opacity: .05;
-  background: repeating-linear-gradient(to bottom, #fff 0px, #fff 1px, transparent 1px, transparent 3px);
+  opacity: .06;
+  background-image:
+    repeating-linear-gradient(to bottom, #fff 0px, #fff 1px, transparent 1px, transparent 3px),
+    linear-gradient(to bottom, transparent, color-mix(in srgb, var(--accent) 70%, white) 50%, transparent);
+  background-size: 100% 100%, 100% 25%;
+  background-repeat: repeat, no-repeat;
+  animation: crtScanSweep 7s linear infinite;
+}
+@keyframes crtScanSweep {
+  0% { background-position: 0 0, 0 -25%; }
+  100% { background-position: 0 0, 0 125%; }
 }
 [data-theme^='taopunk'] .app-shell {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -306,8 +321,32 @@ button { color: inherit; }
 
 [data-theme^='cyberpunk'] .theme-divider-cyberpunk { display: block; }
 [data-theme^='cyberpunk'] .theme-divider-path { stroke: var(--accent); stroke-width: 1.5; transition: stroke-dashoffset .8s cubic-bezier(.4,0,.2,1); }
-[data-theme^='cyberpunk'] .theme-divider-node { fill: var(--accent); opacity: .7; }
-[data-theme^='cyberpunk'] .theme-divider:hover .theme-divider-node { opacity: 1; filter: drop-shadow(0 0 5px var(--accent)); }
+[data-theme^='cyberpunk'] .theme-divider-node { fill: var(--accent); opacity: .7; animation: circuitNodeFlare 3.2s linear infinite; }
+[data-theme^='cyberpunk'] .theme-divider-node:nth-of-type(1) { animation-delay: 1.01s; }
+[data-theme^='cyberpunk'] .theme-divider-node:nth-of-type(2) { animation-delay: 1.88s; }
+[data-theme^='cyberpunk'] .theme-divider:hover .theme-divider-node { opacity: 1; filter: drop-shadow(0 0 5px var(--accent)); animation-play-state: paused; }
+/* A pulse that continuously runs the trace -- offset-path/offset-distance,
+   not a second dashoffset reveal (that only ever plays once, on scroll
+   into view; this has to loop forever) -- with the two nodes flaring on a
+   delay matched to when the pulse actually passes each one (31.6% and
+   58.6% of the way along the path's own 948-unit length, at this
+   animation's 3.2s duration -> ~1.01s / ~1.88s). */
+[data-theme^='cyberpunk'] .theme-divider-pulse {
+  offset-path: path('M0,20 H300 V8 H380 V20 H520 V32 H600 V20 H900');
+  fill: var(--accent);
+  filter: drop-shadow(0 0 4px var(--accent));
+  animation: circuitPulseMove 3.2s linear infinite;
+}
+@keyframes circuitPulseMove {
+  0% { offset-distance: 0%; opacity: 0; }
+  4%, 96% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+@keyframes circuitNodeFlare {
+  0%, 92%, 100% { opacity: .7; filter: none; }
+  2% { opacity: 1; filter: drop-shadow(0 0 6px var(--accent)); }
+  7% { opacity: .7; filter: none; }
+}
 
 [data-theme^='silkpunk'] .theme-divider-silkpunk { display: block; }
 [data-theme^='silkpunk'] .theme-divider-path { stroke: var(--accent-deep); stroke-width: 1.75; opacity: .8; transition: stroke-dashoffset 1.4s cubic-bezier(.22,.61,.36,1), d .7s cubic-bezier(.34,1.56,.64,1); }
@@ -331,8 +370,15 @@ button { color: inherit; }
 
 [data-theme^='taopunk'] .theme-divider-taopunk { display: block; }
 [data-theme^='taopunk'] .theme-divider-path { stroke: var(--ink); stroke-width: 1.5; opacity: .55; transition: stroke-dashoffset 2s cubic-bezier(.45,0,.15,1), opacity .6s ease; }
-[data-theme^='taopunk'] .theme-divider-bleed { stroke-width: 5; opacity: .12; filter: blur(3px); }
+/* The bleed underlay breathes -- a slow opacity drift, like ink still
+   settling into paper rather than a printed line that's simply always
+   there. Paused on hover, same reasoning as the Cyberpunk bracket
+   flicker: the hover state is a deliberate opacity jump and shouldn't
+   have to fight a running animation for the same property. */
+[data-theme^='taopunk'] .theme-divider-bleed { stroke-width: 5; opacity: .12; filter: blur(3px); animation: inkBleedBreathe 5s ease-in-out infinite; }
+@keyframes inkBleedBreathe { 0%, 100% { opacity: .08; } 50% { opacity: .18; } }
 [data-theme^='taopunk'] .theme-divider:hover .theme-divider-path { opacity: .8; }
+[data-theme^='taopunk'] .theme-divider:hover .theme-divider-bleed { animation-play-state: paused; }
 
 /* Card corner ornaments, one per family, brighten/shift on hover. Masked
    shapes (not plain background-image) so their color follows the active
@@ -343,14 +389,28 @@ button { color: inherit; }
   content: ''; position: absolute; top: 10px; left: 10px; width: 14px; height: 14px;
   border-top: 2px solid var(--accent); border-left: 2px solid var(--accent);
   opacity: .55; transition: opacity var(--dur-hover) var(--ease-hover), transform var(--dur-hover) var(--ease-hover);
+  animation: hudBracketFlicker 6s ease-in-out infinite;
 }
 [data-theme^='cyberpunk'] .home-card::after, [data-theme^='cyberpunk'] .hub-card::after {
   content: ''; position: absolute; bottom: 10px; right: 10px; width: 14px; height: 14px;
   border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent);
   opacity: .55; transition: opacity var(--dur-hover) var(--ease-hover), transform var(--dur-hover) var(--ease-hover);
+  animation: hudBracketFlicker 6s ease-in-out infinite;
+  animation-delay: -3s;
 }
-[data-theme^='cyberpunk'] .home-card:hover::before, [data-theme^='cyberpunk'] .hub-card:hover::before { opacity: 1; transform: translate(-2px,-2px); }
-[data-theme^='cyberpunk'] .home-card:hover::after, [data-theme^='cyberpunk'] .hub-card:hover::after { opacity: 1; transform: translate(2px,2px); }
+/* Idle, the brackets read as an active HUD overlay rather than static
+   decoration -- a brief signal-interference flicker partway through an
+   otherwise steady cycle, the two corners offset so they never flicker in
+   sync. Paused on hover so it can't fight the deliberate hover state. */
+@keyframes hudBracketFlicker {
+  0%, 44%, 100% { opacity: .55; }
+  46% { opacity: .85; }
+  48% { opacity: .4; }
+  51% { opacity: .7; }
+  54% { opacity: .55; }
+}
+[data-theme^='cyberpunk'] .home-card:hover::before, [data-theme^='cyberpunk'] .hub-card:hover::before { opacity: 1; transform: translate(-2px,-2px); animation-play-state: paused; }
+[data-theme^='cyberpunk'] .home-card:hover::after, [data-theme^='cyberpunk'] .hub-card:hover::after { opacity: 1; transform: translate(2px,2px); animation-play-state: paused; }
 
 [data-theme^='silkpunk'] .home-card::before, [data-theme^='silkpunk'] .hub-card::before {
   content: ''; position: absolute; top: 8px; left: 8px; width: 26px; height: 26px;
@@ -363,6 +423,12 @@ button { color: inherit; }
 }
 [data-theme^='silkpunk'] .home-card:hover::before, [data-theme^='silkpunk'] .hub-card:hover::before { opacity: .85; transform: rotate(-8deg); }
 
+/* A true stroke-by-stroke draw-in (like the theme divider's) isn't
+   practical for a CSS mask-image corner ornament -- there's no real
+   `<path>` here to run stroke-dashoffset on. A scale-up from small on
+   hover is the honest CSS-mask equivalent: the ensō "arrives" rather
+   than being permanently sat there, without pretending to be a live
+   brush stroke it isn't. */
 [data-theme^='taopunk'] .home-card::after, [data-theme^='taopunk'] .hub-card::after {
   content: ''; position: absolute; bottom: -6px; right: -6px; width: 34px; height: 34px;
   background: var(--ink);
@@ -370,9 +436,10 @@ button { color: inherit; }
   mask-size: contain; mask-repeat: no-repeat;
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='black' stroke-width='2' stroke-dasharray='64 14' stroke-linecap='round'/%3E%3C/svg%3E");
   -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat;
-  opacity: .18; transition: opacity var(--dur-hover) var(--ease-hover), transform var(--dur-hover) var(--ease-hover);
+  opacity: .18; transform: rotate(0deg) scale(.7);
+  transition: opacity var(--dur-hover) var(--ease-hover), transform .4s cubic-bezier(.22,.61,.36,1);
 }
-[data-theme^='taopunk'] .home-card:hover::after, [data-theme^='taopunk'] .hub-card:hover::after { opacity: .4; transform: rotate(12deg); }
+[data-theme^='taopunk'] .home-card:hover::after, [data-theme^='taopunk'] .hub-card:hover::after { opacity: .4; transform: rotate(12deg) scale(1); }
 
 /* Taopunk only: a large yin-yang watermark behind the "Guided study loop"
    callout -- the ensō above stays as the small universal card-corner accent
@@ -977,7 +1044,20 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
   border-radius: 2px;
   background: rgba(85,42,15,.65);
 }
-[data-theme^='taopunk'] .floating-char span[lang] { color: #ffd966; text-shadow: 0 0 3px #3a1a05, 0 0 8px #ff6a00, 0 0 16px #ff3d00; }
+/* A candle flicker, not a steady bulb -- a few irregular brightness dips
+   and flares through the cycle rather than one smooth pulse. filter, not
+   the text-shadow colors themselves, so it layers cleanly under the
+   hover state's own text-shadow swap below instead of fighting it. */
+[data-theme^='taopunk'] .floating-char span[lang] { color: #ffd966; text-shadow: 0 0 3px #3a1a05, 0 0 8px #ff6a00, 0 0 16px #ff3d00; animation: lanternFlicker 4s ease-in-out infinite; }
+@keyframes lanternFlicker {
+  0%, 100% { filter: brightness(1); }
+  8% { filter: brightness(.92); }
+  11% { filter: brightness(1.08); }
+  34% { filter: brightness(.95); }
+  37% { filter: brightness(1.05); }
+  76% { filter: brightness(.9); }
+  79% { filter: brightness(1.1); }
+}
 [data-theme^='taopunk'] .floating-char.is-hovered span[lang] { text-shadow: 0 0 3px #3a1a05, 0 0 12px #ff8c1a, 0 0 24px #ff3d00; }
 @keyframes lanternFlicker { 0%, 100% { filter: brightness(1); } 45% { filter: brightness(1.08); } 60% { filter: brightness(.96); } 80% { filter: brightness(1.04); } }
 @keyframes floatingPop { to { transform: scale(1.6); opacity: 0; } }
