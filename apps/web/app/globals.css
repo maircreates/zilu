@@ -202,6 +202,16 @@ button { color: inherit; }
 
 .ambient { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
 .ambient::before { content: ''; position: absolute; inset: 0; opacity: .42; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 72px 72px; mask-image: linear-gradient(to bottom, black, transparent 72%); }
+/* Silkpunk: the shared square grid becomes a fine diagonal crosshatch --
+   two sets of hairline stripes at +/-45deg, close enough together to read
+   as woven cloth rather than a decorative grid. Same --line color and
+   fade mask as every other theme, just a different weave. */
+[data-theme^='silkpunk'] .ambient::before {
+  background-image:
+    repeating-linear-gradient(45deg, var(--line) 0, var(--line) 1px, transparent 1px, transparent 11px),
+    repeating-linear-gradient(-45deg, var(--line) 0, var(--line) 1px, transparent 1px, transparent 11px);
+  opacity: .3;
+}
 .ambient span { position: absolute; border-radius: 50%; filter: blur(4px); opacity: .33; animation: drift 14s ease-in-out infinite alternate; }
 /* Silkpunk Day's default palette: pulled straight from the header's own
    reference photos -- a sunset-gold mountain mist, a vermillion palace-
