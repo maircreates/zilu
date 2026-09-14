@@ -6,6 +6,7 @@ import { CyberpunkBoot } from '@/components/cyberpunk-boot';
 import { InkRippleLayer } from '@/components/ink-ripple-layer';
 import { PwaRegister } from '@/components/pwa-register';
 import { SearchPalette } from '@/components/search-palette';
+import { SilkpunkIntro } from '@/components/silkpunk-intro';
 import { TaopunkIntro } from '@/components/taopunk-intro';
 
 const geistSans = Geist({
@@ -55,6 +56,7 @@ export default function RootLayout({
         <PwaRegister />
         <CyberpunkBoot />
         <TaopunkIntro />
+        <SilkpunkIntro />
         <InkRippleLayer />
       </body>
     </html>
