@@ -72,12 +72,12 @@ export function SettingsHomepagePage() {
       </a>
 
       <section className="settings-hero">
-        <span className="eyebrow">Settings / Display / Aesthetics / Homepage</span>
-        <h1>Homepage</h1>
+        <span className="eyebrow">Settings / Display / Aesthetics / Floating Characters</span>
+        <h1>Floating Characters</h1>
         <p>
-          The Chinese characters drifting behind the homepage hero. Every
-          character is a real word from your pathways, and changes here take
-          effect immediately -- visit the homepage to see them live. Saved
+          The Chinese characters drifting in the background on the homepage
+          and throughout Settings. Every character is a real word from your
+          pathways, and changes here take effect immediately. Saved
           separately per color family, so switching themes in Settings /
           Display / Theme recalls that family&apos;s own setup here too.
         </p>

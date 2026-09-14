@@ -37,10 +37,10 @@ export function SettingsAestheticsHub() {
       <div className="hub-grid">
         <a href="/settings/display/aesthetics/homepage" className="hub-card">
           <span className="hub-card-num">01</span>
-          <h2>Homepage</h2>
+          <h2>Floating Characters</h2>
           <p>
-            The floating Chinese characters drifting behind the homepage hero
-            -- turn it on or off, and choose what hovering, clicking, and
+            The floating Chinese characters drifting in the background --
+            turn it on or off, and choose what hovering, clicking, and
             dragging a character does.
           </p>
           <span className="hub-card-link">

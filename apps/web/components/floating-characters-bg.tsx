@@ -219,10 +219,11 @@ function computeBounds(): Bounds {
   };
 }
 
-/** Ambient, interactive Chinese characters drifting across the homepage
- * hero. Hover, click, and drag behavior are all configurable from Settings >
- * Display > Aesthetics > Homepage; the character pool and word combos are
- * derived from the real vocabulary data, not a hand-picked list. */
+/** Ambient, interactive Chinese characters drifting across the homepage and
+ * every Settings page. Hover, click, and drag behavior are all configurable
+ * from Settings > Display > Aesthetics > Floating Characters; the character
+ * pool and word combos are derived from the real vocabulary data, not a
+ * hand-picked list. */
 export function FloatingCharactersBg() {
   const [settings] = useHomepageFx();
   const [family] = useThemeFamily();
