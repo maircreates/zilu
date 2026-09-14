@@ -17,23 +17,32 @@ const BOOT_LINES = [
 const MIN_MS = 1500;
 const MAX_MS = 2000;
 const LINE_SHARE = 0.8;
+const SESSION_KEY = 'zilu:cyberpunk-boot-played';
 
+/** Cyberpunk's only arrival flourish -- Taopunk and Silkpunk don't have
+ * one. Plays once per browser session (sessionStorage, so it survives a
+ * reload but resets in a fresh tab): either on the initial load if
+ * Cyberpunk is already the active theme, or the first time someone
+ * switches to Cyberpunk from Settings, whichever happens first. Reloading
+ * the page afterward -- or switching away and back to Cyberpunk again --
+ * does not replay it. */
 export function CyberpunkBoot() {
   const [family] = useThemeFamily();
   const [visible, setVisible] = useState(false);
   const [fading, setFading] = useState(false);
   const [lineCount, setLineCount] = useState(0);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const hasPlayedRef = useRef(false);
 
   useEffect(() => {
-    // Plays once per tab lifetime (this component never unmounts across
-    // client-side navigation, so a ref -- not sessionStorage -- is what
-    // keeps it from replaying every time someone flips themes in Settings;
-    // it naturally resets on a true reload since the whole JS context
-    // restarts).
-    if (family !== 'cyberpunk' || hasPlayedRef.current) return;
-    hasPlayedRef.current = true;
+    if (family !== 'cyberpunk') return;
+    let alreadyPlayed = false;
+    try {
+      alreadyPlayed = sessionStorage.getItem(SESSION_KEY) === '1';
+    } catch {
+      // Storage unavailable (private mode, etc.) -- fall through and just
+      // play it; not worth blocking the flourish over.
+    }
+    if (alreadyPlayed) return;
 
     // rAF-wrapped, matching floating-characters-bg's precedent: the
     // react-compiler linter flags an impure call (Math.random here, plus
@@ -43,6 +52,12 @@ export function CyberpunkBoot() {
       setVisible(true);
       setFading(false);
       setLineCount(0);
+
+      try {
+        sessionStorage.setItem(SESSION_KEY, '1');
+      } catch {
+        // Nothing to do if storage isn't available.
+      }
 
       const totalMs = MIN_MS + Math.random() * (MAX_MS - MIN_MS);
       const lineWindow = totalMs * LINE_SHARE;

@@ -1136,16 +1136,14 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
   .grammar-point-head { flex-direction: column; align-items: flex-start; gap: 4px; }
 }
 
-/* Loading-screen flourishes, mounted once in the root layout: one per
-   theme family, playing on every real page load/reload (not gated to once
-   per session -- each plays again on the next hard refresh, and again the
-   first time a newly-switched-to family becomes active). All three sit
-   above everything (z-index above the search dialog's own 200-ish
+/* Cyberpunk's boot sequence -- its only arrival flourish; Taopunk and
+   Silkpunk don't have one. Mounted once in the root layout, plays at most
+   once per browser session (see CyberpunkBoot's own sessionStorage gate).
+   Sits above everything (z-index above the search dialog's own 200-ish
    stacking); the actual page underneath is already fully rendered the
-   whole time, just covered until each clears. Each component randomizes
-   its own total duration (1500-2000ms) per play-through in JS -- the CSS
-   below only supplies the easing/fill-mode, with animation-duration (and,
-   for Silkpunk, animation-delay) set inline per play-through. */
+   whole time, just covered until it clears. Total duration is randomized
+   (1500-2000ms) per play-through in JS; the fade-out is a plain opacity
+   transition triggered by the .is-fading class. */
 .cyberpunk-boot {
   position: fixed;
   inset: 0;
@@ -1169,64 +1167,6 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
   color: var(--green);
   text-shadow: 0 0 6px currentColor, 0 0 16px currentColor;
   white-space: pre-wrap;
-}
-
-.taopunk-intro {
-  position: fixed;
-  inset: 0;
-  z-index: 300;
-  background: var(--ink);
-  pointer-events: none;
-  animation-name: taoInkWipe;
-  animation-timing-function: cubic-bezier(.65,0,.35,1);
-  animation-fill-mode: forwards;
-}
-@keyframes taoInkWipe {
-  0% { clip-path: inset(0 0 0 0); }
-  100% { clip-path: inset(0 0 0 100%); }
-}
-
-/* Silkpunk: a silk curtain -- two panels meeting at a gold seam -- holds
-   briefly, then parts left/right to reveal the page, like a stage curtain
-   opening. */
-.silkpunk-intro {
-  position: fixed;
-  inset: 0;
-  z-index: 300;
-  display: flex;
-  pointer-events: none;
-  overflow: hidden;
-}
-.silkpunk-intro-panel {
-  flex: 1;
-  position: relative;
-  background:
-    linear-gradient(115deg, transparent 40%, color-mix(in srgb, var(--accent) 45%, white) 50%, transparent 60%),
-    linear-gradient(160deg, var(--accent-deep), var(--accent));
-  background-size: 260% 260%, 100% 100%;
-  background-position: 30% 20%, 0 0;
-  animation-timing-function: cubic-bezier(.65,0,.35,1);
-  animation-fill-mode: forwards;
-}
-.silkpunk-intro-panel-left { animation-name: silkCurtainPartLeft; }
-.silkpunk-intro-panel-right { animation-name: silkCurtainPartRight; }
-.silkpunk-intro-panel-left::after,
-.silkpunk-intro-panel-right::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: color-mix(in srgb, var(--accent-deep) 70%, white);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--accent-deep) 60%, transparent);
-}
-.silkpunk-intro-panel-left::after { right: 0; }
-.silkpunk-intro-panel-right::after { left: 0; }
-@keyframes silkCurtainPartLeft {
-  to { transform: translateX(-100%); }
-}
-@keyframes silkCurtainPartRight {
-  to { transform: translateX(100%); }
 }
 
 /* Taopunk only: a click leaves a brief ink-blot ripple where it landed, like
