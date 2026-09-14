@@ -59,6 +59,61 @@
       "hanzi": "奇怪",
       "pinyin": "qíguài",
       "meaning": "strange, weird"
+    },
+    {
+      "hanzi": "餘",
+      "pinyin": "yú",
+      "meaning": "surplus"
+    },
+    {
+      "hanzi": "農曆",
+      "pinyin": "nónglì",
+      "meaning": "lunar calendar"
+    },
+    {
+      "hanzi": "粽子",
+      "pinyin": "zòngzi",
+      "meaning": "rice dumpling"
+    },
+    {
+      "hanzi": "團圓",
+      "pinyin": "tuányuán",
+      "meaning": "to reunite"
+    },
+    {
+      "hanzi": "元宵",
+      "pinyin": "yuánxiāo",
+      "meaning": "Lantern Festival rice-ball dumplings"
+    },
+    {
+      "hanzi": "計時",
+      "pinyin": "jìshí",
+      "meaning": "to count time"
+    },
+    {
+      "hanzi": "恭喜",
+      "pinyin": "gōngxǐ",
+      "meaning": "to congratulate"
+    },
+    {
+      "hanzi": "紅包",
+      "pinyin": "hóngbāo",
+      "meaning": "red envelope (money gift)"
+    },
+    {
+      "hanzi": "鞭炮",
+      "pinyin": "biānpào",
+      "meaning": "firecracker"
+    },
+    {
+      "hanzi": "端午節",
+      "pinyin": "Duānwǔjié",
+      "meaning": "Dragon Boat Festival"
+    },
+    {
+      "hanzi": "感恩節",
+      "pinyin": "Gǎn'ēnjié",
+      "meaning": "Thanksgiving"
     }
   ],
   "11-b": [
@@ -116,6 +171,66 @@
       "hanzi": "剩（下）",
       "pinyin": "shèng (xia)",
       "meaning": "to leave a surplus, to be left (over)"
+    },
+    {
+      "hanzi": "浪費",
+      "pinyin": "làngfèi",
+      "meaning": "to waste; wasteful"
+    },
+    {
+      "hanzi": "傳統",
+      "pinyin": "chuántǒng",
+      "meaning": "tradition"
+    },
+    {
+      "hanzi": "初",
+      "pinyin": "chū",
+      "meaning": "first, early part of"
+    },
+    {
+      "hanzi": "月餅",
+      "pinyin": "yuèbǐng",
+      "meaning": "mooncake"
+    },
+    {
+      "hanzi": "正月",
+      "pinyin": "zhēngyuè",
+      "meaning": "the first month of the lunar year"
+    },
+    {
+      "hanzi": "嘛",
+      "pinyin": "ma",
+      "meaning": "particle indicating something is obvious"
+    },
+    {
+      "hanzi": "拜年",
+      "pinyin": "bàinián",
+      "meaning": "to pay a New Year call"
+    },
+    {
+      "hanzi": "發財",
+      "pinyin": "fācái",
+      "meaning": "to get rich"
+    },
+    {
+      "hanzi": "熱鬧",
+      "pinyin": "rènao",
+      "meaning": "lively, bustling with excitement"
+    },
+    {
+      "hanzi": "春節",
+      "pinyin": "Chūnjié",
+      "meaning": "Spring Festival (Chinese New Year)"
+    },
+    {
+      "hanzi": "中秋節",
+      "pinyin": "Zhōngqiūjié",
+      "meaning": "Mid-Autumn Festival"
+    },
+    {
+      "hanzi": "元宵節",
+      "pinyin": "Yuánxiāojié",
+      "meaning": "Lantern Festival"
     }
   ],
   "12-a": [
@@ -168,6 +283,56 @@
       "hanzi": "上班",
       "pinyin": "shàng bān",
       "meaning": "to go to work, to start work, to be on duty"
+    },
+    {
+      "hanzi": "保留",
+      "pinyin": "bǎoliú",
+      "meaning": "to retain, to preserve"
+    },
+    {
+      "hanzi": "嚐",
+      "pinyin": "cháng",
+      "meaning": "to taste"
+    },
+    {
+      "hanzi": "不管",
+      "pinyin": "bùguǎn",
+      "meaning": "no matter (what/how)"
+    },
+    {
+      "hanzi": "民以食為天",
+      "pinyin": "mín yǐ shí wéi tiān",
+      "meaning": "food is the first necessity of the people (idiom)"
+    },
+    {
+      "hanzi": "從來",
+      "pinyin": "cónglái",
+      "meaning": "always, at all times (usually with negation)"
+    },
+    {
+      "hanzi": "儘可能",
+      "pinyin": "jǐnkěnéng",
+      "meaning": "as much as possible"
+    },
+    {
+      "hanzi": "座",
+      "pinyin": "zuò",
+      "meaning": "measure word for large, solid objects (buildings, mountains)"
+    },
+    {
+      "hanzi": "腳步",
+      "pinyin": "jiǎobù",
+      "meaning": "footstep"
+    },
+    {
+      "hanzi": "咕嚕",
+      "pinyin": "gūlū",
+      "meaning": "rumbling sound"
+    },
+    {
+      "hanzi": "夫子廟",
+      "pinyin": "Fūzǐmiào",
+      "meaning": "Temple of Confucius (Nanjing)"
     }
   ],
   "12-b": [
@@ -220,6 +385,51 @@
       "hanzi": "特色",
       "pinyin": "tèsè",
       "meaning": "distinguishing feature or quality, characteristic"
+    },
+    {
+      "hanzi": "建築",
+      "pinyin": "jiànzhù",
+      "meaning": "architecture; building"
+    },
+    {
+      "hanzi": "小吃",
+      "pinyin": "xiǎochī",
+      "meaning": "snack, small eats"
+    },
+    {
+      "hanzi": "變",
+      "pinyin": "biàn",
+      "meaning": "to change"
+    },
+    {
+      "hanzi": "句",
+      "pinyin": "jù",
+      "meaning": "measure word for sentences"
+    },
+    {
+      "hanzi": "老百姓",
+      "pinyin": "lǎobǎixìng",
+      "meaning": "ordinary people, common folk"
+    },
+    {
+      "hanzi": "廈",
+      "pinyin": "shà",
+      "meaning": "tall building"
+    },
+    {
+      "hanzi": "聲音",
+      "pinyin": "shēngyīn",
+      "meaning": "sound, voice"
+    },
+    {
+      "hanzi": "拍",
+      "pinyin": "pāi",
+      "meaning": "to shoot (a photo/film)"
+    },
+    {
+      "hanzi": "法國",
+      "pinyin": "Fǎguó",
+      "meaning": "France"
     }
   ],
   "13-a": [
@@ -287,6 +497,46 @@
       "hanzi": "臥鋪",
       "pinyin": "wòpù",
       "meaning": "sleeping bunk (on a train)"
+    },
+    {
+      "hanzi": "石頭",
+      "pinyin": "shítou",
+      "meaning": "stone, rock"
+    },
+    {
+      "hanzi": "講",
+      "pinyin": "jiǎng",
+      "meaning": "to speak, to tell"
+    },
+    {
+      "hanzi": "塔",
+      "pinyin": "tǎ",
+      "meaning": "pagoda, tower"
+    },
+    {
+      "hanzi": "紀念品",
+      "pinyin": "jìniànpǐn",
+      "meaning": "souvenir"
+    },
+    {
+      "hanzi": "河",
+      "pinyin": "hé",
+      "meaning": "river"
+    },
+    {
+      "hanzi": "燈籠",
+      "pinyin": "dēnglong",
+      "meaning": "lantern"
+    },
+    {
+      "hanzi": "昆明",
+      "pinyin": "Kūnmíng",
+      "meaning": "Kunming"
+    },
+    {
+      "hanzi": "大理",
+      "pinyin": "Dàlǐ",
+      "meaning": "Dali"
     }
   ],
   "13-b": [
@@ -349,6 +599,51 @@
       "hanzi": "習慣",
       "pinyin": "xíguàn",
       "meaning": "habit; to be accustomed to"
+    },
+    {
+      "hanzi": "遊覽",
+      "pinyin": "yóulǎn",
+      "meaning": "to go sightseeing"
+    },
+    {
+      "hanzi": "樹林",
+      "pinyin": "shùlín",
+      "meaning": "woods, grove"
+    },
+    {
+      "hanzi": "故事",
+      "pinyin": "gùshi",
+      "meaning": "story"
+    },
+    {
+      "hanzi": "古老",
+      "pinyin": "gǔlǎo",
+      "meaning": "ancient, old"
+    },
+    {
+      "hanzi": "千萬",
+      "pinyin": "qiānwàn",
+      "meaning": "by all means; absolutely (in a warning)"
+    },
+    {
+      "hanzi": "茶館",
+      "pinyin": "cháguǎn",
+      "meaning": "teahouse"
+    },
+    {
+      "hanzi": "房東",
+      "pinyin": "fángdōng",
+      "meaning": "landlord"
+    },
+    {
+      "hanzi": "石林",
+      "pinyin": "Shílín",
+      "meaning": "Stone Forest"
+    },
+    {
+      "hanzi": "麗江",
+      "pinyin": "Lìjiāng",
+      "meaning": "Lijiang"
     }
   ],
   "14-a": [
@@ -406,6 +701,41 @@
       "hanzi": "成為",
       "pinyin": "chéngwéi",
       "meaning": "to become, to turn into"
+    },
+    {
+      "hanzi": "隨便",
+      "pinyin": "suíbiàn",
+      "meaning": "casual, random; as one wishes"
+    },
+    {
+      "hanzi": "營養",
+      "pinyin": "yíngyǎng",
+      "meaning": "nutrition"
+    },
+    {
+      "hanzi": "科學",
+      "pinyin": "kēxué",
+      "meaning": "science"
+    },
+    {
+      "hanzi": "必須",
+      "pinyin": "bìxū",
+      "meaning": "must"
+    },
+    {
+      "hanzi": "熬夜",
+      "pinyin": "áoyè",
+      "meaning": "to stay up late"
+    },
+    {
+      "hanzi": "睡眠",
+      "pinyin": "shuìmián",
+      "meaning": "sleep"
+    },
+    {
+      "hanzi": "熊貓",
+      "pinyin": "xióngmāo",
+      "meaning": "panda"
     }
   ],
   "14-b": [
@@ -463,6 +793,41 @@
       "hanzi": "只要",
       "pinyin": "zhǐyào",
       "meaning": "as long as, provided"
+    },
+    {
+      "hanzi": "即使",
+      "pinyin": "jíshǐ",
+      "meaning": "even if"
+    },
+    {
+      "hanzi": "飽",
+      "pinyin": "bǎo",
+      "meaning": "full, satiated"
+    },
+    {
+      "hanzi": "方面",
+      "pinyin": "fāngmiàn",
+      "meaning": "aspect, respect"
+    },
+    {
+      "hanzi": "吸菸",
+      "pinyin": "xīyān",
+      "meaning": "to smoke"
+    },
+    {
+      "hanzi": "補充",
+      "pinyin": "bǔchōng",
+      "meaning": "to supplement"
+    },
+    {
+      "hanzi": "隻",
+      "pinyin": "zhī",
+      "meaning": "measure word for animals"
+    },
+    {
+      "hanzi": "李文",
+      "pinyin": "Lǐ Wén",
+      "meaning": "(personal name)"
     }
   ],
   "15-a": [
@@ -520,6 +885,61 @@
       "hanzi": "單位",
       "pinyin": "dānwèi",
       "meaning": "unit"
+    },
+    {
+      "hanzi": "表現",
+      "pinyin": "biǎoxiàn",
+      "meaning": "to display, to show"
+    },
+    {
+      "hanzi": "隊",
+      "pinyin": "duì",
+      "meaning": "team"
+    },
+    {
+      "hanzi": "隊員",
+      "pinyin": "duìyuán",
+      "meaning": "team member"
+    },
+    {
+      "hanzi": "輸",
+      "pinyin": "shū",
+      "meaning": "to lose"
+    },
+    {
+      "hanzi": "公平",
+      "pinyin": "gōngpíng",
+      "meaning": "fair"
+    },
+    {
+      "hanzi": "市場",
+      "pinyin": "shìchǎng",
+      "meaning": "market"
+    },
+    {
+      "hanzi": "薪水",
+      "pinyin": "xīnshuǐ",
+      "meaning": "salary"
+    },
+    {
+      "hanzi": "贏",
+      "pinyin": "yíng",
+      "meaning": "to win"
+    },
+    {
+      "hanzi": "相信",
+      "pinyin": "xiāngxìn",
+      "meaning": "to believe"
+    },
+    {
+      "hanzi": "乒乓球",
+      "pinyin": "pīngpāngqiú",
+      "meaning": "table tennis, ping pong"
+    },
+    {
+      "hanzi": "西班牙",
+      "pinyin": "Xībānyá",
+      "meaning": "Spain"
     }
   ],
   "15-b": [
@@ -572,6 +992,61 @@
       "hanzi": "家務",
       "pinyin": "jiāwù",
       "meaning": "household chores, household duties"
+    },
+    {
+      "hanzi": "模範",
+      "pinyin": "mófàn",
+      "meaning": "model, exemplary"
+    },
+    {
+      "hanzi": "男子",
+      "pinyin": "nánzǐ",
+      "meaning": "man"
+    },
+    {
+      "hanzi": "討厭",
+      "pinyin": "tǎoyàn",
+      "meaning": "to dislike"
+    },
+    {
+      "hanzi": "驕傲",
+      "pinyin": "jiāo'ào",
+      "meaning": "proud"
+    },
+    {
+      "hanzi": "成績",
+      "pinyin": "chéngjì",
+      "meaning": "achievement, results"
+    },
+    {
+      "hanzi": "由",
+      "pinyin": "yóu",
+      "meaning": "by (indicating agent)"
+    },
+    {
+      "hanzi": "職業",
+      "pinyin": "zhíyè",
+      "meaning": "occupation"
+    },
+    {
+      "hanzi": "消息",
+      "pinyin": "xiāoxi",
+      "meaning": "news"
+    },
+    {
+      "hanzi": "冠軍",
+      "pinyin": "guànjūn",
+      "meaning": "champion"
+    },
+    {
+      "hanzi": "比分",
+      "pinyin": "bǐfēn",
+      "meaning": "score"
+    },
+    {
+      "hanzi": "德國",
+      "pinyin": "Déguó",
+      "meaning": "Germany"
     }
   ],
   "16-a": [
@@ -629,6 +1104,66 @@
       "hanzi": "回收",
       "pinyin": "huíshōu",
       "meaning": "to recycle"
+    },
+    {
+      "hanzi": "風",
+      "pinyin": "fēng",
+      "meaning": "wind"
+    },
+    {
+      "hanzi": "煤",
+      "pinyin": "méi",
+      "meaning": "coal"
+    },
+    {
+      "hanzi": "公共場所",
+      "pinyin": "gōnggòng chǎngsuǒ",
+      "meaning": "public place"
+    },
+    {
+      "hanzi": "溫度",
+      "pinyin": "wēndù",
+      "meaning": "temperature"
+    },
+    {
+      "hanzi": "贊成",
+      "pinyin": "zànchéng",
+      "meaning": "to approve of"
+    },
+    {
+      "hanzi": "餐具",
+      "pinyin": "cānjù",
+      "meaning": "tableware"
+    },
+    {
+      "hanzi": "砍",
+      "pinyin": "kǎn",
+      "meaning": "to cut, to chop"
+    },
+    {
+      "hanzi": "塑料袋",
+      "pinyin": "sùliàodài",
+      "meaning": "plastic bag"
+    },
+    {
+      "hanzi": "汙染",
+      "pinyin": "wūrǎn",
+      "meaning": "pollution"
+    },
+    {
+      "hanzi": "比如",
+      "pinyin": "bǐrú",
+      "meaning": "for example"
+    },
+    {
+      "hanzi": "加油",
+      "pinyin": "jiāyóu",
+      "meaning": "to make an extra effort"
+    },
+    {
+      "hanzi": "攝氏",
+      "pinyin": "Shèshì",
+      "meaning": "Celsius"
     }
   ],
   "16-b": [
@@ -681,6 +1216,66 @@
       "hanzi": "國家",
       "pinyin": "guójiā",
       "meaning": "country, nation"
+    },
+    {
+      "hanzi": "危機",
+      "pinyin": "wēijī",
+      "meaning": "crisis"
+    },
+    {
+      "hanzi": "石油",
+      "pinyin": "shíyóu",
+      "meaning": "petroleum"
+    },
+    {
+      "hanzi": "規定",
+      "pinyin": "guīdìng",
+      "meaning": "regulation"
+    },
+    {
+      "hanzi": "暖氣",
+      "pinyin": "nuǎnqì",
+      "meaning": "heating"
+    },
+    {
+      "hanzi": "度",
+      "pinyin": "dù",
+      "meaning": "degree"
+    },
+    {
+      "hanzi": "出汗",
+      "pinyin": "chūhàn",
+      "meaning": "to sweat"
+    },
+    {
+      "hanzi": "一次性",
+      "pinyin": "yícìxìng",
+      "meaning": "one-time-use, disposable"
+    },
+    {
+      "hanzi": "超市",
+      "pinyin": "chāoshì",
+      "meaning": "supermarket"
+    },
+    {
+      "hanzi": "減少",
+      "pinyin": "jiǎnshǎo",
+      "meaning": "to reduce"
+    },
+    {
+      "hanzi": "造成",
+      "pinyin": "zàochéng",
+      "meaning": "to cause"
+    },
+    {
+      "hanzi": "隨手",
+      "pinyin": "suíshǒu",
+      "meaning": "without extra effort, conveniently"
+    },
+    {
+      "hanzi": "馬克",
+      "pinyin": "Mǎkè",
+      "meaning": "(personal name) Mark"
     }
   ],
   "17-a": [
@@ -733,6 +1328,56 @@
       "hanzi": "矛盾",
       "pinyin": "máodùn",
       "meaning": "contradiction, conflict; contradictory, conflicting"
+    },
+    {
+      "hanzi": "享受",
+      "pinyin": "xiǎngshòu",
+      "meaning": "to enjoy"
+    },
+    {
+      "hanzi": "利息",
+      "pinyin": "lìxī",
+      "meaning": "interest (on money)"
+    },
+    {
+      "hanzi": "老年",
+      "pinyin": "lǎonián",
+      "meaning": "old age"
+    },
+    {
+      "hanzi": "簽",
+      "pinyin": "qiān",
+      "meaning": "to sign"
+    },
+    {
+      "hanzi": "想法",
+      "pinyin": "xiǎngfǎ",
+      "meaning": "idea, way of thinking"
+    },
+    {
+      "hanzi": "義工",
+      "pinyin": "yìgōng",
+      "meaning": "volunteer"
+    },
+    {
+      "hanzi": "賺錢",
+      "pinyin": "zhuànqián",
+      "meaning": "to make money, to profit"
+    },
+    {
+      "hanzi": "風險",
+      "pinyin": "fēngxiǎn",
+      "meaning": "risk"
+    },
+    {
+      "hanzi": "股票",
+      "pinyin": "gǔpiào",
+      "meaning": "stock, share"
+    },
+    {
+      "hanzi": "賠",
+      "pinyin": "péi",
+      "meaning": "to lose money"
     }
   ],
   "17-b": [
@@ -785,6 +1430,51 @@
       "hanzi": "辛苦",
       "pinyin": "xīnkǔ",
       "meaning": "hard, strenuous; to work hard"
+    },
+    {
+      "hanzi": "老太太",
+      "pinyin": "lǎotàitai",
+      "meaning": "elderly lady"
+    },
+    {
+      "hanzi": "增加",
+      "pinyin": "zēngjiā",
+      "meaning": "to increase"
+    },
+    {
+      "hanzi": "說服",
+      "pinyin": "shuōfú",
+      "meaning": "to persuade"
+    },
+    {
+      "hanzi": "合同",
+      "pinyin": "hétong",
+      "meaning": "contract"
+    },
+    {
+      "hanzi": "突然",
+      "pinyin": "tūrán",
+      "meaning": "suddenly"
+    },
+    {
+      "hanzi": "麻將",
+      "pinyin": "májiàng",
+      "meaning": "mahjong"
+    },
+    {
+      "hanzi": "股市",
+      "pinyin": "gǔshì",
+      "meaning": "stock market"
+    },
+    {
+      "hanzi": "抵押",
+      "pinyin": "dǐyā",
+      "meaning": "to mortgage"
+    },
+    {
+      "hanzi": "跌",
+      "pinyin": "diē",
+      "meaning": "to fall (of prices)"
     }
   ],
   "18-a": [
@@ -847,6 +1537,71 @@
       "hanzi": "皇帝",
       "pinyin": "huángdì",
       "meaning": "emperor"
+    },
+    {
+      "hanzi": "貿易",
+      "pinyin": "màoyì",
+      "meaning": "trade"
+    },
+    {
+      "hanzi": "詩人",
+      "pinyin": "shīrén",
+      "meaning": "poet"
+    },
+    {
+      "hanzi": "技術",
+      "pinyin": "jìshù",
+      "meaning": "technology"
+    },
+    {
+      "hanzi": "先進",
+      "pinyin": "xiānjìn",
+      "meaning": "advanced"
+    },
+    {
+      "hanzi": "造紙",
+      "pinyin": "zàozhǐ",
+      "meaning": "papermaking"
+    },
+    {
+      "hanzi": "指南針",
+      "pinyin": "zhǐnánzhēn",
+      "meaning": "compass"
+    },
+    {
+      "hanzi": "領導",
+      "pinyin": "lǐngdǎo",
+      "meaning": "leadership; to lead"
+    },
+    {
+      "hanzi": "建立",
+      "pinyin": "jiànlì",
+      "meaning": "to establish"
+    },
+    {
+      "hanzi": "秦朝",
+      "pinyin": "Qíncháo",
+      "meaning": "Qin Dynasty"
+    },
+    {
+      "hanzi": "漢朝",
+      "pinyin": "Hàncháo",
+      "meaning": "Han Dynasty"
+    },
+    {
+      "hanzi": "唐朝",
+      "pinyin": "Tángcháo",
+      "meaning": "Tang Dynasty"
+    },
+    {
+      "hanzi": "宋朝",
+      "pinyin": "Sòngcháo",
+      "meaning": "Song Dynasty"
+    },
+    {
+      "hanzi": "孫中山",
+      "pinyin": "Sūn Zhōngshān",
+      "meaning": "Sun Yat-sen"
     }
   ],
   "18-b": [
@@ -904,6 +1659,76 @@
       "hanzi": "關係",
       "pinyin": "guānxì",
       "meaning": "relation, relationship, connection"
+    },
+    {
+      "hanzi": "進行",
+      "pinyin": "jìnxíng",
+      "meaning": "to carry out"
+    },
+    {
+      "hanzi": "詩",
+      "pinyin": "shī",
+      "meaning": "poem"
+    },
+    {
+      "hanzi": "發達",
+      "pinyin": "fādá",
+      "meaning": "developed"
+    },
+    {
+      "hanzi": "曾經",
+      "pinyin": "céngjīng",
+      "meaning": "once, formerly"
+    },
+    {
+      "hanzi": "發明",
+      "pinyin": "fāmíng",
+      "meaning": "invention; to invent"
+    },
+    {
+      "hanzi": "火藥",
+      "pinyin": "huǒyào",
+      "meaning": "gunpowder"
+    },
+    {
+      "hanzi": "活字印刷",
+      "pinyin": "huózì yìnshuā",
+      "meaning": "movable-type printing"
+    },
+    {
+      "hanzi": "革命",
+      "pinyin": "gémìng",
+      "meaning": "revolution"
+    },
+    {
+      "hanzi": "孔子",
+      "pinyin": "Kǒngzǐ",
+      "meaning": "Confucius"
+    },
+    {
+      "hanzi": "秦始皇",
+      "pinyin": "Qínshǐhuáng",
+      "meaning": "Qin Shi Huang (first emperor of Qin)"
+    },
+    {
+      "hanzi": "西方",
+      "pinyin": "Xīfāng",
+      "meaning": "the West"
+    },
+    {
+      "hanzi": "李白",
+      "pinyin": "Lǐ Bái",
+      "meaning": "Li Bai (Tang-dynasty poet)"
+    },
+    {
+      "hanzi": "清朝",
+      "pinyin": "Qīngcháo",
+      "meaning": "Qing Dynasty"
+    },
+    {
+      "hanzi": "中華民國",
+      "pinyin": "Zhōnghuá Mínguó",
+      "meaning": "Republic of China"
     }
   ],
   "19-a": [
@@ -961,6 +1786,61 @@
       "hanzi": "滿意",
       "pinyin": "mǎnyì",
       "meaning": "to be satisfied, to be pleased"
+    },
+    {
+      "hanzi": "轉",
+      "pinyin": "zhuǎn",
+      "meaning": "to turn, to shift"
+    },
+    {
+      "hanzi": "寄",
+      "pinyin": "jì",
+      "meaning": "to mail"
+    },
+    {
+      "hanzi": "通知",
+      "pinyin": "tōngzhī",
+      "meaning": "notice; to notify"
+    },
+    {
+      "hanzi": "接著",
+      "pinyin": "jiēzhe",
+      "meaning": "to continue, to go on"
+    },
+    {
+      "hanzi": "短期",
+      "pinyin": "duǎnqī",
+      "meaning": "short-term"
+    },
+    {
+      "hanzi": "產品",
+      "pinyin": "chǎnpǐn",
+      "meaning": "product"
+    },
+    {
+      "hanzi": "缺點",
+      "pinyin": "quēdiǎn",
+      "meaning": "shortcoming, weakness"
+    },
+    {
+      "hanzi": "善於",
+      "pinyin": "shànyú",
+      "meaning": "good at"
+    },
+    {
+      "hanzi": "加班",
+      "pinyin": "jiābān",
+      "meaning": "to work overtime"
+    },
+    {
+      "hanzi": "可怕",
+      "pinyin": "kěpà",
+      "meaning": "awful, dreadful"
+    },
+    {
+      "hanzi": "能力",
+      "pinyin": "nénglì",
+      "meaning": "ability"
     }
   ],
   "19-b": [
@@ -1018,6 +1898,56 @@
       "hanzi": "陰",
       "pinyin": "yīn",
       "meaning": "overcast, hidden from the sun"
+    },
+    {
+      "hanzi": "雲",
+      "pinyin": "yún",
+      "meaning": "cloud"
+    },
+    {
+      "hanzi": "錄用",
+      "pinyin": "lùyòng",
+      "meaning": "to hire"
+    },
+    {
+      "hanzi": "既然",
+      "pinyin": "jìrán",
+      "meaning": "since, now that"
+    },
+    {
+      "hanzi": "回答",
+      "pinyin": "huídá",
+      "meaning": "to reply"
+    },
+    {
+      "hanzi": "好在",
+      "pinyin": "hǎozài",
+      "meaning": "fortunately"
+    },
+    {
+      "hanzi": "晴",
+      "pinyin": "qíng",
+      "meaning": "sunny, clear"
+    },
+    {
+      "hanzi": "零食",
+      "pinyin": "língshí",
+      "meaning": "snack"
+    },
+    {
+      "hanzi": "往往",
+      "pinyin": "wǎngwǎng",
+      "meaning": "more often than not"
+    },
+    {
+      "hanzi": "優點",
+      "pinyin": "yōudiǎn",
+      "meaning": "merit, strength"
+    },
+    {
+      "hanzi": "握手",
+      "pinyin": "wòshǒu",
+      "meaning": "to shake hands"
     }
   ],
   "20-a": [
@@ -1065,6 +1995,36 @@
       "hanzi": "聚",
       "pinyin": "jù",
       "meaning": "to gather, to get together, to congregate"
+    },
+    {
+      "hanzi": "搞",
+      "pinyin": "gǎo",
+      "meaning": "to do, to carry on with"
+    },
+    {
+      "hanzi": "流",
+      "pinyin": "liú",
+      "meaning": "class, rank"
+    },
+    {
+      "hanzi": "而已",
+      "pinyin": "éryǐ",
+      "meaning": "that is all, only"
+    },
+    {
+      "hanzi": "年輕",
+      "pinyin": "niánqīng",
+      "meaning": "young"
+    },
+    {
+      "hanzi": "放心",
+      "pinyin": "fàngxīn",
+      "meaning": "to feel relieved, to set one’s mind at ease"
+    },
+    {
+      "hanzi": "友誼",
+      "pinyin": "yǒuyì",
+      "meaning": "friendship"
     }
   ],
   "20-b": [
@@ -1107,6 +2067,41 @@
       "hanzi": "者",
       "pinyin": "zhě",
       "meaning": "(suffix meaning person)"
+    },
+    {
+      "hanzi": "電視劇",
+      "pinyin": "diànshìjù",
+      "meaning": "TV drama"
+    },
+    {
+      "hanzi": "面熟",
+      "pinyin": "miànshú",
+      "meaning": "familiar-looking"
+    },
+    {
+      "hanzi": "演員",
+      "pinyin": "yǎnyuán",
+      "meaning": "actor"
+    },
+    {
+      "hanzi": "穩定",
+      "pinyin": "wěndìng",
+      "meaning": "stable"
+    },
+    {
+      "hanzi": "永遠",
+      "pinyin": "yǒngyuǎn",
+      "meaning": "forever"
+    },
+    {
+      "hanzi": "聯繫",
+      "pinyin": "liánxì",
+      "meaning": "to contact"
+    },
+    {
+      "hanzi": "歐洲",
+      "pinyin": "Ōuzhōu",
+      "meaning": "Europe"
     }
   ]
 }

@@ -116,6 +116,11 @@
       "hanzi": "柯林",
       "pinyin": "Kē Lín",
       "meaning": "(a personal name)"
+    },
+    {
+      "hanzi": "室友",
+      "pinyin": "shìyǒu",
+      "meaning": "roommate"
     }
   ],
   "2-a": [
@@ -389,6 +394,46 @@
       "hanzi": "主意",
       "pinyin": "zhúyi",
       "meaning": "idea"
+    },
+    {
+      "hanzi": "微信",
+      "pinyin": "Wēixìn",
+      "meaning": "WeChat"
+    },
+    {
+      "hanzi": "麗莎",
+      "pinyin": "Lìshā",
+      "meaning": "(personal name) Lisa"
+    },
+    {
+      "hanzi": "林雪梅",
+      "pinyin": "Lín Xuěméi",
+      "meaning": "(personal name)"
+    },
+    {
+      "hanzi": "杭州",
+      "pinyin": "Hángzhōu",
+      "meaning": "Hangzhou"
+    },
+    {
+      "hanzi": "四川",
+      "pinyin": "Sìchuān",
+      "meaning": "Sichuan"
+    },
+    {
+      "hanzi": "湖南",
+      "pinyin": "Húnán",
+      "meaning": "Hunan"
+    },
+    {
+      "hanzi": "廣東",
+      "pinyin": "Guǎngdōng",
+      "meaning": "Guangdong"
+    },
+    {
+      "hanzi": "吃醋",
+      "pinyin": "chīcù",
+      "meaning": "to be jealous (lit. \"to eat vinegar\")"
     }
   ],
   "4-a": [
@@ -513,6 +558,31 @@
       "hanzi": "同意",
       "pinyin": "tóngyì",
       "meaning": "to agree"
+    },
+    {
+      "hanzi": "好看",
+      "pinyin": "hǎokàn",
+      "meaning": "nice-looking, attractive"
+    },
+    {
+      "hanzi": "一會兒",
+      "pinyin": "yíhuìr",
+      "meaning": "in a moment, a little while"
+    },
+    {
+      "hanzi": "現金",
+      "pinyin": "xiànjīn",
+      "meaning": "cash"
+    },
+    {
+      "hanzi": "加",
+      "pinyin": "jiā",
+      "meaning": "to add"
+    },
+    {
+      "hanzi": "稅",
+      "pinyin": "shuì",
+      "meaning": "tax"
     }
   ],
   "5-a": [
@@ -672,6 +742,36 @@
       "hanzi": "數字",
       "pinyin": "shùzì",
       "meaning": "numeral, figure, digit"
+    },
+    {
+      "hanzi": "打交道",
+      "pinyin": "dǎ jiāodào",
+      "meaning": "to deal with"
+    },
+    {
+      "hanzi": "哲學",
+      "pinyin": "zhéxué",
+      "meaning": "philosophy"
+    },
+    {
+      "hanzi": "管",
+      "pinyin": "guǎn",
+      "meaning": "to control, to manage; to mind, to care about"
+    },
+    {
+      "hanzi": "申請",
+      "pinyin": "shēnqǐng",
+      "meaning": "to apply (to a school/job)"
+    },
+    {
+      "hanzi": "省下來",
+      "pinyin": "shěng xia lai",
+      "meaning": "to save (money, time)"
+    },
+    {
+      "hanzi": "李哲",
+      "pinyin": "Lǐ Zhé",
+      "meaning": "(personal name)"
     }
   ],
   "6-a": [
@@ -1159,6 +1259,26 @@
       "hanzi": "借",
       "pinyin": "jiè",
       "meaning": "to borrow, to lend"
+    },
+    {
+      "hanzi": "欠",
+      "pinyin": "qiàn",
+      "meaning": "to owe"
+    },
+    {
+      "hanzi": "銀行",
+      "pinyin": "yínháng",
+      "meaning": "bank"
+    },
+    {
+      "hanzi": "難怪",
+      "pinyin": "nánguài",
+      "meaning": "no wonder"
+    },
+    {
+      "hanzi": "乖",
+      "pinyin": "guāi",
+      "meaning": "obedient, well-behaved (of children)"
     }
   ],
   "9-a": [
@@ -1288,6 +1408,41 @@
       "hanzi": "望子成龍",
       "pinyin": "wàng zǐ chéng lóng",
       "meaning": "to hope that one’s son will become successful (lit. to hope that one’s son will become a dragon)"
+    },
+    {
+      "hanzi": "望女成鳳",
+      "pinyin": "wàng nǚ chéng fèng",
+      "meaning": "to hope one’s daughter becomes successful (idiom)"
+    },
+    {
+      "hanzi": "番",
+      "pinyin": "fān",
+      "meaning": "measure word for a type/kind (of effort etc.)"
+    },
+    {
+      "hanzi": "事業",
+      "pinyin": "shìyè",
+      "meaning": "career, undertaking"
+    },
+    {
+      "hanzi": "社會",
+      "pinyin": "shèhuì",
+      "meaning": "society"
+    },
+    {
+      "hanzi": "知識",
+      "pinyin": "zhīshi",
+      "meaning": "knowledge"
+    },
+    {
+      "hanzi": "不是…，而是…",
+      "pinyin": "búshì..., érshì...",
+      "meaning": "it’s not..., but rather..."
+    },
+    {
+      "hanzi": "墨西哥",
+      "pinyin": "Mòxīgē",
+      "meaning": "Mexico"
     }
   ],
   "10-a": [
@@ -1400,6 +1555,11 @@
       "hanzi": "自然",
       "pinyin": "zìrán",
       "meaning": "nature; natural"
+    },
+    {
+      "hanzi": "深圳",
+      "pinyin": "Shēnzhèn",
+      "meaning": "Shenzhen"
     }
   ],
   "10-b": [
@@ -1457,6 +1617,66 @@
       "hanzi": "短",
       "pinyin": "duǎn",
       "meaning": "short"
+    },
+    {
+      "hanzi": "省",
+      "pinyin": "shěng",
+      "meaning": "province"
+    },
+    {
+      "hanzi": "四季如春",
+      "pinyin": "sìjì rú chūn",
+      "meaning": "spring-like all year round (idiom)"
+    },
+    {
+      "hanzi": "少數",
+      "pinyin": "shǎoshù",
+      "meaning": "few, minority"
+    },
+    {
+      "hanzi": "民族",
+      "pinyin": "mínzú",
+      "meaning": "ethnic group, nationality"
+    },
+    {
+      "hanzi": "南京",
+      "pinyin": "Nánjīng",
+      "meaning": "Nanjing"
+    },
+    {
+      "hanzi": "哈爾濱",
+      "pinyin": "Hā'ěrbīn",
+      "meaning": "Harbin"
+    },
+    {
+      "hanzi": "新疆",
+      "pinyin": "Xīnjiāng",
+      "meaning": "Xinjiang"
+    },
+    {
+      "hanzi": "長江",
+      "pinyin": "Chángjiāng",
+      "meaning": "Yangtze River"
+    },
+    {
+      "hanzi": "黃河",
+      "pinyin": "Huánghé",
+      "meaning": "Yellow River"
+    },
+    {
+      "hanzi": "天津",
+      "pinyin": "Tiānjīn",
+      "meaning": "Tianjin"
+    },
+    {
+      "hanzi": "廣州",
+      "pinyin": "Guǎngzhōu",
+      "meaning": "Guangzhou"
+    },
+    {
+      "hanzi": "雲南",
+      "pinyin": "Yúnnán",
+      "meaning": "Yunnan"
     }
   ]
 }
