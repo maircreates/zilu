@@ -2,8 +2,11 @@ import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 
+import { CyberpunkBoot } from '@/components/cyberpunk-boot';
+import { InkRippleLayer } from '@/components/ink-ripple-layer';
 import { PwaRegister } from '@/components/pwa-register';
 import { SearchPalette } from '@/components/search-palette';
+import { TaopunkIntro } from '@/components/taopunk-intro';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -50,6 +53,9 @@ export default function RootLayout({
         {children}
         <SearchPalette />
         <PwaRegister />
+        <CyberpunkBoot />
+        <TaopunkIntro />
+        <InkRippleLayer />
       </body>
     </html>
   );

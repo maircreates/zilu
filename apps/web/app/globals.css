@@ -1110,3 +1110,131 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
   .grammar-toggles { gap: 16px; }
   .grammar-point-head { flex-direction: column; align-items: flex-start; gap: 4px; }
 }
+
+/* One-time arrival flourishes, mounted once in the root layout: Cyberpunk's
+   terminal boot sequence and Taopunk's ink wipe. Both sit above everything
+   (z-index above the search dialog's own 200-ish stacking) and fade/clip
+   themselves out; the actual page underneath is already fully rendered, just
+   covered until each finishes. */
+.cyberpunk-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #04070a;
+  animation: cyberpunkBootOut .6s ease .9s forwards;
+}
+.cyberpunk-boot pre {
+  margin: 0;
+  max-width: 640px;
+  width: 100%;
+  font-family: var(--font-geist-mono, monospace);
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--green);
+  text-shadow: 0 0 6px currentColor, 0 0 16px currentColor;
+  white-space: pre-wrap;
+}
+@keyframes cyberpunkBootOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+.taopunk-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: var(--ink);
+  pointer-events: none;
+  animation: taoInkWipe 1.1s cubic-bezier(.65,0,.35,1) forwards;
+}
+@keyframes taoInkWipe {
+  0% { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(0 0 0 100%); }
+}
+
+/* Taopunk only: a click leaves a brief ink-blot ripple where it landed, like
+   a seal stamp. The layer covers the viewport but stays click-through
+   (pointer-events: none) -- it only ever draws decoration, never intercepts
+   the click that spawned it. */
+.ink-ripple-layer { position: fixed; inset: 0; z-index: 250; pointer-events: none; overflow: hidden; }
+.ink-ripple {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 46% 54% 52% 48% / 50% 46% 54% 50%;
+  background: var(--ink);
+  opacity: .5;
+  animation: inkRippleBloom .7s cubic-bezier(.22,.61,.36,1) forwards;
+}
+@keyframes inkRippleBloom {
+  0% { transform: scale(.4); opacity: .5; }
+  100% { transform: scale(7); opacity: 0; }
+}
+
+/* Cyberpunk: the hero headline occasionally glitches -- a quick chromatic-
+   aberration split (red/cyan ghost copies offset a few pixels, the classic
+   "bad signal" look) rather than a constant effect, so it reads as a
+   momentary interference burst. Built with the same idle-then-brief-event
+   shape as the HUD bracket flicker, just on text-shadow instead of opacity. */
+[data-theme^='cyberpunk'] .home-hero h1 { animation: chromaticGlitchBurst 9s ease-in-out infinite; }
+@keyframes chromaticGlitchBurst {
+  0%, 96%, 100% { text-shadow: -2px -2px 4px var(--bg), 2px -2px 4px var(--bg), -2px 2px 4px var(--bg), 2px 2px 4px var(--bg), 0 0 18px var(--bg), 0 0 34px var(--bg); }
+  97% { text-shadow: -2px 0 0 #ff3d78, 2px 0 0 #00f5d4, -2px -2px 4px var(--bg), 2px 2px 4px var(--bg); }
+  97.6% { text-shadow: 2px 0 0 #ff3d78, -2px 0 0 #00f5d4, -2px -2px 4px var(--bg), 2px 2px 4px var(--bg); }
+  98.2% { text-shadow: -2px -2px 4px var(--bg), 2px -2px 4px var(--bg), -2px 2px 4px var(--bg), 2px 2px 4px var(--bg), 0 0 18px var(--bg), 0 0 34px var(--bg); }
+}
+
+/* Cyberpunk: the search trigger and search dialog read as a terminal prompt
+   instead of a generic search box -- monospace, square corners, a blinking
+   caret before the input text. */
+[data-theme^='cyberpunk'] .topbar-search { border-radius: 2px; }
+[data-theme^='cyberpunk'] .search-panel { border-radius: 2px; box-shadow: var(--shadow), 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent); }
+[data-theme^='cyberpunk'] .search-input-row { position: relative; }
+[data-theme^='cyberpunk'] .search-input { font-family: var(--font-geist-mono, monospace); caret-color: var(--accent); }
+[data-theme^='cyberpunk'] .search-input::placeholder { font-family: var(--font-geist-mono, monospace); }
+[data-theme^='cyberpunk'] .search-input-icon { display: none; }
+[data-theme^='cyberpunk'] .search-input-row::before {
+  content: '>';
+  flex-shrink: 0;
+  color: var(--green);
+  font-family: var(--font-geist-mono, monospace);
+  font-weight: 700;
+  animation: terminalCaretBlink 1s steps(1) infinite;
+}
+@keyframes terminalCaretBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: .15; }
+}
+[data-theme^='cyberpunk'] .search-result { font-family: var(--font-geist-mono, monospace); }
+
+/* Taopunk: a slow drift of pale mist across the page, layered on .ambient's
+   own second pseudo-element the way Silkpunk uses ::after for its sheen and
+   Cyberpunk uses it for the scan sweep -- confirmed unused for Taopunk
+   before adding this, so it isn't competing with anything. */
+[data-theme^='taopunk'] .ambient::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 20% 30%, color-mix(in srgb, var(--ink) 10%, transparent), transparent 70%),
+    radial-gradient(ellipse 50% 35% at 75% 65%, color-mix(in srgb, var(--ink) 8%, transparent), transparent 70%);
+  background-size: 180% 180%, 200% 200%;
+  opacity: .5;
+  animation: taoMistDrift 26s ease-in-out infinite alternate;
+}
+[data-theme='taopunk-night'] .ambient::after { opacity: .35; }
+@keyframes taoMistDrift {
+  0% { background-position: 0% 20%, 100% 80%; }
+  100% { background-position: 30% 55%, 65% 35%; }
+}
+
+/* Taopunk: cards sway slightly on hover, like paper catching a breath of
+   wind, instead of lifting straight up -- layered on top of the shared
+   .home-card:hover/.hub-card:hover translateY(-2px) rather than replacing
+   it. */
+[data-theme^='taopunk'] .home-card, [data-theme^='taopunk'] .hub-card { transition: transform .35s cubic-bezier(.34,1.4,.64,1), border-color var(--dur-hover) var(--ease-hover); }
+[data-theme^='taopunk'] .home-card:hover, [data-theme^='taopunk'] .hub-card:hover { transform: translateY(-2px) rotate(-.6deg); }
