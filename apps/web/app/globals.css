@@ -622,6 +622,19 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
   .study-panel { padding-top: 28px; }
 }
 
+/* Below ~720px the topbar's own math no longer holds: the emblem is a
+   fixed ~220px block centered on the whole header, and once the brand's
+   subtitle is still showing (it only hides at 640px) there isn't 220px of
+   dead space between the brand and the search button any more -- the
+   emblem starts clipping the "Your path into Chinese" subtitle text
+   (confirmed by measuring the brand's real rendered width: ~215px with
+   the subtitle, leaving no room until the viewport is ~714px+). Shrinking
+   it in place (a scale on the already-centered transform, so it stays
+   centered) fixes that instead of just hiding it outright. */
+@media (max-width: 720px) {
+  .topbar-emblem { transform: translate(-50%, -50%) scale(.6); }
+}
+
 /* Guided study session — available on every deck across both pathways. */
 .guided-invite { display: flex; align-items: center; justify-content: space-between; gap: 16px; max-width: 760px; margin: 4px auto 0; padding: 14px 18px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--green) 10%, var(--panel-solid)); }
 .guided-invite strong { display: block; font-size: 13px; }
@@ -692,12 +705,6 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
   .study-restart { justify-content: center; }
 
   .topbar { height: 68px; padding: 0 16px; }
-  /* The emblem is a fixed ~220px-wide decorative element, absolutely
-     centered -- on the narrowest phones it can still clip the brand logo's
-     left edge even with the nav gone. It's aria-hidden and purely
-     decorative, so hiding it below this width is a clean way to guarantee
-     zero collision regardless of exact device width. */
-  .topbar-emblem { display: none; }
   .search-dialog { margin-top: 7vh; }
   .search-panel { max-height: 84vh; }
   .topbar-search { width: 30px; height: 30px; }
@@ -719,6 +726,13 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
   .card-controls > button span { display: none; }
   .footer { align-items: flex-start; flex-direction: column; }
   .theme-control { align-self: stretch; justify-content: flex-end; }
+}
+
+/* Narrower still (old/small phones, ~360px and down) -- the 720px tier's
+   scale(.6) was sized against a ~375px budget, so shrink further here
+   rather than let it clip on the very smallest screens. */
+@media (max-width: 380px) {
+  .topbar-emblem { transform: translate(-50%, -50%) scale(.4); }
 }
 
 /* Home and Fundamentals reuse .app-shell, .ambient, .topbar, and .footer
