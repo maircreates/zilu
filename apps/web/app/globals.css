@@ -204,13 +204,34 @@ button { color: inherit; }
 .ambient::before { content: ''; position: absolute; inset: 0; opacity: .42; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 72px 72px; mask-image: linear-gradient(to bottom, black, transparent 72%); }
 /* Silkpunk: the shared square grid becomes a fine diagonal crosshatch --
    two sets of hairline stripes at +/-45deg, close enough together to read
-   as woven cloth rather than a decorative grid. Same --line color and
-   fade mask as every other theme, just a different weave. */
+   as a weave rather than a decorative grid. Same --line color and fade
+   mask as every other theme, just a different weave. */
 [data-theme^='silkpunk'] .ambient::before {
   background-image:
     repeating-linear-gradient(45deg, var(--line) 0, var(--line) 1px, transparent 1px, transparent 11px),
     repeating-linear-gradient(-45deg, var(--line) 0, var(--line) 1px, transparent 1px, transparent 11px);
-  opacity: .3;
+  opacity: .26;
+}
+/* The weave alone still reads as a grid, not cloth -- what actually sells
+   "silk" is the sheen: a soft band of light drifting slowly across the
+   surface, the way real light catches a woven surface at a shifting
+   angle. mix-blend-mode lets it lift the weave/color blobs underneath it
+   rather than sitting on top as a flat tint. */
+[data-theme^='silkpunk'] .ambient::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(115deg, transparent 40%, color-mix(in srgb, var(--accent) 45%, white) 50%, transparent 60%);
+  background-size: 260% 260%;
+  mix-blend-mode: overlay;
+  opacity: .5;
+  mask-image: linear-gradient(to bottom, black, transparent 72%);
+  animation: silkSheenSweep 18s ease-in-out infinite;
+}
+[data-theme='silkpunk-night'] .ambient::after { mix-blend-mode: soft-light; opacity: .4; }
+@keyframes silkSheenSweep {
+  0%, 100% { background-position: 0% 20%; }
+  50% { background-position: 100% 80%; }
 }
 .ambient span { position: absolute; border-radius: 50%; filter: blur(4px); opacity: .33; animation: drift 14s ease-in-out infinite alternate; }
 /* Silkpunk Day's default palette: pulled straight from the header's own
@@ -267,11 +288,6 @@ button { color: inherit; }
   opacity: .05;
   background: repeating-linear-gradient(to bottom, #fff 0px, #fff 1px, transparent 1px, transparent 3px);
 }
-[data-theme^='silkpunk'] .app-shell {
-  background-image:
-    repeating-linear-gradient(45deg, color-mix(in srgb, var(--ink) 4%, transparent) 0px, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px, transparent 9px),
-    repeating-linear-gradient(-45deg, color-mix(in srgb, var(--ink) 4%, transparent) 0px, color-mix(in srgb, var(--ink) 4%, transparent) 1px, transparent 1px, transparent 9px);
-}
 [data-theme^='taopunk'] .app-shell {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
@@ -294,12 +310,24 @@ button { color: inherit; }
 [data-theme^='cyberpunk'] .theme-divider:hover .theme-divider-node { opacity: 1; filter: drop-shadow(0 0 5px var(--accent)); }
 
 [data-theme^='silkpunk'] .theme-divider-silkpunk { display: block; }
-[data-theme^='silkpunk'] .theme-divider-path { stroke: var(--accent-deep); stroke-width: 1.75; opacity: .8; transition: stroke-dashoffset 1.4s cubic-bezier(.22,.61,.36,1); }
+[data-theme^='silkpunk'] .theme-divider-path { stroke: var(--accent-deep); stroke-width: 1.75; opacity: .8; transition: stroke-dashoffset 1.4s cubic-bezier(.22,.61,.36,1), d .7s cubic-bezier(.34,1.56,.64,1); }
 [data-theme^='silkpunk'] .theme-divider-node { fill: var(--accent); opacity: .6; }
 [data-theme^='silkpunk'] .theme-divider:hover .theme-divider-node { opacity: 1; filter: drop-shadow(0 0 4px var(--accent)); }
 [data-theme^='silkpunk'] .theme-divider-spool-cap { fill: var(--accent-deep); opacity: .85; }
 [data-theme^='silkpunk'] .theme-divider-spool-body { fill: color-mix(in srgb, var(--accent-deep) 55%, transparent); }
 [data-theme^='silkpunk'] .theme-divider-spool-thread { fill: none; stroke: var(--panel-solid); stroke-width: 1; opacity: .65; }
+/* The thread is grabbable: a wide invisible stroke layered over the thin
+   visible one so it's easy to catch with a mouse or a finger, without
+   fattening the thread itself. Pull it anywhere and the spool spins to
+   match; release and both spring back via the same bouncy easing as the
+   path's `d` transition above -- imperative per-frame writes while
+   dragging (see theme-divider.tsx), CSS transition takes over the instant
+   dragging stops, so the snap-back needs no JS animation loop of its own. */
+[data-theme^='silkpunk'] .theme-divider-thread-hit { fill: none; stroke: transparent; stroke-width: 18; pointer-events: stroke; cursor: grab; touch-action: none; }
+[data-theme^='silkpunk'] .theme-divider.is-dragging .theme-divider-thread-hit { cursor: grabbing; }
+[data-theme^='silkpunk'] .theme-divider-spool { transform-origin: 17px 20px; transition: transform .7s cubic-bezier(.34,1.56,.64,1); }
+[data-theme^='silkpunk'] .theme-divider.is-dragging .theme-divider-spool { transition: none; }
+[data-theme^='silkpunk'] .theme-divider.is-dragging .theme-divider-path { transition: stroke-dashoffset 1.4s cubic-bezier(.22,.61,.36,1); }
 
 [data-theme^='taopunk'] .theme-divider-taopunk { display: block; }
 [data-theme^='taopunk'] .theme-divider-path { stroke: var(--ink); stroke-width: 1.5; opacity: .55; transition: stroke-dashoffset 2s cubic-bezier(.45,0,.15,1), opacity .6s ease; }
@@ -394,6 +422,12 @@ button { color: inherit; }
 .topbar-emblem-enso { fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-linecap: round; filter: drop-shadow(0 0 1.2px var(--ink)); }
 .topbar-emblem-yy-dark { fill: var(--ink); }
 .topbar-emblem-yy-light { fill: var(--panel-solid); stroke: var(--ink); stroke-width: .5; }
+/* Grabbable, unlike the rest of the emblem (.topbar-emblem itself is
+   pointer-events:none) -- turns with the cursor while dragged and keeps
+   spinning at whatever speed you left it with otherwise (see the rAF loop
+   in topbar-emblem.tsx), so it isn't just decoration. */
+.topbar-emblem-yy { pointer-events: auto; cursor: grab; touch-action: none; }
+.topbar-emblem-yy:active { cursor: grabbing; }
 
 [data-theme^='cyberpunk'] .topbar-emblem-cyberpunk { display: flex; align-items: center; gap: 4px; height: 40px; }
 .topbar-emblem-rain-col { width: 14px; height: 40px; overflow: hidden; mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent); }

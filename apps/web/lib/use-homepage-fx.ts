@@ -49,7 +49,7 @@ const FAMILY_DEFAULTS: Record<ThemeFamily, HomepageFxSettings> = {
     click: 'flashcard',
     drag: 'physics',
     cursorForce: true,
-    pathwayColors: true,
+    pathwayColors: false,
     throwEnabled: true,
   },
   taopunk: {
@@ -60,7 +60,7 @@ const FAMILY_DEFAULTS: Record<ThemeFamily, HomepageFxSettings> = {
     click: 'pop',
     drag: 'physics',
     cursorForce: true,
-    pathwayColors: true,
+    pathwayColors: false,
     throwEnabled: true,
   },
   silkpunk: {
@@ -71,7 +71,7 @@ const FAMILY_DEFAULTS: Record<ThemeFamily, HomepageFxSettings> = {
     click: 'flashcard',
     drag: 'physics',
     cursorForce: true,
-    pathwayColors: true,
+    pathwayColors: false,
     throwEnabled: true,
   },
 };

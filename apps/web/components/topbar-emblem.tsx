@@ -1,8 +1,111 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useThemeMode } from '@/lib/use-theme';
+
+/** Degrees per millisecond the yin-yang turns on its own -- one full turn
+ * every 22s. */
+const YY_IDLE_DEG_PER_MS = 360 / 22000;
+/** How quickly, each frame, the current spin speed relaxes back toward the
+ * idle pace once you let go -- not a hard stop, so a hard flick spins fast
+ * and gradually settles into the same slow turn it started with, rather
+ * than stopping dead and having to visibly restart. */
+const YY_SPIN_EASE = 0.05;
+
+/** The yin-yang: idly turning on its own via one continuous rAF loop (not a
+ * CSS animation) so a drag can hand off to and back from it seamlessly --
+ * grab it and it turns with your cursor exactly (angle-locked, not just
+ * following x/y), let go and it keeps spinning at whatever speed the drag
+ * left it with, easing back down to the idle pace over the next second or
+ * two. Pointer events are re-enabled on just this element (the rest of the
+ * emblem stays click-through via .topbar-emblem's own pointer-events:none). */
+function YinYang() {
+  const groupRef = useRef<SVGGElement | null>(null);
+
+  useEffect(() => {
+    const el = groupRef.current;
+    if (!el) return;
+
+    let rotation = 0;
+    let angularVelocity = YY_IDLE_DEG_PER_MS;
+    let dragging = false;
+    let lastMoveAngle = 0;
+    let lastMoveTime = 0;
+    let lastTickTime = performance.now();
+    let rafId = 0;
+
+    function angleAt(clientX: number, clientY: number) {
+      const rect = el!.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      return Math.atan2(clientY - cy, clientX - cx) * (180 / Math.PI);
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+      dragging = true;
+      el!.setPointerCapture(event.pointerId);
+      lastMoveAngle = angleAt(event.clientX, event.clientY);
+      lastMoveTime = performance.now();
+    }
+
+    function handlePointerMove(event: PointerEvent) {
+      if (!dragging) return;
+      const now = performance.now();
+      const angle = angleAt(event.clientX, event.clientY);
+      let delta = angle - lastMoveAngle;
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+      rotation += delta;
+      const dt = Math.max(1, now - lastMoveTime);
+      angularVelocity = angularVelocity * 0.7 + (delta / dt) * 0.3;
+      lastMoveAngle = angle;
+      lastMoveTime = now;
+      el!.style.transform = `rotate(${rotation}deg)`;
+    }
+
+    function endDrag() {
+      dragging = false;
+    }
+
+    function tick(now: number) {
+      if (!dragging) {
+        const dt = Math.min(48, now - lastTickTime);
+        rotation += angularVelocity * dt;
+        angularVelocity += (YY_IDLE_DEG_PER_MS - angularVelocity) * YY_SPIN_EASE;
+        el!.style.transform = `rotate(${rotation}deg)`;
+      }
+      lastTickTime = now;
+      rafId = requestAnimationFrame(tick);
+    }
+
+    rafId = requestAnimationFrame(tick);
+    el.addEventListener('pointerdown', handlePointerDown);
+    el.addEventListener('pointermove', handlePointerMove);
+    el.addEventListener('pointerup', endDrag);
+    el.addEventListener('pointercancel', endDrag);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      el.removeEventListener('pointerdown', handlePointerDown);
+      el.removeEventListener('pointermove', handlePointerMove);
+      el.removeEventListener('pointerup', endDrag);
+      el.removeEventListener('pointercancel', endDrag);
+    };
+  }, []);
+
+  return (
+    <g ref={groupRef} className="topbar-emblem-yy" style={{ transformOrigin: '22px 22px' }}>
+      <circle cx="22" cy="22" r="19" className="topbar-emblem-yy-light" />
+      <path
+        d="M22,3 A9.5,9.5 0 0,1 22,22 A9.5,9.5 0 0,0 22,41 A19,19 0 0,1 22,3 Z"
+        className="topbar-emblem-yy-dark"
+      />
+      <circle cx="22" cy="12.5" r="3" className="topbar-emblem-yy-dark" />
+      <circle cx="22" cy="31.5" r="3" className="topbar-emblem-yy-light" />
+    </g>
+  );
+}
 
 /** The actual reference frames the Silkpunk theme is being designed from --
  * not a hand-coded scene. Near-duplicate shots per mode (the cloak, maple
@@ -112,13 +215,7 @@ export function TopbarEmblem() {
           d="M40,14 C48,13 54,19 53,27 C52,35 45,41 37,40 C30,39 24,34 25,26 C25.6,20 30,15 36,14.5"
         />
         <g transform="translate(88,6)">
-          <circle cx="22" cy="22" r="19" className="topbar-emblem-yy-light" />
-          <path
-            d="M22,3 A9.5,9.5 0 0,1 22,22 A9.5,9.5 0 0,0 22,41 A19,19 0 0,1 22,3 Z"
-            className="topbar-emblem-yy-dark"
-          />
-          <circle cx="22" cy="12.5" r="3" className="topbar-emblem-yy-dark" />
-          <circle cx="22" cy="31.5" r="3" className="topbar-emblem-yy-light" />
+          <YinYang />
         </g>
         <path
           className="topbar-emblem-enso"
