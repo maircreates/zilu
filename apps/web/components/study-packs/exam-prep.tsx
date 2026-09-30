@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowRight, ChevronRight, LockKeyhole } from 'lucide-react';
 
 import { ClassroomShell } from './classroom-shell';
 import { CH201_EXAMS, getCh201Exam, type ExamBlueprint } from '@/lib/study-packs/exams';
+import { getExamAttempt, makeExamAttemptId, saveExamAttempt, type ExamAttempt } from '@/lib/study-packs/exam-progress';
 
 function ExamCard({ exam }: { exam: ExamBlueprint }) {
   return <a className="exam-card" href={`/classroom/ch201/exams/${exam.id}`}><span>{exam.lessons}</span><h2 lang="zh-Hant">{exam.titleZh}</h2><strong>{exam.title}</strong><p>{exam.summary}</p><small>{exam.sections.length} test sections · catch-up path included</small><ChevronRight aria-hidden="true" /></a>;
@@ -14,9 +15,18 @@ export function ExamsHome() {
   return <ClassroomShell eyebrow="CH201 / Exam Preparation" title={<>考試準備 <span>Exam Preparation</span></>} description="Built for a learner who needs to rebuild the class from the beginning—not just take a review quiz." backHref="/classroom/ch201" backLabel="Chinese Class">
     <section className="exam-starting-point"><div><span className="eyebrow">Start here</span><h2>You do not need to have understood the class already.</h2><p>Choose an exam, then follow the same safe sequence: learn the smallest useful pieces, practise with help, remove the help, and only then simulate the test.</p></div><a className="study-primary" href="/classroom/ch201/exams/unit-1">Start from the basics <ArrowRight aria-hidden="true" /></a></section>
     <section className="exam-path" aria-label="How exam preparation works"><span>1. Learn</span><ArrowRight /><span>2. Guided practice</span><ArrowRight /><span>3. Test yourself</span><ArrowRight /><span>4. Repair mistakes</span></section>
+    <StudyPlan />
     <section className="exam-grid">{CH201_EXAMS.map((exam) => <ExamCard key={exam.id} exam={exam} />)}</section>
     <p className="exam-source-note">Review materials are used as private references. No official test date is assumed, and source conflicts are shown instead of silently guessed.</p>
   </ClassroomShell>;
+}
+
+function StudyPlan() {
+  const [steps, setSteps] = useState<Record<string, boolean>>({});
+  useEffect(() => { const timer = window.setTimeout(() => { try { setSteps(JSON.parse(window.localStorage.getItem('zilu.ch201ExamPlan.v1') ?? '{}')); } catch { setSteps({}); } }, 0); return () => window.clearTimeout(timer); }, []);
+  function toggle(id: string) { const next = { ...steps, [id]: !steps[id] }; setSteps(next); try { window.localStorage.setItem('zilu.ch201ExamPlan.v1', JSON.stringify(next)); } catch { /* Progress is optional. */ } }
+  const tasks = ['Learn Unit 1 foundations', 'Finish one guided-practice session', 'Take one low-stakes practice test', 'Repair the mistakes I missed'];
+  return <section className="classroom-section exam-plan"><div className="classroom-section-head"><div><span className="eyebrow">A simple study plan</span><h2>One small win at a time</h2></div></div><p>Check off a step when you finish it. This plan is saved only in this browser; it does not assume an exam date.</p>{tasks.map((task) => <label key={task}><input type="checkbox" checked={Boolean(steps[task])} onChange={() => toggle(task)} /> <span>{task}</span></label>)}</section>;
 }
 
 function LearnView({ exam }: { exam: ExamBlueprint }) {
@@ -45,8 +55,33 @@ function PracticeView({ exam }: { exam: ExamBlueprint }) {
 
 function TestView({ exam }: { exam: ExamBlueprint }) {
   const [started, setStarted] = useState(false);
-  const [revealed, setRevealed] = useState(false);
-  return <section className="exam-test-card">{!started ? <><LockKeyhole aria-hidden="true" /><span className="eyebrow">Practice test</span><h2>Answers stay hidden until you finish.</h2><p>This is a low-stakes rehearsal. It uses the same kinds of sections as the review but does not claim to be the official test.</p><button type="button" className="study-primary" onClick={() => setStarted(true)}>Begin practice test</button></> : <><span className="eyebrow">Practice test / {exam.lessons}</span><h2 lang="zh-Hant">{exam.translations[0].prompt}</h2><textarea className="exam-draft" placeholder="Write your answer before revealing the model." aria-label="Practice test answer" /><button type="button" className="study-primary" onClick={() => setRevealed(true)}>Finish and reveal</button>{revealed && <output className="class-feedback is-review"><strong>Model answer</strong><p lang="zh-Hant">{exam.translations[0].answer}</p><p>Record what you missed in your own words, then return to Guided Practice. Full scored attempts are the next expansion of this feature.</p></output>}</>}</section>;
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const grammar = exam.id === 'unit-2' ? { id: 'grammar', prompt: '她中文說___很清楚。', choices: ['的', '地', '得'], correct: '得', repair: 'Review 的 / 地 / 得: 得 follows the verb to describe how it is done.' } : exam.id === 'final' ? { id: 'grammar', prompt: '___期末考試，我每天複習。', choices: ['因為', '為了', '得'], correct: '為了', repair: 'Review 因為 vs 為了: 為了 introduces a purpose.' } : { id: 'grammar', prompt: '這個宿舍___新。', choices: ['比較', '得', '地'], correct: '比較', repair: 'Review 比較: place it immediately before the adjective.' };
+  const vocab = { id: 'vocabulary', prompt: `${exam.vocabulary[0].hanzi} means:`, choices: [exam.vocabulary[0].meaning, exam.vocabulary[1].meaning, exam.vocabulary[2].meaning], correct: exam.vocabulary[0].meaning, repair: `Review the vocabulary card for ${exam.vocabulary[0].hanzi}.` };
+  const reading = { id: 'reading', prompt: exam.reading.question, choices: [exam.reading.answer, 'The speaker does not say.', 'The opposite is true.'], correct: exam.reading.answer, repair: 'Read the passage again and underline the sentence that answers the question.' };
+  const questions = [grammar, vocab, reading];
+  function finish() {
+    const correctIds = questions.filter((question) => answers[question.id] === question.correct).map((question) => question.id);
+    const id = makeExamAttemptId(exam.id);
+    const saved = saveExamAttempt({ id, examId: exam.id, completedAt: new Date().toISOString(), answers, correctIds, total: questions.length });
+    if (saved) window.location.assign(`/classroom/ch201/exams/${exam.id}/results/${id}`);
+  }
+  return <section className="exam-test-card">{!started ? <><LockKeyhole aria-hidden="true" /><span className="eyebrow">Practice test</span><h2>Answers stay hidden until you finish.</h2><p>Answer three short questions without hints. Your score and the items to repair are stored only in this browser.</p><button type="button" className="study-primary" onClick={() => setStarted(true)}>Begin practice test</button></> : <>{questions.map((question, index) => <fieldset className="exam-test-question" key={question.id}><legend>{index + 1}. <span lang="zh-Hant">{question.prompt}</span></legend>{question.choices.map((choice) => <label key={choice}><input type="radio" name={question.id} checked={answers[question.id] === choice} onChange={() => setAnswers((current) => ({ ...current, [question.id]: choice }))} /> {choice}</label>)}</fieldset>)}<button type="button" className="study-primary" disabled={Object.keys(answers).length !== questions.length} onClick={finish}>Finish and see results</button></>}</section>;
+}
+
+export function ExamResults({ examId, attemptId }: { examId: string; attemptId: string }) {
+  const exam = getCh201Exam(examId);
+  const [attempt, setAttempt] = useState<ExamAttempt | null | undefined>(undefined);
+  useEffect(() => { const timer = window.setTimeout(() => setAttempt(getExamAttempt(attemptId) ?? null), 0); return () => window.clearTimeout(timer); }, [attemptId]);
+  if (!exam) return <ExamPage examId={examId} />;
+  const questions = [
+    { id: 'grammar', label: 'Grammar', repair: exam.id === 'unit-2' ? 'Review 的 / 地 / 得 in Guided Practice.' : exam.id === 'final' ? 'Review 因為 and 為了 in Guided Practice.' : 'Review 比較 and sentence order in Guided Practice.' },
+    { id: 'vocabulary', label: 'Vocabulary', repair: `Return to ${exam.vocabulary[0].hanzi} and the first vocabulary set.` },
+    { id: 'reading', label: 'Reading', repair: 'Read slowly, then find the exact sentence that answers the question.' },
+  ];
+  return <ClassroomShell eyebrow={`CH201 / ${exam.lessons}`} title={<>Practice-test results <span lang="zh-Hant">練習結果</span></>} description="Use the result to decide what to repair next—not as a judgment about your ability." backHref={`/classroom/ch201/exams/${exam.id}`} backLabel={exam.title}>
+    {attempt === undefined ? <p className="class-empty">Loading this browser’s saved result…</p> : attempt === null ? <section className="class-empty"><p>This result is not available in this browser. Practice attempts stay local and are not synced.</p><a className="study-primary" href={`/classroom/ch201/exams/${exam.id}/test`}>Take a practice test</a></section> : <><section className="exam-result-score"><span className="eyebrow">Your result</span><strong>{attempt.correctIds.length} / {attempt.total}</strong><p>{attempt.correctIds.length === attempt.total ? 'You got every scored item this time. Try another guide or practise writing next.' : 'Here is exactly what to repair before you retest.'}</p></section><section className="classroom-section"><div className="classroom-section-head"><div><span className="eyebrow">Mistake review</span><h2>Repair the missed pieces</h2></div></div><div className="exam-repairs">{questions.map((question) => <article key={question.id} className={attempt.correctIds.includes(question.id) ? 'is-correct' : 'is-missed'}><strong>{attempt.correctIds.includes(question.id) ? 'Ready' : 'Review'} · {question.label}</strong><p>{attempt.correctIds.includes(question.id) ? 'This item was correct.' : question.repair}</p></article>)}</div><a className="study-primary" href={`/classroom/ch201/exams/${exam.id}/practice`}>Return to guided practice <ArrowRight aria-hidden="true" /></a></section></>}
+  </ClassroomShell>;
 }
 
 export function ExamPage({ examId, mode = 'learn' }: { examId: string; mode?: 'learn' | 'practice' | 'test' }) {
