@@ -42,7 +42,7 @@ export function StudyPackHub() {
       <section className="classroom-section exam-entry" aria-labelledby="exam-prep-heading">
         <div className="classroom-section-head"><div><span className="eyebrow">Catch up before you test</span><h2 id="exam-prep-heading">考試準備 · Exam Preparation</h2></div></div>
         <p>Behind in class? Start with short explanations and guided practice, then work toward the real test formats. Four CH201 review guides are ready.</p>
-        <a className="study-primary" href="/classroom/ch201/exams">Open exam preparation <ArrowRight aria-hidden="true" /></a>
+        <a className="study-primary" href="/classroom/ch201/tests">Open Tests <ArrowRight aria-hidden="true" /></a>
       </section>
 
       <section className="classroom-section exam-entry" aria-labelledby="bridge-heading">

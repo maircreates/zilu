@@ -21,6 +21,16 @@ export function ExamsHome() {
   </ClassroomShell>;
 }
 
+export function TestsHome() {
+  return <ClassroomShell eyebrow="CH201 / Tests" title={<>測驗 <span>Tests</span></>} description="Everything connected to CH201 tests lives here: rebuild the basics, learn each unit, practise with support, then check your readiness." backHref="/classroom/ch201" backLabel="Chinese Class">
+    <section className="exam-starting-point"><div><span className="eyebrow">Start with the right door</span><h2>New to Chinese, preparing for a unit test, or checking your progress?</h2><p>Start from zero if Chinese still feels unfamiliar. Otherwise, choose a test below and follow the same sequence: learn, guided practice, practice test, and repair.</p></div><a className="study-primary" href="/classroom/ch201/bridge">Zero-to-CH201 Bridge <ArrowRight aria-hidden="true" /></a></section>
+    <section className="classroom-section"><div className="classroom-section-head"><div><span className="eyebrow">Your test toolkit</span><h2>One place for the whole process</h2></div></div><div className="class-mode-grid"><a href="/classroom/ch201/bridge"><strong>01 · Start from zero</strong><span>Pinyin awareness, word order, core words, and first recall.</span></a><a href="/classroom/ch201/exams/unit-1"><strong>02 · Learn a test unit</strong><span>Small vocabulary sets, grammar explanations, and writing words.</span></a><a href="/classroom/ch201/exams/unit-1/practice"><strong>03 · Guided practice</strong><span>Retrieval, sentence building, translation, reading, and writing rehearsal.</span></a><a href="/classroom/ch201/exams/unit-1/test"><strong>04 · Practice test</strong><span>Answer without hints, then use a local results page to repair misses.</span></a></div></section>
+    <section className="exam-path" aria-label="Test learning sequence"><span>Bridge</span><ArrowRight /><span>Learn</span><ArrowRight /><span>Guided practice</span><ArrowRight /><span>Practice test</span><ArrowRight /><span>Repair</span></section>
+    <section className="exam-grid">{CH201_EXAMS.map((exam) => <ExamCard key={exam.id} exam={exam} />)}</section>
+    <p className="exam-source-note">Practice attempts and study-plan checks remain in this browser only. The private review files are never included in the public site.</p>
+  </ClassroomShell>;
+}
+
 function StudyPlan() {
   const [steps, setSteps] = useState<Record<string, boolean>>({});
   useEffect(() => { const timer = window.setTimeout(() => { try { setSteps(JSON.parse(window.localStorage.getItem('zilu.ch201ExamPlan.v1') ?? '{}')); } catch { setSteps({}); } }, 0); return () => window.clearTimeout(timer); }, []);
