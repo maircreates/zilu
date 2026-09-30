@@ -1,11 +1,10 @@
 # ZiLu
 
-ZiLu is a beginner-first Mandarin learning experience for people starting with zero Chinese knowledge. The web app pairs an original Start Here fundamentals bridge with flashcard pathways built from the Volume 2 and Volume 3 reference vocabulary.
+ZiLu is a beginner-first Mandarin learning experience for people starting with zero Chinese knowledge. The web app combines an original fundamentals bridge, grammar reference, four vocabulary pathways, guided study, focused drills, and a browser-local Current Class area.
 
 ## Project principles
 
-- Volume 2 remains Pathway 02, and Volume 3 is Pathway 03.
-- Volume 4 is deferred until its textbook source is available.
+- Volumes 1–4 are represented as vocabulary pathways. Full lesson development follows the separately documented source and review boundaries.
 - All learner-facing Chinese must use Traditional Chinese.
 - The foundation path assumes zero prior knowledge of Chinese.
 - Copyrighted reference books remain local and are never committed or distributed through this repository.
@@ -19,11 +18,14 @@ pnpm install
 pnpm dev
 ```
 
-The app has three pages:
+Major areas include:
 
-- **Home (`/`)** — entry point linking to the fundamentals and the flashcard pathways.
-- **Fundamentals (`/fundamentals`)** — an original Start Here bridge: how Traditional characters, pinyin, and tones fit together, the four tones plus the neutral tone, high-value pinyin sound contrasts, core sentence structures, numbers, and essential survival phrases, each with browser pronunciation.
-- **Study (`/study`)** — the flashcard experience, organized as Pathway → Waypoint → Deck → Flashcard. Pathway 02 and Pathway 03 each include ten topic-based Waypoints and two vocabulary Decks per Waypoint. Learners can flip cards, move backward and forward, shuffle a Deck, hear browser-provided Traditional Chinese pronunciation, and use the Pinyinciation switch to move pinyin between the front and back of each card.
+- **Fundamentals (`/fundamentals`)** — thirteen original beginner orientation pages.
+- **Grammar (`/grammar`)** — nine practical grammar themes with examples and pronunciation.
+- **Study (`/study`)** — four flashcard pathways organized as Pathway → Waypoint → Deck → Flashcard.
+- **Current Class (`/classroom`)** — personal class packs layered over canonical curriculum content. The first pack is Chinese Class / 中文課, with three CH201 topic units, Quick Review, per-skill progress, and a mistake queue.
+- **字力房 (`/zili-fang`)** — experimental focused drills.
+- **Settings (`/settings`)** — theme, appearance, and interface preferences.
 
 ### Guided study
 
@@ -31,4 +33,6 @@ Every Deck also offers a guided study loop (`/study?guided=1` opens it directly)
 
 ## Current scope
 
-The flashcard experience, the guided study loop, and the fundamentals bridge are in scope. Accounts, cloud progress, scoring, spaced-repetition scheduling, and additional activity types are intentionally deferred.
+Accounts, cloud progress, validated pronunciation scoring, and automatic synchronization with private class sources remain out of scope. Progress is stored in the current browser.
+
+See [`docs/current-class.md`](docs/current-class.md) for the Current Class implementation and storage behavior.

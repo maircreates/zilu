@@ -1,5 +1,6 @@
 # Copyrighted reference materials must remain local.
 references/
+Supplementary/references/
 *.pdf
 
 # Environment and dependency files.

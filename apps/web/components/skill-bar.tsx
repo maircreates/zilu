@@ -4,8 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useThemeFamily } from '@/lib/use-theme';
 
-/** The four destinations that used to crowd the header's text nav --
- * Fundamentals, Grammar, Study, and Settings -- moved to a fixed dock at the
+/** The primary destinations that used to crowd the header's text nav moved to a fixed dock at the
  * bottom of every page, game-HUD style: a row of round "skill button" icons
  * instead of a row of words. Each icon is a single Traditional character in
  * a circle, the same visual language as the brand mark (字), so a learner
@@ -14,6 +13,7 @@ const SKILLS = [
   { id: 'fundamentals', href: '/fundamentals', label: 'Fundamentals', glyph: '基' },
   { id: 'grammar', href: '/grammar', label: 'Grammar', glyph: '法' },
   { id: 'study', href: '/study', label: 'Study', glyph: '習' },
+  { id: 'classroom', href: '/classroom', label: 'Class', glyph: '課' },
   { id: 'settings', href: '/settings', label: 'Settings', glyph: '設' },
 ] as const;
 
