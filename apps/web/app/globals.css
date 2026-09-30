@@ -1350,6 +1350,25 @@ button:focus-visible, input:focus-visible + .toggle-track, .hub-card:focus-visib
 .exam-repairs article.is-missed { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, var(--panel-solid)); }
 .exam-repairs p { margin: 6px 0 0; color: var(--muted); line-height: 1.55; }
 
+/* Zero-to-CH201 bridge: short lessons with immediate, non-punitive feedback. */
+.bridge-intro, .bridge-card, .bridge-complete { max-width: 760px; margin: 0 auto; border: 1px solid var(--line); border-radius: var(--radius-xl); padding: clamp(22px, 4vw, 34px); background: var(--panel-solid); }
+.bridge-intro h2, .bridge-card h2, .bridge-complete h2 { margin: 8px 0; font-family: Georgia, 'Noto Serif TC', serif; }
+.bridge-intro p, .bridge-card > p, .bridge-complete p { color: var(--muted); line-height: 1.65; }
+.bridge-intro progress { display: block; width: 100%; height: 8px; margin-top: 20px; accent-color: var(--green); }
+.bridge-step { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; color: var(--muted); font-size: 12px; }
+.bridge-step strong { color: var(--accent-deep); font-family: Georgia, 'Noto Serif TC', serif; font-size: 20px; }
+.bridge-example { display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; margin: 20px 0; border-left: 3px solid var(--accent); padding: 13px 0 13px 14px; background: color-mix(in srgb, var(--accent) 5%, var(--panel)); }
+.bridge-example span { color: var(--accent-deep); font-family: Georgia, 'Noto Serif TC', serif; line-height: 1.65; }
+.bridge-example button { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; background: var(--panel-solid); cursor: pointer; }
+.bridge-example svg { width: 17px; }
+.bridge-check { display: grid; gap: 9px; margin: 0 0 20px; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 18px; }
+.bridge-check legend { padding: 0 6px; font-weight: 700; }
+.bridge-check label { border: 1px solid var(--line); border-radius: var(--radius-md); padding: 11px; cursor: pointer; }
+.bridge-check label:hover, .bridge-check label.is-selected { border-color: var(--accent); }
+.bridge-check input { margin-right: 8px; accent-color: var(--accent-deep); }
+.bridge-complete { display: grid; justify-items: center; border-color: var(--green); text-align: center; }
+.bridge-complete > svg { width: 44px; height: 44px; color: var(--green); }
+
 .class-unit-intro { display: grid; grid-template-columns: 1.7fr 1fr; gap: 20px; }
 .class-unit-intro > div { border: 1px solid var(--line); border-radius: var(--radius-xl); padding: 24px; background: var(--panel-solid); }
 .class-unit-intro ul { display: grid; gap: 12px; margin: 16px 0 0; padding: 0; list-style: none; }

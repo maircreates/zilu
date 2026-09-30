@@ -13,7 +13,7 @@ function ExamCard({ exam }: { exam: ExamBlueprint }) {
 
 export function ExamsHome() {
   return <ClassroomShell eyebrow="CH201 / Exam Preparation" title={<>考試準備 <span>Exam Preparation</span></>} description="Built for a learner who needs to rebuild the class from the beginning—not just take a review quiz." backHref="/classroom/ch201" backLabel="Chinese Class">
-    <section className="exam-starting-point"><div><span className="eyebrow">Start here</span><h2>You do not need to have understood the class already.</h2><p>Choose an exam, then follow the same safe sequence: learn the smallest useful pieces, practise with help, remove the help, and only then simulate the test.</p></div><a className="study-primary" href="/classroom/ch201/exams/unit-1">Start from the basics <ArrowRight aria-hidden="true" /></a></section>
+    <section className="exam-starting-point"><div><span className="eyebrow">Start here</span><h2>You do not need to have understood the class already.</h2><p>If pinyin, characters, and basic sentence order still feel unfamiliar, take the short Zero-to-CH201 Bridge first. Then learn in small sets before testing yourself.</p></div><a className="study-primary" href="/classroom/ch201/bridge">Start from zero <ArrowRight aria-hidden="true" /></a></section>
     <section className="exam-path" aria-label="How exam preparation works"><span>1. Learn</span><ArrowRight /><span>2. Guided practice</span><ArrowRight /><span>3. Test yourself</span><ArrowRight /><span>4. Repair mistakes</span></section>
     <StudyPlan />
     <section className="exam-grid">{CH201_EXAMS.map((exam) => <ExamCard key={exam.id} exam={exam} />)}</section>

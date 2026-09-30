@@ -45,6 +45,12 @@ export function StudyPackHub() {
         <a className="study-primary" href="/classroom/ch201/exams">Open exam preparation <ArrowRight aria-hidden="true" /></a>
       </section>
 
+      <section className="classroom-section exam-entry" aria-labelledby="bridge-heading">
+        <div className="classroom-section-head"><div><span className="eyebrow">Need to rebuild the basics?</span><h2 id="bridge-heading">從零開始 · Zero-to-CH201 Bridge</h2></div></div>
+        <p>Five short lessons on pinyin awareness, word order, core words, and safe first recall—before the CH201 review material.</p>
+        <a className="study-primary" href="/classroom/ch201/bridge">Open the beginner bridge <ArrowRight aria-hidden="true" /></a>
+      </section>
+
       <section className="classroom-section" aria-labelledby="recent-heading">
         <div className="classroom-section-head"><div><span className="eyebrow">Recent supplied material</span><h2 id="recent-heading">Week 3</h2></div><History aria-hidden="true" /></div>
         <p className="classroom-section-note">No encounter dates were supplied, so this reflects the latest labeled collection—not fabricated activity history.</p>
