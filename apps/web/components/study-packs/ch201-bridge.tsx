@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowRight, Check, Volume2 } from 'lucide-react';
 
 import { ClassroomShell } from './classroom-shell';
@@ -34,22 +34,40 @@ function speak(text: string) {
   window.speechSynthesis.speak(utterance);
 }
 
+function chineseForSpeech(text: string) {
+  return text.match(/[\u3400-\u9fff，。！？、\s]+/g)?.join(' ').trim() ?? '';
+}
+
 export function Ch201Bridge() {
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [completed, setCompleted] = useState<number[]>([]);
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      try {
+        const saved: unknown = JSON.parse(window.localStorage.getItem('zilu.ch201Bridge.v1') ?? '[]');
+        if (Array.isArray(saved) && saved.every((item) => Number.isInteger(item) && item >= 0 && item < STEPS.length)) setCompleted([...new Set(saved)]);
+      } catch { /* Start fresh when browser storage has invalid data. */ }
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
   const step = STEPS[index];
   const answered = selected !== null;
   const correct = selected === step.answer;
   function next() {
     if (!correct) { setSelected(null); return; }
-    if (correct && !completed.includes(index)) setCompleted((current) => [...current, index]);
+    if (correct && !completed.includes(index)) {
+      const nextCompleted = [...completed, index];
+      setCompleted(nextCompleted);
+      try { window.localStorage.setItem('zilu.ch201Bridge.v1', JSON.stringify(nextCompleted)); } catch { /* The bridge still works without storage. */ }
+    }
     if (index < STEPS.length - 1) { setIndex((current) => current + 1); setSelected(null); }
   }
   const done = completed.length === STEPS.length;
+  const spokenExample = chineseForSpeech(step.example);
   return <ClassroomShell eyebrow="CH201 / Start from zero" title={<>從零開始 <span>Zero-to-CH201 Bridge</span></>} description="A short, calm on-ramp for learners who need the class rebuilt from the beginning." backHref="/classroom/ch201" backLabel="Chinese Class">
     <section className="bridge-intro"><span className="eyebrow">You are in the right place</span><h2>Start with a few things you can use.</h2><p>This is not a placement test. Work through five tiny lessons. Guessing is allowed; feedback tells you what to do next.</p><progress value={completed.length} max={STEPS.length} aria-label="Bridge progress" /></section>
-    {!done ? <section className="bridge-card"><div className="bridge-step"><span>Step {index + 1} of {STEPS.length}</span><strong lang="zh-Hant">{step.titleZh}</strong></div><span className="eyebrow">{step.goal}</span><h2>{step.title}</h2><p>{step.explain}</p><div className="bridge-example"><span lang="zh-Hant">{step.example}</span><button type="button" aria-label="Hear the Chinese example" onClick={() => speak(step.example.replace(/—.*/, ''))}><Volume2 aria-hidden="true" /></button></div><fieldset className="bridge-check"><legend>{step.prompt}</legend>{step.choices.map((choice) => <label key={choice} className={selected === choice ? 'is-selected' : ''}><input type="radio" name={`bridge-${index}`} checked={selected === choice} disabled={answered} onChange={() => setSelected(choice)} /> {choice}</label>)}</fieldset>{answered && <output className={`class-feedback ${correct ? 'is-correct' : 'is-review'}`}><strong>{correct ? 'Good—keep going.' : 'Look at the example, then try the check once more.'}</strong><p>{step.feedback}</p></output>}<div className="class-action-row"><button type="button" className="study-secondary" disabled={index === 0} onClick={() => { setIndex((current) => current - 1); setSelected(null); }}>Previous</button><button type="button" className="study-primary" disabled={!answered} onClick={next}>{correct ? index === STEPS.length - 1 ? 'Finish the bridge' : 'Continue' : 'Try again'} <ArrowRight aria-hidden="true" /></button></div></section> : <section className="bridge-complete"><Check aria-hidden="true" /><span className="eyebrow">Bridge complete</span><h2>You have enough footing to begin.</h2><p>Start Unit 1’s small vocabulary sets and guided activities. Return here any time a sentence feels too hard.</p><a className="study-primary" href="/classroom/ch201/exams/unit-1">Start Unit 1 with support <ArrowRight aria-hidden="true" /></a></section>}
+    {!done ? <section className="bridge-card"><div className="bridge-step"><span>Step {index + 1} of {STEPS.length}</span><strong lang="zh-Hant">{step.titleZh}</strong></div><span className="eyebrow">{step.goal}</span><h2>{step.title}</h2><p>{step.explain}</p><div className="bridge-example"><span lang="zh-Hant">{step.example}</span>{spokenExample && <button type="button" aria-label="Hear the Chinese example" onClick={() => speak(spokenExample)}><Volume2 aria-hidden="true" /></button>}</div><fieldset className="bridge-check"><legend>{step.prompt}</legend>{step.choices.map((choice) => <label key={choice} className={selected === choice ? 'is-selected' : ''}><input type="radio" name={`bridge-${index}`} checked={selected === choice} disabled={answered} onChange={() => setSelected(choice)} /> {choice}</label>)}</fieldset>{answered && <output className={`class-feedback ${correct ? 'is-correct' : 'is-review'}`}><strong>{correct ? 'Good—keep going.' : 'Look at the example, then try the check once more.'}</strong><p>{step.feedback}</p></output>}<div className="class-action-row"><button type="button" className="study-secondary" disabled={index === 0} onClick={() => { setIndex((current) => current - 1); setSelected(null); }}>Previous</button><button type="button" className="study-primary" disabled={!answered} onClick={next}>{correct ? index === STEPS.length - 1 ? 'Finish the bridge' : 'Continue' : 'Try again'} <ArrowRight aria-hidden="true" /></button></div></section> : <section className="bridge-complete"><Check aria-hidden="true" /><span className="eyebrow">Bridge complete</span><h2>You have enough footing to begin.</h2><p>Start Unit 1’s small vocabulary sets and guided activities. Return here any time a sentence feels too hard.</p><a className="study-primary" href="/classroom/ch201/exams/unit-1">Start Unit 1 with support <ArrowRight aria-hidden="true" /></a></section>}
     <section className="classroom-section"><span className="eyebrow">What comes next</span><h2>Do not rush to a practice test.</h2><p>After this bridge: learn one six-word set, build one sentence, complete guided practice, then take a low-stakes test. This sequence gives a beginner multiple ways to meet the same idea before being scored.</p></section>
   </ClassroomShell>;
 }
