@@ -6,6 +6,7 @@ import { CyberpunkBoot } from '@/components/cyberpunk-boot';
 import { InkRippleLayer } from '@/components/ink-ripple-layer';
 import { PwaRegister } from '@/components/pwa-register';
 import { SearchPalette } from '@/components/search-palette';
+import { StudyToolsOrb } from '@/components/study-tools-orb';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -51,6 +52,7 @@ export default function RootLayout({
         />
         {children}
         <SearchPalette />
+        <StudyToolsOrb />
         <PwaRegister />
         <CyberpunkBoot />
         <InkRippleLayer />
